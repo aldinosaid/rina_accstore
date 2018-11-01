@@ -169,12 +169,6 @@
             if ($('#barang')) {
                 autocomplete();
             }
-            $('#startDate').datetimepicker({
-                format: 'YYYY-MM-DD'
-            });
-            $('#endDate').datetimepicker({
-                format: 'YYYY-MM-DD'
-            });
             modal();
             selectKategori();
             count();
