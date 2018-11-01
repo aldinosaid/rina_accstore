@@ -199,20 +199,27 @@ class Helpers
                     switch (ord($str[$i])) {
                         case 0: # NEW LINE
                             $padCnt = $lineWidth - strlen($out) % $lineWidth;
-                            if ($padCnt < $lineWidth) $out .= str_repeat(chr(0), $padCnt); # pad line
+                            if ($padCnt < $lineWidth) {
+                                $out .= str_repeat(chr(0), $padCnt); # pad line
+                            }
                             break;
                         case 1: # END OF FILE
                             $padCnt = $lineWidth - strlen($out) % $lineWidth;
-                            if ($padCnt < $lineWidth) $out .= str_repeat(chr(0), $padCnt); # pad line
+                            if ($padCnt < $lineWidth) {
+                                $out .= str_repeat(chr(0), $padCnt); # pad line
+                            }
                             break 3;
                         case 2: # DELTA
                             $i += 2;
                             break;
                         default: # ABSOLUTE MODE
                             $num = ord($str[$i]);
-                            for ($j = 0; $j < $num; $j++)
+                            for ($j = 0; $j < $num; $j++) {
                                 $out .= $str[++$i];
-                            if ($num % 2) $i++;
+                            }
+                            if ($num % 2) {
+                                $i++;
+                            }
                     }
                     break;
                 default:
@@ -311,7 +318,7 @@ class Helpers
         $file = "";
 
         $arr = parse_url($url);
-        if ( isset($arr["scheme"]) ) {
+        if (isset($arr["scheme"])) {
             $arr["scheme"] = mb_strtolower($arr["scheme"]);
         }
 
@@ -355,9 +362,7 @@ class Helpers
             if (isset($arr["fragment"])) {
                 $file .= "#" . $arr["fragment"];
             }
-
         } else {
-
             $i = mb_stripos($url, "file://");
             if ($i !== false) {
                 $url = mb_substr($url, $i + 7);
@@ -374,7 +379,6 @@ class Helpers
             // Check that the path exists
             if ($path !== false) {
                 $path .= '/';
-
             } else {
                 // generate a url to access the file if no real path found.
                 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
@@ -454,12 +458,12 @@ class Helpers
     {
         if ($c <= 0x7F) {
             return chr($c);
-        } else if ($c <= 0x7FF) {
+        } elseif ($c <= 0x7FF) {
             return chr(0xC0 | $c >> 6) . chr(0x80 | $c & 0x3F);
-        } else if ($c <= 0xFFFF) {
+        } elseif ($c <= 0xFFFF) {
             return chr(0xE0 | $c >> 12) . chr(0x80 | $c >> 6 & 0x3F)
             . chr(0x80 | $c & 0x3F);
-        } else if ($c <= 0x10FFFF) {
+        } elseif ($c <= 0x10FFFF) {
             return chr(0xF0 | $c >> 18) . chr(0x80 | $c >> 12 & 0x3F)
             . chr(0x80 | $c >> 6 & 0x3F)
             . chr(0x80 | $c & 0x3F);
@@ -492,9 +496,15 @@ class Helpers
         $g = (1 - round(2.55 * ($m + $k)));
         $b = (1 - round(2.55 * ($y + $k)));
 
-        if ($r < 0) $r = 0;
-        if ($g < 0) $g = 0;
-        if ($b < 0) $b = 0;
+        if ($r < 0) {
+            $r = 0;
+        }
+        if ($g < 0) {
+            $g = 0;
+        }
+        if ($b < 0) {
+            $b = 0;
+        }
 
         return array(
             $r, $g, $b,
@@ -536,8 +546,7 @@ class Helpers
                 $width = (int)$meta['width'];
                 $height = (int)$meta['height'];
                 $type = "bmp";
-            }
-            else {
+            } else {
                 if (strpos(file_get_contents($filename), "<svg") !== false) {
                     $doc = new \Svg\Document();
                     $doc->loadFile($filename);
@@ -546,7 +555,6 @@ class Helpers
                     $type = "svg";
                 }
             }
-
         }
 
         return $cache[$filename] = array($width, $height, $type);
@@ -729,5 +737,4 @@ class Helpers
         fclose($fh);
         return $im;
     }
-
 }

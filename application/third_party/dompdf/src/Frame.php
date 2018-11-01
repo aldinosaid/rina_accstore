@@ -306,7 +306,6 @@ class Frame
         $this->_original_style->dispose();
         $this->_original_style = null;
         unset($this->_original_style);
-
     }
 
     /**
@@ -528,24 +527,32 @@ class Frame
         $cb = $this->_containing_block;
 
         $x = $this->_position["x"] +
-            $style->length_in_pt(array($style->margin_left,
+            $style->length_in_pt(
+                array($style->margin_left,
                     $style->border_left_width),
-                $cb["w"]);
+                $cb["w"]
+            );
 
         $y = $this->_position["y"] +
-            $style->length_in_pt(array($style->margin_top,
+            $style->length_in_pt(
+                array($style->margin_top,
                     $style->border_top_width),
-                $cb["h"]);
+                $cb["h"]
+            );
 
-        $w = $style->length_in_pt(array($style->padding_left,
+        $w = $style->length_in_pt(
+            array($style->padding_left,
                 $style->width,
                 $style->padding_right),
-            $cb["w"]);
+            $cb["w"]
+        );
 
-        $h = $style->length_in_pt(array($style->padding_top,
+        $h = $style->length_in_pt(
+            array($style->padding_top,
                 $style->height,
                 $style->padding_bottom),
-            $cb["h"]);
+            $cb["h"]
+        );
 
         return array(0 => $x, "x" => $x,
             1 => $y, "y" => $y,
@@ -567,19 +574,23 @@ class Frame
 
         $y = $this->_position["y"] + $style->length_in_pt($style->margin_top, $cb["h"]);
 
-        $w = $style->length_in_pt(array($style->border_left_width,
+        $w = $style->length_in_pt(
+            array($style->border_left_width,
                 $style->padding_left,
                 $style->width,
                 $style->padding_right,
                 $style->border_right_width),
-            $cb["w"]);
+            $cb["w"]
+        );
 
-        $h = $style->length_in_pt(array($style->border_top_width,
+        $h = $style->length_in_pt(
+            array($style->border_top_width,
                 $style->padding_top,
                 $style->height,
                 $style->padding_bottom,
                 $style->border_bottom_width),
-            $cb["h"]);
+            $cb["h"]
+        );
 
         return array(0 => $x, "x" => $x,
             1 => $y, "y" => $y,
@@ -1099,9 +1110,11 @@ class Frame
 
         $str .= "\n";
         if (php_sapi_name() === "cli") {
-            $str = strip_tags(str_replace(array("<br/>", "<b>", "</b>"),
+            $str = strip_tags(str_replace(
+                array("<br/>", "<b>", "</b>"),
                 array("\n", "", ""),
-                $str));
+                $str
+            ));
         }
 
         return $str;

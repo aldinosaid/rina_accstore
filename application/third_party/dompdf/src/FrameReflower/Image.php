@@ -138,7 +138,6 @@ class Image extends AbstractFrameReflower
             $style->min_height !== "none" ||
             $style->max_height !== "none"
         ) {
-
             list( /*$x*/, /*$y*/, $w, $h) = $this->_frame->get_containing_block();
 
             $min_width = $style->length_in_pt($style->min_width, $w);
@@ -179,7 +178,9 @@ class Image extends AbstractFrameReflower
             }
         }
 
-        if ($this->get_dompdf()->get_option("debugPng")) print $width . ' ' . $height . ';';
+        if ($this->get_dompdf()->get_option("debugPng")) {
+            print $width . ' ' . $height . ';';
+        }
 
         $style->width = $width . "pt";
         $style->height = $height . "pt";
@@ -190,6 +191,5 @@ class Image extends AbstractFrameReflower
         $style->max_height = "none";
 
         return array($width, $width, "min" => $width, "max" => $width);
-
     }
 }

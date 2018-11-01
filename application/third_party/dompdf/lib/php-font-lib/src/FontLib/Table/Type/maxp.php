@@ -7,6 +7,7 @@
  */
 
 namespace FontLib\Table\Type;
+
 use FontLib\Table\Table;
 
 /**
@@ -14,8 +15,9 @@ use FontLib\Table\Table;
  *
  * @package php-font-lib
  */
-class maxp extends Table {
-  protected $def = array(
+class maxp extends Table
+{
+    protected $def = array(
     "version"               => self::Fixed,
     "numGlyphs"             => self::uint16,
     "maxPoints"             => self::uint16,
@@ -31,12 +33,13 @@ class maxp extends Table {
     "maxSizeOfInstructions" => self::uint16,
     "maxComponentElements"  => self::uint16,
     "maxComponentDepth"     => self::uint16,
-  );
+    );
 
-  function _encode() {
-    $font                    = $this->getFont();
-    $this->data["numGlyphs"] = count($font->getSubset());
+    function _encode()
+    {
+        $font                    = $this->getFont();
+        $this->data["numGlyphs"] = count($font->getSubset());
 
-    return parent::_encode();
-  }
+        return parent::_encode();
+    }
 }

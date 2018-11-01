@@ -31,12 +31,14 @@ class Block extends AbstractRenderer
         $this->_set_opacity($frame->get_opacity($style->opacity));
 
         if ($node->nodeName === "body") {
-            $h = $frame->get_containing_block("h") - $style->length_in_pt(array(
+            $h = $frame->get_containing_block("h") - $style->length_in_pt(
+                array(
                         $style->margin_top,
                         $style->border_top_width,
                         $style->border_bottom_width,
                         $style->margin_bottom),
-                    $style->width);
+                $style->width
+            );
         }
 
         // Handle anchors & links
@@ -95,15 +97,16 @@ class Block extends AbstractRenderer
         $radius = $style->get_computed_border_radius($border_box[2], $border_box[3]); // w, h
 
         // Short-cut: If all the borders are "solid" with the same color and style, and no radius, we'd better draw a rectangle
-        if (
-            in_array($bp["top"]["style"], array("solid", "dashed", "dotted")) &&
+        if (in_array($bp["top"]["style"], array("solid", "dashed", "dotted")) &&
             $bp["top"] == $bp["right"] &&
             $bp["right"] == $bp["bottom"] &&
             $bp["bottom"] == $bp["left"] &&
             array_sum($radius) == 0
         ) {
             $props = $bp["top"];
-            if ($props["color"] === "transparent" || $props["width"] <= 0) return;
+            if ($props["color"] === "transparent" || $props["width"] <= 0) {
+                return;
+            }
 
             list($x, $y, $w, $h) = $border_box;
             $width = $style->length_in_pt($props["width"]);
@@ -128,8 +131,9 @@ class Block extends AbstractRenderer
                 $props["style"] === "none" ||
                 $props["width"] <= 0 ||
                 $props["color"] == "transparent"
-            )
+            ) {
                 continue;
+            }
 
             switch ($side) {
                 case "top":
@@ -177,8 +181,9 @@ class Block extends AbstractRenderer
             "color" => $style->outline_color,
         );
 
-        if (!$props["style"] || $props["style"] === "none" || $props["width"] <= 0)
+        if (!$props["style"] || $props["style"] === "none" || $props["width"] <= 0) {
             return;
+        }
 
         if (empty($border_box)) {
             $border_box = $frame->get_border_box();

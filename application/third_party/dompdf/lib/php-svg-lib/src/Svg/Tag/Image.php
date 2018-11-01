@@ -59,4 +59,4 @@ class Image extends AbstractTag
     {
         $this->document->getSurface()->restore();
     }
-} 
+}

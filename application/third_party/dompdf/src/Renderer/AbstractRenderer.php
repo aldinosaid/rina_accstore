@@ -90,7 +90,9 @@ abstract class AbstractRenderer
         $box_height = $height;
 
         //debugpng
-        if ($this->_dompdf->get_option("debugPng")) print '[_background_image ' . $url . ']';
+        if ($this->_dompdf->get_option("debugPng")) {
+            print '[_background_image ' . $url . ']';
+        }
 
         list($img, $type, /*$msg*/) = Cache::resolve_url(
             $url,
@@ -252,7 +254,6 @@ abstract class AbstractRenderer
         ) {
             $bg = null;
         } else {
-
             // Create a new image to fit over the background rectangle
             $bg = imagecreatetruecolor($bg_width, $bg_height);
 
@@ -323,12 +324,9 @@ abstract class AbstractRenderer
 
             // Copy regions from the source image to the background
             if ($repeat === "no-repeat") {
-
                 // Simply place the image on the background
                 imagecopy($bg, $src, $dst_x, $dst_y, $src_x, $src_y, $img_w, $img_h);
-
-            } else if ($repeat === "repeat-x") {
-
+            } elseif ($repeat === "repeat-x") {
                 for ($bg_x = $start_x; $bg_x < $bg_width; $bg_x += $img_w) {
                     if ($bg_x < 0) {
                         $dst_x = 0;
@@ -341,9 +339,7 @@ abstract class AbstractRenderer
                     }
                     imagecopy($bg, $src, $dst_x, $dst_y, $src_x, $src_y, $w, $img_h);
                 }
-
-            } else if ($repeat === "repeat-y") {
-
+            } elseif ($repeat === "repeat-y") {
                 for ($bg_y = $start_y; $bg_y < $bg_height; $bg_y += $img_h) {
                     if ($bg_y < 0) {
                         $dst_y = 0;
@@ -355,14 +351,10 @@ abstract class AbstractRenderer
                         $h = $img_h;
                     }
                     imagecopy($bg, $src, $dst_x, $dst_y, $src_x, $src_y, $img_w, $h);
-
                 }
-
-            } else if ($repeat === "repeat") {
-
+            } elseif ($repeat === "repeat") {
                 for ($bg_y = $start_y; $bg_y < $bg_height; $bg_y += $img_h) {
                     for ($bg_x = $start_x; $bg_x < $bg_width; $bg_x += $img_w) {
-
                         if ($bg_x < 0) {
                             $dst_x = 0;
                             $src_x = -$bg_x;
@@ -390,7 +382,6 @@ abstract class AbstractRenderer
             }
 
             imagedestroy($src);
-
         } /* End optimize away creation of duplicates */
 
         $this->_canvas->clipping_rectangle($x, $y, $box_width, $box_height);
@@ -416,14 +407,18 @@ abstract class AbstractRenderer
             $tmp_file = "$tmp_name.png";
 
             //debugpng
-            if ($this->_dompdf->get_option("debugPng")) print '[_background_image ' . $tmp_file . ']';
+            if ($this->_dompdf->get_option("debugPng")) {
+                print '[_background_image ' . $tmp_file . ']';
+            }
 
             imagepng($bg, $tmp_file);
             $this->_canvas->image($tmp_file, $x, $y, $width, $height);
             imagedestroy($bg);
 
             //debugpng
-            if ($this->_dompdf->get_option("debugPng")) print '[_background_image unlink ' . $tmp_file . ']';
+            if ($this->_dompdf->get_option("debugPng")) {
+                print '[_background_image unlink ' . $tmp_file . ']';
+            }
 
             if (!$this->_dompdf->get_option("debugKeepTemp")) {
                 unlink($tmp_file);
@@ -449,10 +444,11 @@ abstract class AbstractRenderer
                 break;
 
             case "dotted":
-                if ($width <= 1)
+                if ($width <= 1) {
                     $pattern = array($width, $width * 2);
-                else
+                } else {
                     $pattern = array($width);
+                }
                 break;
 
             case "dashed":
@@ -540,7 +536,6 @@ abstract class AbstractRenderer
     protected function _apply_ratio($side, $ratio, $top, $right, $bottom, $left, &$x, &$y, &$length, &$r1, &$r2)
     {
         switch ($side) {
-
             case "top":
                 $r1 -= $left * $ratio;
                 $r2 -= $right * $ratio;
@@ -575,7 +570,6 @@ abstract class AbstractRenderer
 
             default:
                 return;
-
         }
     }
 
@@ -604,7 +598,6 @@ abstract class AbstractRenderer
         $this->_apply_ratio($side, 0.5, $top, $right, $bottom, $left, $x, $y, $length, $r1, $r2);
 
         $this->_border_outset($x, $y, $length, $color, $half_widths, $side, $corner_style, $r1, $r2);
-
     }
 
     protected function _border_ridge($x, $y, $length, $color, $widths, $side, $corner_style = "bevel", $r1 = 0, $r2 = 0)
@@ -618,21 +611,22 @@ abstract class AbstractRenderer
         $this->_apply_ratio($side, 0.5, $top, $right, $bottom, $left, $x, $y, $length, $r1, $r2);
 
         $this->_border_inset($x, $y, $length, $color, $half_widths, $side, $corner_style, $r1, $r2);
-
     }
 
     protected function _tint($c)
     {
-        if (!is_numeric($c))
+        if (!is_numeric($c)) {
             return $c;
+        }
 
         return min(1, $c + 0.16);
     }
 
     protected function _shade($c)
     {
-        if (!is_numeric($c))
+        if (!is_numeric($c)) {
             return $c;
+        }
 
         return max(0, $c - 0.33);
     }

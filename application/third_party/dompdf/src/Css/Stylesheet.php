@@ -459,7 +459,6 @@ class Stylesheet
         $i = 0;
 
         while ($i < $len) {
-
             $s = $selector[$i];
             $i++;
 
@@ -488,7 +487,6 @@ class Stylesheet
             }
 
             switch ($s) {
-
                 case " ":
                 case ">":
                     // All elements matching the next token that are direct children of
@@ -554,7 +552,6 @@ class Stylesheet
 
                     // Pseudo-classes
                     switch ($tok) {
-
                         case "first-child":
                             $query .= "[1]";
                             $tok = "";
@@ -609,8 +606,7 @@ class Stylesheet
                             break;
 
                         case "first-line": // TODO
-                        case "first-letter": // TODO
-
+                        case "first-letter":
                             // N/A
                         case "active":
                         case "hover":
@@ -668,7 +664,6 @@ class Stylesheet
                     }
 
                     switch ($tok[$j]) {
-
                         case "~":
                         case "|":
                         case "$":
@@ -686,7 +681,6 @@ class Stylesheet
                         case "=":
                             $op = "=";
                             break;
-
                     }
 
                     // Read the attribute value, if required
@@ -707,7 +701,6 @@ class Stylesheet
                     $value = trim($value, "\"'");
 
                     switch ($op) {
-
                         case "":
                             $query .= "[@$attr]";
                             break;
@@ -951,7 +944,6 @@ class Stylesheet
 
             // Grab the applicable styles
             if (isset($styles[$id])) {
-
                 $applied_styles = $styles[$frame->get_id()];
 
                 // Sort by specificity
@@ -980,7 +972,6 @@ class Stylesheet
 
             // Inherit parent's styles if required
             if ($p) {
-
                 if ($this->_dompdf->get_option('debugCss')) {
                     print "inherit:\n";
                     print "[\n";
@@ -1005,7 +996,6 @@ class Stylesheet
             echo $style;
             echo "</pre>";*/
             $frame->set_style($style);
-
         }
 
         // We're done!  Clean out the registry of all styles since we
@@ -1014,7 +1004,6 @@ class Stylesheet
             $this->_styles[$key] = null;
             unset($this->_styles[$key]);
         }
-
     }
 
     /**
@@ -1076,7 +1065,6 @@ class Stylesheet
             if ($match[2] !== "") {
                 // Handle @rules
                 switch ($match[2]) {
-
                     case "import":
                         $this->_parse_import($match[3]);
                         break;
@@ -1155,7 +1143,6 @@ class Stylesheet
             if ($match[7] !== "") {
                 $this->_parse_sections($match[7]);
             }
-
         }
     }
 
@@ -1187,10 +1174,12 @@ class Stylesheet
                     $path = 'none';
                 }
             } else {
-                $path = Helpers::build_url($this->get_protocol(),
+                $path = Helpers::build_url(
+                    $this->get_protocol(),
                     $this->get_host(),
                     $this->get_base_path(),
-                    $val);
+                    $val
+                );
             }
         }
 
@@ -1198,7 +1187,8 @@ class Stylesheet
             print "<pre>[_image\n";
             print_r($parsed_url);
             print $this->get_protocol() . "\n" . $this->get_base_path() . "\n" . $path . "\n";
-            print "_image]</pre>";;
+            print "_image]</pre>";
+            ;
         }
 
         return $path;
@@ -1226,7 +1216,6 @@ class Stylesheet
                     break;
                 }
             }
-
         } else {
             // unconditional import
             $accept = true;
@@ -1253,7 +1242,6 @@ class Stylesheet
             $this->_base_host = $host;
             $this->_base_path = $path;
         }
-
     }
 
     /**
@@ -1314,7 +1302,9 @@ class Stylesheet
     {
         $properties = preg_split("/;(?=(?:[^\(]*\([^\)]*\))*(?![^\)]*\)))/", $str);
 
-        if ($this->_dompdf->get_option('debugCss')) print '[_parse_properties';
+        if ($this->_dompdf->get_option('debugCss')) {
+            print '[_parse_properties';
+        }
 
         // Create the style
         $style = new Style($this, Stylesheet::ORIG_AUTHOR);
@@ -1342,7 +1332,9 @@ class Stylesheet
             }
             $prop = trim($prop);
             */
-            if ($this->_dompdf->get_option('debugCss')) print '(';
+            if ($this->_dompdf->get_option('debugCss')) {
+                print '(';
+            }
 
             $important = false;
             $prop = trim($prop);
@@ -1357,19 +1349,25 @@ class Stylesheet
             }
 
             if ($prop === "") {
-                if ($this->_dompdf->get_option('debugCss')) print 'empty)';
+                if ($this->_dompdf->get_option('debugCss')) {
+                    print 'empty)';
+                }
                 continue;
             }
 
             $i = mb_strpos($prop, ":");
             if ($i === false) {
-                if ($this->_dompdf->get_option('debugCss')) print 'novalue' . $prop . ')';
+                if ($this->_dompdf->get_option('debugCss')) {
+                    print 'novalue' . $prop . ')';
+                }
                 continue;
             }
 
             $prop_name = rtrim(mb_strtolower(mb_substr($prop, 0, $i)));
             $value = ltrim(mb_substr($prop, $i + 1));
-            if ($this->_dompdf->get_option('debugCss')) print $prop_name . ':=' . $value . ($important ? '!IMPORTANT' : '') . ')';
+            if ($this->_dompdf->get_option('debugCss')) {
+                print $prop_name . ':=' . $value . ($important ? '!IMPORTANT' : '') . ')';
+            }
             //New style, anyway empty
             //if ($important || !$style->important_get($prop_name) ) {
             //$style->$prop_name = array($value,$important);
@@ -1383,7 +1381,9 @@ class Stylesheet
             $style->$prop_name = $value;
             //$style->props_set($prop_name, $value);
         }
-        if ($this->_dompdf->get_option('debugCss')) print '_parse_properties]';
+        if ($this->_dompdf->get_option('debugCss')) {
+            print '_parse_properties]';
+        }
 
         return $style;
     }
@@ -1403,12 +1403,16 @@ class Stylesheet
         $str = preg_replace($patterns, $replacements, $str);
 
         $sections = explode("}", $str);
-        if ($this->_dompdf->get_option('debugCss')) print '[_parse_sections';
+        if ($this->_dompdf->get_option('debugCss')) {
+            print '[_parse_sections';
+        }
         foreach ($sections as $sect) {
             $i = mb_strpos($sect, "{");
 
             $selectors = explode(",", mb_substr($sect, 0, $i));
-            if ($this->_dompdf->get_option('debugCss')) print '[section';
+            if ($this->_dompdf->get_option('debugCss')) {
+                print '[section';
+            }
             $style = $this->_parse_properties(trim(mb_substr($sect, $i + 1)));
 
             // Assign it to the selected elements
@@ -1416,19 +1420,27 @@ class Stylesheet
                 $selector = trim($selector);
 
                 if ($selector == "") {
-                    if ($this->_dompdf->get_option('debugCss')) print '#empty#';
+                    if ($this->_dompdf->get_option('debugCss')) {
+                        print '#empty#';
+                    }
                     continue;
                 }
-                if ($this->_dompdf->get_option('debugCss')) print '#' . $selector . '#';
+                if ($this->_dompdf->get_option('debugCss')) {
+                    print '#' . $selector . '#';
+                }
                 //if ($this->_dompdf->get_option('debugCss')) { if (strpos($selector,'p') !== false) print '!!!p!!!#'; }
 
                 $this->add_style($selector, $style);
             }
 
-            if ($this->_dompdf->get_option('debugCss')) print 'section]';
+            if ($this->_dompdf->get_option('debugCss')) {
+                print 'section]';
+            }
         }
 
-        if ($this->_dompdf->get_option('debugCss')) print '_parse_sections]';
+        if ($this->_dompdf->get_option('debugCss')) {
+            print '_parse_sections]';
+        }
     }
 
     public static function getDefaultStylesheet()

@@ -28,14 +28,16 @@ abstract class AbstractTag
         $this->document = $document;
     }
 
-    protected function getDocument(){
+    protected function getDocument()
+    {
         return $this->document;
     }
 
     /**
      * @return Group|null
      */
-    public function getParentGroup() {
+    public function getParentGroup()
+    {
         $stack = $this->getDocument()->getStack();
         for ($i = count($stack)-2; $i >= 0; $i--) {
             $tag = $stack[$i];
@@ -48,7 +50,7 @@ abstract class AbstractTag
         return null;
     }
 
-    public final function handle($attributes)
+    final public function handle($attributes)
     {
         $this->attributes = $attributes;
 
@@ -56,7 +58,7 @@ abstract class AbstractTag
         $this->start($attributes);
     }
 
-    public final function handleEnd()
+    final public function handleEnd()
     {
         $this->end();
         $this->after();
@@ -150,4 +152,4 @@ abstract class AbstractTag
             }
         }
     }
-} 
+}

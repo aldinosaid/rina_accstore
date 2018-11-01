@@ -613,7 +613,7 @@ abstract class AbstractFrameDecorator extends Frame
         // decrement any counters that were incremented on the current node, unless that node is the body
         $style = $this->_frame->get_style();
         if ($this->_frame->get_node(
-            )->nodeName !== "body" && $style->counter_increment && ($decrement = $style->counter_increment) !== "none"
+        )->nodeName !== "body" && $style->counter_increment && ($decrement = $style->counter_increment) !== "none"
         ) {
             $this->decrement_counters($decrement);
         }
@@ -625,7 +625,7 @@ abstract class AbstractFrameDecorator extends Frame
             if (!$this->is_text_node() && $this->get_node()->hasAttribute("dompdf_before_frame_id")) {
                 foreach ($this->_frame->get_children() as $child) {
                     if ($this->get_node()->getAttribute("dompdf_before_frame_id") == $child->get_id(
-                        ) && $child->get_position('x') !== null
+                    ) && $child->get_position('x') !== null
                     ) {
                         $style = $child->get_style();
                         if ($style->counter_increment && ($decrement = $style->counter_increment) !== "none") {

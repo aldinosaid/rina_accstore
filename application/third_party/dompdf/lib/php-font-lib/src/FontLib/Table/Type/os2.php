@@ -7,6 +7,7 @@
  */
 
 namespace FontLib\Table\Type;
+
 use FontLib\Table\Table;
 
 /**
@@ -14,8 +15,9 @@ use FontLib\Table\Table;
  *
  * @package php-font-lib
  */
-class os2 extends Table {
-  protected $def = array(
+class os2 extends Table
+{
+    protected $def = array(
     "version"             => self::uint16,
     "xAvgCharWidth"       => self::int16,
     "usWeightClass"       => self::uint16,
@@ -43,5 +45,5 @@ class os2 extends Table {
     "typoLineGap"         => self::int16,
     "winAscent"           => self::int16,
     "winDescent"          => self::int16,
-  );
+    );
 }

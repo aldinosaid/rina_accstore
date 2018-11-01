@@ -48,7 +48,9 @@ class Image extends AbstractFrameDecorator
         $url = $frame->get_node()->getAttribute("src");
 
         $debug_png = $dompdf->get_option("debug_png");
-        if ($debug_png) print '[__construct ' . $url . ']';
+        if ($debug_png) {
+            print '[__construct ' . $url . ']';
+        }
 
         list($this->_image_url, /*$type*/, $this->_image_msg) = Cache::resolve_url(
             $url,
@@ -86,5 +88,4 @@ class Image extends AbstractFrameDecorator
     {
         return $this->_image_msg;
     }
-
 }

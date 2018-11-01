@@ -8,7 +8,7 @@
                 <strong><?php echo $this->session->flashdata('notification'); ?></strong>
             </div>
         </div>
-    <?php elseif($this->session->flashdata('error_notification')) : ?>
+    <?php elseif ($this->session->flashdata('error_notification')) : ?>
         <div class="col-md-12">
             <div class="alert alert-danger alert-dismissible fade in" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
@@ -37,25 +37,25 @@
                     </thead>
 
                     <tbody>
-                        <?php 
+                        <?php
                             $i = 1;
-                            foreach ($keranjang as $item) : 
+                        foreach ($keranjang as $item) :
                         ?>
-                            <tr>
-                                <td><?php echo $i; ?></td>
-                                <td><?php echo $item->kode_brg; ?></td>
-                                <td><?php echo $item->nama_brg; ?></td>
-                                <td><?php echo $item->qty; ?></td>
-                                <td><?php echo idr_format($item->harga); ?></td>
-                                <td>
-                                    <a href="<?php echo base_url('penjualan/hapus/' . $item->kode_brg); ?>" class="remove" kode_brg="<?php echo $item->kode_brg; ?>">
-                                        <i class="fa fa-remove"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php 
-                            $i++;
-                            endforeach;
+                        <tr>
+                        <td><?php echo $i; ?></td>
+                        <td><?php echo $item->kode_brg; ?></td>
+                        <td><?php echo $item->nama_brg; ?></td>
+                        <td><?php echo $item->qty; ?></td>
+                        <td><?php echo idr_format($item->harga); ?></td>
+                            <td>
+                            <a href="<?php echo base_url('penjualan/hapus/' . $item->kode_brg); ?>" class="remove" kode_brg="<?php echo $item->kode_brg; ?>">
+                                    <i class="fa fa-remove"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <?php
+                        $i++;
+                        endforeach;
                         ?>
                     </tbody>
                 </table>
@@ -136,22 +136,22 @@
                     </thead>
 
                     <tbody>
-                        <?php 
+                        <?php
                             $i = 1;
-                            foreach ($barang as $value) : 
+                        foreach ($barang as $value) :
                         ?>
                         <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo $value->kode_brg; ?></td>
-                            <td><?php echo $value->nama_brg; ?></td>
-                            <td><?php echo idr_format($value->harga_jual); ?></td>
-                            <td>
-                                <button class="btn btn-primary pilih-barang" kode-brg="<?php echo $value->kode_brg; ?>"><i class="fa fa-plus"></i> Pilih</button>
-                            </td>
+                        <td><?php echo $i; ?></td>
+                        <td><?php echo $value->kode_brg; ?></td>
+                        <td><?php echo $value->nama_brg; ?></td>
+                        <td><?php echo idr_format($value->harga_jual); ?></td>
+                        <td>
+                        <button class="btn btn-primary pilih-barang" kode-brg="<?php echo $value->kode_brg; ?>"><i class="fa fa-plus"></i> Pilih</button>
+                        </td>
                         </tr>
-                        <?php 
-                            $i++;
-                            endforeach; 
+                        <?php
+                        $i++;
+                        endforeach;
                         ?>
                     </tbody>
                 </table>

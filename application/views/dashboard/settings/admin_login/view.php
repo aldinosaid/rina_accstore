@@ -20,23 +20,23 @@
                         </thead>
 
                         <tbody>
-                            <?php 
+                            <?php
                                 $i = 1;
-                                foreach ($users as $user) : 
+                            foreach ($users as $user) :
                             ?>
                             <tr>
-                                <td><?php echo $i; ?></td>
-                                <td><?php echo $user->name; ?></td>
-                                <td><?php echo user_level($user->level); ?></td>
-                                <td><?php echo $user->email; ?></td>
-                                <td>
-                                    <a href="<?php echo base_url('admin_login/details/' . $user->id); ?>"><i class="fa fa-eye"></i></a>
-                                    <a href="<?php echo base_url('admin_login/edit/' . $user->id); ?>"><i class="fa fa-edit"></i></a>
-                                </td>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo $user->name; ?></td>
+                            <td><?php echo user_level($user->level); ?></td>
+                            <td><?php echo $user->email; ?></td>
+                            <td>
+                            <a href="<?php echo base_url('admin_login/details/' . $user->id); ?>"><i class="fa fa-eye"></i></a>
+                            <a href="<?php echo base_url('admin_login/edit/' . $user->id); ?>"><i class="fa fa-edit"></i></a>
+                            </td>
                             </tr>
-                            <?php 
-                                $i++;
-                                endforeach; 
+                            <?php
+                            $i++;
+                            endforeach;
                             ?>
                         </tbody>
                     </table>

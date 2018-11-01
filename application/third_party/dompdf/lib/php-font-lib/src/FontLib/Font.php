@@ -13,71 +13,76 @@ namespace FontLib;
  *
  * @package php-font-lib
  */
-class Font {
-  static $debug = false;
+class Font
+{
+    static $debug = false;
 
   /**
    * @param string $file The font file
    *
    * @return TrueType\File|null $file
    */
-  public static function load($file) {
-    $header = file_get_contents($file, false, null, null, 4);
-    $class  = null;
+    public static function load($file)
+    {
+        $header = file_get_contents($file, false, null, null, 4);
+        $class  = null;
 
-    switch ($header) {
-      case "\x00\x01\x00\x00":
-      case "true":
-      case "typ1":
-        $class = "TrueType\\File";
-        break;
+        switch ($header) {
+            case "\x00\x01\x00\x00":
+            case "true":
+            case "typ1":
+                $class = "TrueType\\File";
+                break;
 
-      case "OTTO":
-        $class = "OpenType\\File";
-        break;
+            case "OTTO":
+                $class = "OpenType\\File";
+                break;
 
-      case "wOFF":
-        $class = "WOFF\\File";
-        break;
+            case "wOFF":
+                $class = "WOFF\\File";
+                break;
 
-      case "ttcf":
-        $class = "TrueType\\Collection";
-        break;
+            case "ttcf":
+                $class = "TrueType\\Collection";
+                break;
 
-      // Unknown type or EOT
-      default:
-        $magicNumber = file_get_contents($file, false, null, 34, 2);
+            // Unknown type or EOT
+            default:
+                $magicNumber = file_get_contents($file, false, null, 34, 2);
 
-        if ($magicNumber === "LP") {
-          $class = "EOT\\File";
+                if ($magicNumber === "LP") {
+                    $class = "EOT\\File";
+                }
         }
+
+        if ($class) {
+            $class = "FontLib\\$class";
+
+            /** @var TrueType\File $obj */
+            $obj = new $class;
+            $obj->load($file);
+
+            return $obj;
+        }
+
+        return null;
     }
 
-    if ($class) {
-      $class = "FontLib\\$class";
-
-      /** @var TrueType\File $obj */
-      $obj = new $class;
-      $obj->load($file);
-
-      return $obj;
+    static function d($str)
+    {
+        if (!self::$debug) {
+            return;
+        }
+        echo "$str\n";
     }
 
-    return null;
-  }
-
-  static function d($str) {
-    if (!self::$debug) {
-      return;
+    static function UTF16ToUTF8($str)
+    {
+        return mb_convert_encoding($str, "utf-8", "utf-16");
     }
-    echo "$str\n";
-  }
 
-  static function UTF16ToUTF8($str) {
-    return mb_convert_encoding($str, "utf-8", "utf-16");
-  }
-
-  static function UTF8ToUTF16($str) {
-    return mb_convert_encoding($str, "utf-16", "utf-8");
-  }
+    static function UTF8ToUTF16($str)
+    {
+        return mb_convert_encoding($str, "utf-16", "utf-8");
+    }
 }

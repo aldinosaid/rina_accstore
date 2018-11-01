@@ -36,6 +36,5 @@ class ListBullet extends AbstractFrameReflower
             $p = $this->_frame->find_block_parent();
             $p->add_frame_to_line($this->_frame);
         }
-
     }
 }

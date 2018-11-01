@@ -16,7 +16,8 @@ use Dompdf\FrameDecorator\AbstractFrameDecorator;
  * @access  private
  * @package dompdf
  */
-class Block extends AbstractPositioner {
+class Block extends AbstractPositioner
+{
 
 
     function __construct(AbstractFrameDecorator $frame)
@@ -40,7 +41,6 @@ class Block extends AbstractPositioner {
                 $p->add_line(true);
             }
             $y = $p->get_current_line_box()->y;
-
         } else {
             $y = $cb["y"];
         }

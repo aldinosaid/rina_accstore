@@ -8,7 +8,7 @@
                 <strong><?php echo $this->session->flashdata('notification'); ?></strong>
             </div>
         </div>
-    <?php elseif($this->session->flashdata('error_notification')) : ?>
+    <?php elseif ($this->session->flashdata('error_notification')) : ?>
         <div class="col-md-12">
             <div class="alert alert-danger alert-dismissible fade in" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
@@ -37,21 +37,21 @@
                     </thead>
 
                     <tbody>
-                        <?php 
+                        <?php
                             $no = 1;
-                            foreach ($semua_penjualan as $penjualan) : 
+                        foreach ($semua_penjualan as $penjualan) :
                         ?>
                         <tr>
-                            <td><?php echo $no; ?></td>
-                            <td><?php echo $penjualan->kode_brg; ?></td>
-                            <td><?php echo $penjualan->nama_brg; ?></td>
-                            <td><?php echo $penjualan->qty; ?></td>
-                            <td><?php echo idr_format($penjualan->harga_pokok); ?></td>
-                            <td><?php echo idr_format($penjualan->total); ?></td>
+                        <td><?php echo $no; ?></td>
+                        <td><?php echo $penjualan->kode_brg; ?></td>
+                        <td><?php echo $penjualan->nama_brg; ?></td>
+                        <td><?php echo $penjualan->qty; ?></td>
+                        <td><?php echo idr_format($penjualan->harga_pokok); ?></td>
+                        <td><?php echo idr_format($penjualan->total); ?></td>
                         </tr>
-                        <?php 
-                            $no++;
-                            endforeach; 
+                        <?php
+                        $no++;
+                        endforeach;
                         ?>
                     </tbody>
                 </table>

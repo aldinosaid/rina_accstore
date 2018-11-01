@@ -2,7 +2,7 @@
     <div class="menu_section">
         <h3>General</h3>
         <ul class="nav side-menu">
-            <?php if(user_level($this->session->userdata('level')) == 'Admin') : ?>
+            <?php if (user_level($this->session->userdata('level')) == 'Admin') : ?>
             <li><a><i class="fa fa-cubes"></i> Master Data <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="<?php echo base_url('barang'); ?>">Barang</a></li>
@@ -16,7 +16,7 @@
                     <li><a href="<?php echo base_url('pembelian'); ?>">Pembelian</a></li>
                 </ul>
             </li>
-            <?php if(user_level($this->session->userdata('level')) == 'Admin') : ?>
+            <?php if (user_level($this->session->userdata('level')) == 'Admin') : ?>
             <li><a><i class="fa fa-book"></i> Laporan <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="<?php echo base_url('laporan/penjualan'); ?>">Penjualan</a></li>
@@ -26,7 +26,7 @@
             <?php endif ?>
             <li><a><i class="fa fa-gear"></i> Settings <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <?php if(user_level($this->session->userdata('level')) == 'Admin') : ?>
+                    <?php if (user_level($this->session->userdata('level')) == 'Admin') : ?>
                     <li><a href="<?php echo base_url('admin_login'); ?>">Pengguna</a></li>
                     <?php endif; ?>
                     <li><a href="<?php echo base_url('settings/test_print'); ?>">Test Print</a></li>

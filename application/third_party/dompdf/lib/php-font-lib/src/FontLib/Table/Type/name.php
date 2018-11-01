@@ -16,34 +16,35 @@ use FontLib\Font;
  *
  * @package php-font-lib
  */
-class name extends Table {
-  private static $header_format = array(
+class name extends Table
+{
+    private static $header_format = array(
     "format"       => self::uint16,
     "count"        => self::uint16,
     "stringOffset" => self::uint16,
-  );
+    );
 
-  const NAME_COPYRIGHT          = 0;
-  const NAME_NAME               = 1;
-  const NAME_SUBFAMILY          = 2;
-  const NAME_SUBFAMILY_ID       = 3;
-  const NAME_FULL_NAME          = 4;
-  const NAME_VERSION            = 5;
-  const NAME_POSTSCRIPT_NAME    = 6;
-  const NAME_TRADEMARK          = 7;
-  const NAME_MANUFACTURER       = 8;
-  const NAME_DESIGNER           = 9;
-  const NAME_DESCRIPTION        = 10;
-  const NAME_VENDOR_URL         = 11;
-  const NAME_DESIGNER_URL       = 12;
-  const NAME_LICENSE            = 13;
-  const NAME_LICENSE_URL        = 14;
-  const NAME_PREFERRE_FAMILY    = 16;
-  const NAME_PREFERRE_SUBFAMILY = 17;
-  const NAME_COMPAT_FULL_NAME   = 18;
-  const NAME_SAMPLE_TEXT        = 19;
+    const NAME_COPYRIGHT          = 0;
+    const NAME_NAME               = 1;
+    const NAME_SUBFAMILY          = 2;
+    const NAME_SUBFAMILY_ID       = 3;
+    const NAME_FULL_NAME          = 4;
+    const NAME_VERSION            = 5;
+    const NAME_POSTSCRIPT_NAME    = 6;
+    const NAME_TRADEMARK          = 7;
+    const NAME_MANUFACTURER       = 8;
+    const NAME_DESIGNER           = 9;
+    const NAME_DESCRIPTION        = 10;
+    const NAME_VENDOR_URL         = 11;
+    const NAME_DESIGNER_URL       = 12;
+    const NAME_LICENSE            = 13;
+    const NAME_LICENSE_URL        = 14;
+    const NAME_PREFERRE_FAMILY    = 16;
+    const NAME_PREFERRE_SUBFAMILY = 17;
+    const NAME_COMPAT_FULL_NAME   = 18;
+    const NAME_SAMPLE_TEXT        = 19;
 
-  static $nameIdCodes = array(
+    static $nameIdCodes = array(
     0  => "Copyright",
     1  => "FontName",
     2  => "FontSubfamily",
@@ -64,16 +65,16 @@ class name extends Table {
     17 => "PreferredSubfamily",
     18 => "CompatibleFullName",
     19 => "SampleText",
-  );
+    );
 
-  static $platforms = array(
+    static $platforms = array(
     0 => "Unicode",
     1 => "Macintosh",
     // 2 =>  Reserved
     3 => "Microsoft",
-  );
+    );
 
-  static $plaformSpecific = array(
+    static $plaformSpecific = array(
     // Unicode
     0 => array(
       0 => "Default semantics",
@@ -132,62 +133,64 @@ class name extends Table {
       //  9 => Reserved
       10 => "Unicode UCS-4",
     ),
-  );
+    );
 
-  protected function _parse() {
-    $font = $this->getFont();
+    protected function _parse()
+    {
+        $font = $this->getFont();
 
-    $tableOffset = $font->pos();
+        $tableOffset = $font->pos();
 
-    $data = $font->unpack(self::$header_format);
+        $data = $font->unpack(self::$header_format);
 
-    $records = array();
-    for ($i = 0; $i < $data["count"]; $i++) {
-      $record      = new nameRecord();
-      $record_data = $font->unpack(nameRecord::$format);
-      $record->map($record_data);
+        $records = array();
+        for ($i = 0; $i < $data["count"]; $i++) {
+            $record      = new nameRecord();
+            $record_data = $font->unpack(nameRecord::$format);
+            $record->map($record_data);
 
-      $records[] = $record;
+            $records[] = $record;
+        }
+
+        $names = array();
+        foreach ($records as $record) {
+            $font->seek($tableOffset + $data["stringOffset"] + $record->offset);
+            $s                      = $font->read($record->length);
+            $record->string         = Font::UTF16ToUTF8($s);
+            $names[$record->nameID] = $record;
+        }
+
+        $data["records"] = $names;
+
+        $this->data = $data;
     }
 
-    $names = array();
-    foreach ($records as $record) {
-      $font->seek($tableOffset + $data["stringOffset"] + $record->offset);
-      $s                      = $font->read($record->length);
-      $record->string         = Font::UTF16ToUTF8($s);
-      $names[$record->nameID] = $record;
+    protected function _encode()
+    {
+        $font = $this->getFont();
+
+        /** @var nameRecord[] $records */
+        $records       = $this->data["records"];
+        $count_records = count($records);
+
+        $this->data["count"]        = $count_records;
+        $this->data["stringOffset"] = 6 + $count_records * 12; // 6 => uint16 * 3, 12 => sizeof self::$record_format
+
+        $length = $font->pack(self::$header_format, $this->data);
+
+        $offset = 0;
+        foreach ($records as $record) {
+            $record->length = mb_strlen($record->getUTF16(), "8bit");
+            $record->offset = $offset;
+            $offset += $record->length;
+            $length += $font->pack(nameRecord::$format, (array)$record);
+        }
+
+        foreach ($records as $record) {
+            $str = $record->getUTF16();
+            $length += $font->write($str, mb_strlen($str, "8bit"));
+        }
+
+        return $length;
     }
-
-    $data["records"] = $names;
-
-    $this->data = $data;
-  }
-
-  protected function _encode() {
-    $font = $this->getFont();
-
-    /** @var nameRecord[] $records */
-    $records       = $this->data["records"];
-    $count_records = count($records);
-
-    $this->data["count"]        = $count_records;
-    $this->data["stringOffset"] = 6 + $count_records * 12; // 6 => uint16 * 3, 12 => sizeof self::$record_format
-
-    $length = $font->pack(self::$header_format, $this->data);
-
-    $offset = 0;
-    foreach ($records as $record) {
-      $record->length = mb_strlen($record->getUTF16(), "8bit");
-      $record->offset = $offset;
-      $offset += $record->length;
-      $length += $font->pack(nameRecord::$format, (array)$record);
-    }
-
-    foreach ($records as $record) {
-      $str = $record->getUTF16();
-      $length += $font->write($str, mb_strlen($str, "8bit"));
-    }
-
-    return $length;
-  }
 }

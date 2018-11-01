@@ -175,7 +175,7 @@ class CPDF implements Canvas
     {
         if (is_array($paper)) {
             $size = $paper;
-        } else if (isset(self::$PAPER_SIZES[mb_strtolower($paper)])) {
+        } elseif (isset(self::$PAPER_SIZES[mb_strtolower($paper)])) {
             $size = self::$PAPER_SIZES[mb_strtolower($paper)];
         } else {
             $size = self::$PAPER_SIZES["letter"];
@@ -231,8 +231,12 @@ class CPDF implements Canvas
                 continue;
             }
 
-            if ($this->_dompdf->get_option("debugPng")) print '[__destruct unlink ' . $img . ']';
-            if (!$this->_dompdf->get_option("debugKeepTemp")) unlink($img);
+            if ($this->_dompdf->get_option("debugPng")) {
+                print '[__destruct unlink ' . $img . ']';
+            }
+            if (!$this->_dompdf->get_option("debugKeepTemp")) {
+                unlink($img);
+            }
         }
     }
 
@@ -520,8 +524,12 @@ class CPDF implements Canvas
         $this->_set_stroke_color($color);
         $this->_set_line_style($width, "butt", "", $style);
 
-        $this->_pdf->line($x1, $this->y($y1),
-            $x2, $this->y($y2));
+        $this->_pdf->line(
+            $x1,
+            $this->y($y1),
+            $x2,
+            $this->y($y2)
+        );
     }
 
     function arc($x, $y, $r1, $r2, $astart, $aend, $color, $width, $style = array())
@@ -671,34 +679,46 @@ class CPDF implements Canvas
 
         $debug_png = $this->_dompdf->get_option("debug_png");
 
-        if ($debug_png) print "[image:$img|$width|$height|$type]";
+        if ($debug_png) {
+            print "[image:$img|$width|$height|$type]";
+        }
 
         switch ($type) {
             case "jpeg":
-                if ($debug_png) print '!!!jpg!!!';
+                if ($debug_png) {
+                    print '!!!jpg!!!';
+                }
                 $this->_pdf->addJpegFromFile($img, $x, $this->y($y) - $h, $w, $h);
                 break;
 
             case "gif":
             case "bmp":
-                if ($debug_png) print '!!!bmp or gif!!!';
+                if ($debug_png) {
+                    print '!!!bmp or gif!!!';
+                }
                 // @todo use cache for BMP and GIF
                 $img = $this->_convert_gif_bmp_to_png($img, $type);
 
             case "png":
-                if ($debug_png) print '!!!png!!!';
+                if ($debug_png) {
+                    print '!!!png!!!';
+                }
 
                 $this->_pdf->addPngFromFile($img, $x, $this->y($y) - $h, $w, $h);
                 break;
 
             case "svg":
-                if ($debug_png) print '!!!SVG!!!';
+                if ($debug_png) {
+                    print '!!!SVG!!!';
+                }
 
                 $this->_pdf->addSvgFromFile($img, $x, $this->y($y) - $h, $w, $h);
                 break;
 
             default:
-                if ($debug_png) print '!!!unknown!!!';
+                if ($debug_png) {
+                    print '!!!unknown!!!';
+                }
         }
     }
 
@@ -784,7 +804,6 @@ class CPDF implements Canvas
             if ($name) {
                 $this->_pdf->addInternalLink($name, $x, $y, $x + $width, $y + $height);
             }
-
         } else {
             $this->_pdf->addLink(rawurldecode($url), $x, $y, $x + $width, $y + $height);
         }
@@ -893,8 +912,11 @@ class CPDF implements Canvas
 
                 switch ($_t) {
                     case "text":
-                        $text = str_replace(array("{PAGE_NUM}", "{PAGE_COUNT}"),
-                            array($page_number, $this->_page_count), $text);
+                        $text = str_replace(
+                            array("{PAGE_NUM}", "{PAGE_COUNT}"),
+                            array($page_number, $this->_page_count),
+                            $text
+                        );
                         $this->text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
                         break;
 

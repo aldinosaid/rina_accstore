@@ -192,10 +192,10 @@ class Color
         if ($length == 4 && $color[0] === "#") {
             return $cache[$color] = self::getArray($color[1] . $color[1] . $color[2] . $color[2] . $color[3] . $color[3]);
         } // #rrggbb format
-        else if ($length == 7 && $color[0] === "#") {
+        elseif ($length == 7 && $color[0] === "#") {
             return $cache[$color] = self::getArray(mb_substr($color, 1, 6));
         } // rgb( r,g,b ) / rgbaa( r,g,b,α ) format
-        else if (mb_strpos($color, "rgb") !== false) {
+        elseif (mb_strpos($color, "rgb") !== false) {
             $i = mb_strpos($color, "(");
             $j = mb_strpos($color, ")");
 
@@ -230,12 +230,9 @@ class Color
             }
 
             return $cache[$color] = self::getArray(vsprintf("%02X%02X%02X", $triplet));
-
-        }
-
-        // cmyk( c,m,y,k ) format
+        } // cmyk( c,m,y,k ) format
         // http://www.w3.org/TR/css3-gcpm/#cmyk-colors
-        else if (mb_strpos($color, "cmyk") !== false) {
+        elseif (mb_strpos($color, "cmyk") !== false) {
             $i = mb_strpos($color, "(");
             $j = mb_strpos($color, ")");
 
@@ -250,7 +247,7 @@ class Color
                 return null;
             }
 
-            $values = array_map(function($c) {
+            $values = array_map(function ($c) {
                 return min(1.0, max(0.0, floatval(trim($c))));
             }, $values);
 
