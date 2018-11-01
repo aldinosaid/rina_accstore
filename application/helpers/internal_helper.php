@@ -8,6 +8,11 @@
     function cnull($value){
         return (empty($value))?'':$value;
     }
+
+    function shop_version()
+    {
+        return "Rina Accessories Store - V1.0.01";
+    }
     
     function is_logged_in()
     {
