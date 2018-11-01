@@ -13,6 +13,18 @@
     {
         return "Rina Accessories Store - V1.0.01";
     }
+
+    function user_level($user_level) {
+        switch ($user_level) {
+            case 1:
+                return "Kasir";
+                break;
+            
+            default:
+                return "Admin";
+                break;
+        }
+    }
     
     function is_logged_in()
     {

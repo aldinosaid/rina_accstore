@@ -42,6 +42,7 @@ class Admin_login extends CI_Controller
 		$data = [
 			'name' => $input['name'],
 			'email' => $input['email'],
+			'level' => $input['level'],
 			'pass' => sha1(trim($input["password"]))
 		];
 
@@ -58,7 +59,8 @@ class Admin_login extends CI_Controller
 		$input = $this->input->post();
 		$data = [
 			'name' => $input['name'],
-			'email' => $input['email']
+			'email' => $input['email'],
+			'level' => $input['level']
 		];
 
 		if ($input["password"] != '') {
