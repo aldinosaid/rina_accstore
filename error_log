@@ -1,0 +1,6 @@
+[14-Mar-2018 00:56:29 Asia/Jakarta] PHP Fatal error:  Call to a member function sha1() on null in /home/selc8355/public_html/jafra/application/controllers/Registration.php on line 44
+[14-Mar-2018 01:00:12 Asia/Jakarta] PHP Fatal error:  Call to undefined method CI_Encrypt::sha1() in /home/selc8355/public_html/jafra/application/controllers/Registration.php on line 44
+[05-Apr-2018 23:13:23 Asia/Jakarta] PHP Parse error:  syntax error, unexpected 'endif' (T_ENDIF) in /home/selc8355/public_html/jafra/application/views/dashboard/all_finalists/view.php on line 47
+[05-Apr-2018 23:14:02 Asia/Jakarta] PHP Parse error:  syntax error, unexpected 'endif' (T_ENDIF) in /home/selc8355/public_html/jafra/application/views/dashboard/all_finalists/view.php on line 47
+[09-Apr-2018 23:51:32 Asia/Jakarta] PHP Parse error:  syntax error, unexpected 'endif' (T_ENDIF) in /home/selc8355/public_html/jafra/application/views/dashboard/all_finalists/details.php on line 43
+[13-Apr-2018 02:25:05 Asia/Jakarta] PHP Fatal error:  Cannot redeclare Dashboard::twenty_finalist() in /home/selc8355/public_html/jafra/application/controllers/Dashboard.php on line 69
