@@ -24,6 +24,20 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+                <div class="col-md-3 col-xs-12">
+                    <div class="alert alert-info alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        </button>
+                        <strong>Start : <?php echo idTimeFormat($start_date); ?></strong>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-12">
+                    <div class="alert alert-info alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        </button>
+                        <strong>End : <?php echo idTimeFormat($end_date); ?></strong>
+                    </div>
+                </div>
                 <table id="laporan_penjualan" class="table table-striped table-bordered">
                     <thead>
                         <tr>

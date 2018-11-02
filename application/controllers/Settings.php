@@ -18,6 +18,7 @@ class Settings extends CI_Controller
 
     public function test_print()
     {
-        do_print();
+        $barcode['barcode'] = 'B00001';
+        do_barcode_print($barcode);
     }
 }

@@ -1,5 +1,7 @@
 <?php
     include APPPATH . "third_party/ImageResize.php";
+    include APPPATH . "third_party/php-barcode-generator/src/BarcodeGenerator.php";
+    include APPPATH . "third_party/php-barcode-generator/src/BarcodeGeneratorHTML.php";
     require __DIR__ . '\..\..\autoload.php';
     use \Eventviva\ImageResize;
     use Mike42\Escpos\Printer;
@@ -8,6 +10,13 @@
 function cnull($value)
 {
     return (empty($value))?'':$value;
+}
+
+function doGenerateBarcode($kode_brg)
+{
+    $bar = new Picqer\Barcode\BarcodeGeneratorHTML();
+    $code = $bar->getBarcode($kode_brg, $bar::TYPE_CODE_128);
+    return $code;
 }
 
 function shop_version()
@@ -121,6 +130,31 @@ function send_email($to, $subject, $html_content)
     }
 }
 
+function do_barcode_print($dataBarcode)
+{
+    try {
+        // Enter the share name for your USB printer here
+        // $connector = null;
+        $connector = new WindowsPrintConnector("RINAACC");
+
+        /* Print a "Hello world" receipt" */
+        $printer = new Printer($connector);
+        // Set Header Invoice
+        $printer -> setJustification(Printer::JUSTIFY_CENTER);
+        $printer -> setBarcodeHeight(60);
+        $printer -> barcode($dataBarcode['barcode'], Printer::BARCODE_CODE39);
+        $printer -> text("\n\n\n");
+        $printer -> cut();
+            
+        /* Close printer */
+        $printer -> close();
+        return true;
+    } catch (Exception $e) {
+        echo "Couldn't print to this printer: " . $e -> getMessage() . "\n";
+        return false;
+    }
+}
+
 function do_print($dataNota)
 {
     try {
@@ -160,6 +194,7 @@ function do_print($dataNota)
         $printer -> text("WA : 08972162264\n");
         $printer -> text("FB : RINA ACCSTORE\n");
         $printer -> text("\n\n\n");
+        $printer -> pulse();
         $printer -> cut();
             
         /* Close printer */
