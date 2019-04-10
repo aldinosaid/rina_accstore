@@ -50,13 +50,56 @@
                                 <input type="text" class="form-control harga" name="harga_jual" required>
                             </div>
                         </div>
+                        <div class="form-group text-right">
+                            <a href="javascript::void(0)" class="btn btn-danger"> Grosir <i class="fa fa-plus-circle"></i></a>
+                        </div>
                         <div class="ln_solid"></div>
                         <div class="form-group">
-                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                                <button type="submit" class="btn btn-success">Submit</button>
+                            <div class="grosir">
+                                <div class="item-grosir">
+                                    <div class="col-md-6 col-sm-6 form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Min beli</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control" name="min">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Harga Grosir</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control harga" name="harga_jual_grosir">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Min beli</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control" name="min">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Harga Grosir</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control harga" name="harga_jual_grosir">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Min beli</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control" name="min">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Harga Grosir</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control harga" name="harga_jual_grosir">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
+                        <div class="ln_solid"></div>
+                        <div class="form-group text-right">
+                            <button type="submit" class="btn btn-success btn-lg">SIMPAN</button>
+                        </div>
                     </form>
                 </div>
             </div>

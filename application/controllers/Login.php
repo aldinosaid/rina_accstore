@@ -24,7 +24,15 @@ class Login extends CI_Controller
         $password = $this->input->post('password');
         $result = $this->admin_login_model->checkUser($email, $password);
         if ($this->session->userdata('username')) {
-            redirect('penjualan');
+            switch ($this->session->userdata('level')) {
+                case 1:
+                    redirect('penjualan');
+                    break;
+                
+                default:
+                    redirect('barang');
+                    break;
+            }
         } else {
             $this->session->set_flashdata('notif', 'Invalid email or Password');
             redirect('login/admin');

@@ -22,9 +22,9 @@ class Penjualan extends CI_Controller
         $data['barang'] = $this->barang_model->getAll();
         $data['keranjang'] = $this->penjualan_model->getAll();
         $data['total']  = $this->penjualan_model->count();
-        $this->load->view('dashboard/header');
+        $this->load->view('dashboard/penjualan/header');
         $this->load->view('dashboard/penjualan/view', $data);
-        $this->load->view('dashboard/footer');
+        $this->load->view('dashboard/penjualan/footer');
     }
 
     public function count()
