@@ -51,49 +51,12 @@
                             </div>
                         </div>
                         <div class="form-group text-right">
-                            <a href="javascript::void(0)" class="btn btn-danger"> Grosir <i class="fa fa-plus-circle"></i></a>
+                            <a href="javascript:void(0)" class="btn btn-primary add-grosir"> Grosir <i class="fa fa-plus-circle"></i></a>
                         </div>
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="grosir">
-                                <div class="item-grosir">
-                                    <div class="col-md-6 col-sm-6 form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Min beli</label>
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" name="min">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Harga Grosir</label>
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control harga" name="harga_jual_grosir">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Min beli</label>
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" name="min">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Harga Grosir</label>
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control harga" name="harga_jual_grosir">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Min beli</label>
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" name="min">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Harga Grosir</label>
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control harga" name="harga_jual_grosir">
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="ln_solid"></div>
@@ -109,3 +72,72 @@
 <?php
     $this->load->view('dashboard/js');
 ?>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $(document).ready(function() {
+        function btnRemoveGrosir() {
+            var removeGrosir = document.querySelectorAll('.remove-grosir-item'); 
+            [].forEach.call(removeGrosir, function(elm) {
+                $(elm).click(function(){
+                    var itemGrosir = $(this).closest('.item-grosir');
+                    $(itemGrosir).remove();
+                    if ($('.item-grosir').length <= 0) {
+                        $('.grosir').append('<p class="text-center grosir-default">Tidak ada data Grosir</p>');
+                    }
+                });
+            });
+        }
+
+        function btnAddGrosir() {
+            $('.add-grosir').click(function(){
+                if ($('.grosir-default')) {
+                    $('.grosir-default').remove();
+                }
+                $('.grosir').append(
+                    '<div class="item-grosir col-md-12">'
+                        +'<div class="col-md-5 col-sm-6 form-group">'
+                            +'<label class="control-label col-md-3 col-sm-3 col-xs-12">Min beli</label>'
+                            +'<div class="col-md-9 col-sm-9 col-xs-12">'
+                                +'<input type="text" class="form-control" name="grosir[min][]">'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="col-md-5 col-sm-6 form-group">'
+                            +'<label class="control-label col-md-3 col-sm-3 col-xs-12">Harga Grosir</label>'
+                            +'<div class="col-md-9 col-sm-9 col-xs-12">'
+                                +'<input type="text" class="form-control harga" name="grosir[harga_jual_grosir][]">'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="col-md-2">'
+                            +'<a href="javascript:void(0)" class="btn btn-danger remove-grosir-item">'
+                                +'<i class="fa fa-minus-circle"></i>'
+                            +'</a>'
+                        +'</div>'
+                    +'</div>'
+                );
+                inputMask();
+                btnRemoveGrosir();
+            });
+        }
+
+        function inputMask() {
+            $('.harga').inputmask("numeric", {
+                radixPoint: ".",
+                groupSeparator: ",",
+                digits: 2,
+                autoGroup: true,
+                prefix: 'Rp ', //No Space, this will truncate the first character
+                rightAlign: false,
+                oncleared: function () { self.Value(''); }
+            });
+        }
+
+        function init() {
+            btnAddGrosir();
+            btnRemoveGrosir();
+            inputMask();
+        }
+
+        init();
+    });
+</script>

@@ -37,6 +37,7 @@ class Barang extends CI_Controller
     {
         $data['kategories'] = $this->kategori_model->getAll();
         $data['barang'] = $this->barang_model->getBarangById($id);
+        $data['barang'][0]->grosir = json_decode($data['barang'][0]->grosir);
         $this->load->view('dashboard/header');
         $this->load->view('dashboard/barang/edit', $data);
         $this->load->view('dashboard/footer');
@@ -119,6 +120,14 @@ class Barang extends CI_Controller
             'harga_jual'    => idrToString($input['harga_jual']),
             'harga_beli'    => idrToString($input['harga_beli'])
         ];
+        if (sizeof($input['grosir']) > 0) {
+            $i = 0;
+            foreach ($input['grosir']['harga_jual_grosir'] as $harga_grosir) {
+                $input['grosir']['harga_jual_grosir'][$i] = idrToString($harga_grosir);
+                $i++;
+            }
+            $args['grosir'] = json_encode($input['grosir']);
+        }
 
         $update = $this->barang_model->update($args, $id);
         if ($update) {
@@ -141,6 +150,15 @@ class Barang extends CI_Controller
             'harga_jual'    => idrToString($input['harga_jual']),
             'harga_beli'    => idrToString($input['harga_beli'])
         ];
+
+        if (sizeof($input['grosir']) > 0) {
+            $i = 0;
+            foreach ($input['grosir']['harga_jual_grosir'] as $harga_grosir) {
+                $input['grosir']['harga_jual_grosir'][$i] = idrToString($harga_grosir);
+                $i++;
+            }
+            $args['grosir'] = json_encode($input['grosir']);
+        }
 
         $save = $this->barang_model->insert($args);
         if ($save) {

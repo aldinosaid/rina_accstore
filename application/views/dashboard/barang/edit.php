@@ -4,7 +4,7 @@
         <div class="col-md-6 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Kategori Baru</h2>
+                    <h2>Ubah Data Barang</h2>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -54,6 +54,39 @@
                                 <input type="text" class="form-control harga" name="harga_jual" value="<?php echo $value->harga_jual; ?>" required>
                             </div>
                         </div>
+                        <div class="form-group text-right">
+                            <a href="javascript:void(0)" class="btn btn-primary add-grosir"> Grosir <i class="fa fa-plus-circle"></i></a>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="grosir">
+                                <?php if (sizeof($value->grosir) > 0) : ?>
+                                    <?php foreach ($value->grosir->min as $key_grosir => $value_grosir) : ?>
+                                        <div class="item-grosir col-md-12">
+                                            <div class="col-md-5 col-sm-6 form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Min beli</label>
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    <input type="text" class="form-control" name="grosir[min][]" value="<?php echo $value->grosir->min[$key_grosir]; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5 col-sm-6 form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Harga Grosir</label>
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    <input type="text" class="form-control harga" name="grosir[harga_jual_grosir][]" value="<?php echo $value->grosir->harga_jual_grosir[$key_grosir]; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <a href="javascript:void(0)" class="btn btn-danger remove-grosir-item">
+                                                    <i class="fa fa-minus-circle"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <p class="text-center grosir-default">Tidak ada data Grosir</p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
@@ -71,3 +104,70 @@
 <?php
     $this->load->view('dashboard/js');
 ?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        function btnRemoveGrosir() {
+            var removeGrosir = document.querySelectorAll('.remove-grosir-item'); 
+            [].forEach.call(removeGrosir, function(elm) {
+                $(elm).click(function(){
+                    var itemGrosir = $(this).closest('.item-grosir');
+                    $(itemGrosir).remove();
+                    if ($('.item-grosir').length <= 0) {
+                        $('.grosir').append('<p class="text-center grosir-default">Tidak ada data Grosir</p>');
+                    }
+                });
+            });
+        }
+
+        function btnAddGrosir() {
+            $('.add-grosir').click(function(){
+                if ($('.grosir-default')) {
+                    $('.grosir-default').remove();
+                }
+                $('.grosir').append(
+                    '<div class="item-grosir col-md-12">'
+                        +'<div class="col-md-5 col-sm-6 form-group">'
+                            +'<label class="control-label col-md-3 col-sm-3 col-xs-12">Min beli</label>'
+                            +'<div class="col-md-9 col-sm-9 col-xs-12">'
+                                +'<input type="text" class="form-control" name="grosir[min][]">'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="col-md-5 col-sm-6 form-group">'
+                            +'<label class="control-label col-md-3 col-sm-3 col-xs-12">Harga Grosir</label>'
+                            +'<div class="col-md-9 col-sm-9 col-xs-12">'
+                                +'<input type="text" class="form-control harga" name="grosir[harga_jual_grosir][]">'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="col-md-2">'
+                            +'<a href="javascript:void(0)" class="btn btn-danger remove-grosir-item">'
+                                +'<i class="fa fa-minus-circle"></i>'
+                            +'</a>'
+                        +'</div>'
+                    +'</div>'
+                );
+                inputMask();
+                btnRemoveGrosir();
+            });
+        }
+
+        function inputMask() {
+            $('.harga').inputmask("numeric", {
+                radixPoint: ".",
+                groupSeparator: ",",
+                digits: 2,
+                autoGroup: true,
+                prefix: 'Rp ', //No Space, this will truncate the first character
+                rightAlign: false,
+                oncleared: function () { self.Value(''); }
+            });
+        }
+
+        function init() {
+            btnAddGrosir();
+            btnRemoveGrosir();
+            inputMask();
+        }
+
+        init();
+    });
+</script>
