@@ -102,8 +102,9 @@ class Barang extends CI_Controller
 
         $barang = [
             'kode_brg'  => $brg->kode_brg,
-            'harga'         => idr_format($brg->harga_jual),
-            'nama_brg'  => $brg->nama_brg
+            'harga'     => idr_format($brg->harga_jual),
+            'nama_brg'  => $brg->nama_brg,
+            'grosir'    => json_decode($brg->grosir)
         ];
         
         echo json_encode($barang);
@@ -127,6 +128,8 @@ class Barang extends CI_Controller
                 $i++;
             }
             $args['grosir'] = json_encode($input['grosir']);
+        } else {
+            $args['grosir'] = '';
         }
 
         $update = $this->barang_model->update($args, $id);

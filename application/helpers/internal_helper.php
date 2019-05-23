@@ -135,15 +135,19 @@ function do_barcode_print($dataBarcode)
     try {
         // Enter the share name for your USB printer here
         // $connector = null;
-        $connector = new WindowsPrintConnector("RINAACC");
+        $connector = new WindowsPrintConnector("POS-58");
 
         /* Print a "Hello world" receipt" */
         $printer = new Printer($connector);
         // Set Header Invoice
-        $printer -> setJustification(Printer::JUSTIFY_CENTER);
-        $printer -> setBarcodeHeight(60);
-        $printer -> barcode($dataBarcode['barcode'], Printer::BARCODE_CODE39);
-        $printer -> text("\n\n\n");
+        $printer -> text("-------------------------------\n");
+        $printer -> text("Min 6 @ Rp. 10.000,-\n");
+        $printer -> setBarcodeHeight(110);
+        $printer -> barcode($dataBarcode['barcode'], Printer::BARCODE_JAN13);
+        $printer -> text("KODE:2000000000009\n");
+        $printer -> text("SEPATU KACA BIRU\n");
+        $printer -> text("-------------------------------\n");
+        $printer -> text("");
         $printer -> cut();
             
         /* Close printer */

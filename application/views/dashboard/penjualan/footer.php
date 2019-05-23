@@ -6,18 +6,18 @@
 
     $(document).ready(function() {
         
-        function selectKategori() {
-            var selectedKategori = document.getElementById('select-kategori');
-            $(selectedKategori).change(function() {
-                var kodeKat = this.options[this.selectedIndex].value;
-                $.ajax({
-                    url : baseUrl+'barang/findMaxId/'+kodeKat,
-                    dataType : 'json'
-                }).done(function(r){
-                    $('[name=kode_brg]').val(r.kode_brg);
-                }); 
-            });
-        }
+        // function selectKategori() {
+        //     var selectedKategori = document.getElementById('select-kategori');
+        //     $(selectedKategori).change(function() {
+        //         var kodeKat = this.options[this.selectedIndex].value;
+        //         $.ajax({
+        //             url : baseUrl+'barang/findMaxId/'+kodeKat,
+        //             dataType : 'json'
+        //         }).done(function(r){
+        //             $('[name=kode_brg]').val(r.kode_brg);
+        //         }); 
+        //     });
+        // }
 
         function dataTable() {
             var tableCari = $('#cari_barang').DataTable({
@@ -29,7 +29,7 @@
                     var kode_brg = $(this).attr('kode-brg');
                     $('[name=kode_brg]').val(kode_brg);
                     $('#modal-data-barang').modal('hide');
-                    cariBarang();
+                    // cariBarang();
                 });
             });
         }
@@ -83,14 +83,20 @@
                         $('[name=kode_brg]').val(kode_brg);
                         $('[name=qty]').val(1);
                         $('#modal-data-barang').modal('hide');
-                        cariBarang();
+                        $("#barang").click();
                     });
                 });
             });
         }
 
+        function kodeBarangChange() {
+            $("#barang").click(function(){
+                console.log("wohe");
+                cariBarang();
+            });
+        }
+
         function btnKeranjang() {
-            console.log('test');
             $('#btn-keranjang').click(function() {
                 var kode_brg = $('[name=kode_brg]').val();
                 var qty = 0;
@@ -129,6 +135,15 @@
                 url : baseUrl+'barang/ajaxCariId/'+kode_brg,
                 dataType : 'json'
             }).done(function(r) {
+                var grosir = r.grosir
+                if (grosir) {
+                    var minGrosir = grosir.min;
+                    minGrosir.forEach(function(val, i){
+                        var hargaGrosir = grosir.harga_jual_grosir[i];
+                        console.log(val);
+                        console.log(hargaGrosir);
+                    });
+                }
                 $('#nm_brg').html(r.nama_brg);
                 $('#hrg_brg').html(r.harga);
                 $('#hrg_brg').attr('hrg-brg', r.harga);
@@ -169,8 +184,11 @@
             if ($('#barang')) {
                 autocomplete();
             }
+            $('#modal-data-barang').on('hidden.bs.modal', function () {
+              $(this).data('bs.modal', null);
+            });
             modal();
-            selectKategori();
+            kodeBarangChange();
             count();
             dataTable();
             btnKeranjang();
