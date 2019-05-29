@@ -18,6 +18,30 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <div class="col-md-offset-3">
+                                <div class="checkbox">
+                                    <label>
+                                        <div class="icheckbox_flat-green">
+                                            <?php
+                                                $isChecked = ''; 
+                                                if ($value->kode_brg == $value->barcode) {
+                                                    $isChecked = 'checked';
+                                                }
+                                            ?>
+                                            <input type="checkbox" class="flat" id="equal" <?php echo $isChecked; ?>>
+                                        </div>
+                                        Barcode sama dengan kode barang
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Barcode</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" class="form-control" placeholder="0000000000" name="barcode" value="<?php echo $value->barcode; ?>" style="text-transform:uppercase">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama Barang</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input type="text" class="form-control" placeholder="Nama Barang" name="nama_brg" value="<?php echo $value->nama_brg; ?>" required>
@@ -150,6 +174,23 @@
             });
         }
 
+        function barcodeIsEqualItemCode() {
+            var isEqual = document.getElementById('equal');
+            if (isEqual.checked) {
+                $('[name=barcode]').val($('[name=kode_brg]').val());
+                $('[name=barcode]').attr('readonly', 'readonly');
+            } else {
+                $('[name=barcode]').val('');
+                $('[name=barcode]').removeAttr('readonly');
+            }
+        }
+
+        function eventClickIsEqual() {
+            $('#equal').on('click', function() {
+                barcodeIsEqualItemCode();
+            });
+        }
+
         function inputMask() {
             $('.harga').inputmask("numeric", {
                 radixPoint: ".",
@@ -164,6 +205,7 @@
 
         function init() {
             btnAddGrosir();
+            eventClickIsEqual();
             btnRemoveGrosir();
             inputMask();
         }

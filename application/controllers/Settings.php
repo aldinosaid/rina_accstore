@@ -18,7 +18,7 @@ class Settings extends CI_Controller
 
     public function test_print()
     {
-        $barcode['barcode'] = '2000000000009';
+        $barcode['barcode'] = 'SPT000001';
         do_barcode_print($barcode);
     }
 }

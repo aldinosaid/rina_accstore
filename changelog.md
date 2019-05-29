@@ -3,3 +3,4 @@
 * Add function shop version
 * Add featured filter on laporan page.
 * Add featured level on user login.
+* Add featured barcode on item.

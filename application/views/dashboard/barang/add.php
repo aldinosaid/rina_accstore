@@ -17,6 +17,18 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-3 col-sm-3 col-xs-12 control-label">Checkboxes and radios
+                                <br>
+                                <small class="text-navy">Normal Bootstrap elements</small>
+                            </label>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" class="flat" checked="checked"> Checked
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama Barang</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input type="text" class="form-control" placeholder="Nama Barang" name="nama_brg" required>

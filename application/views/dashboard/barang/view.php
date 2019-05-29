@@ -26,6 +26,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Kode Barang</th>
+                                <th>Barcode</th>
                                 <th>Nama Barang</th>
                                 <th>Qty</th>
                                 <th>Harga beli</th>
@@ -42,6 +43,7 @@
                             <tr>
                             <td><?php echo $i; ?></td>
                             <td><?php echo $value->kode_brg; ?></td>
+                            <td><?php echo $value->barcode; ?></td>
                             <td><?php echo $value->nama_brg; ?></td>
                             <td><?php echo $value->qty; ?></td>
                             <td><?php echo idr_format($value->harga_beli); ?></td>

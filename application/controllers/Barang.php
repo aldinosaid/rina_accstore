@@ -116,6 +116,7 @@ class Barang extends CI_Controller
 
         $args = [
             'kode_brg'      => strtoupper($input['kode_brg']),
+            'barcode'       => strtoupper($input['barcode']),
             'nama_brg'      => $input['nama_brg'],
             'qty'           => $input['qty'],
             'harga_jual'    => idrToString($input['harga_jual']),

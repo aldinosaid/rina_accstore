@@ -93,7 +93,7 @@
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <input type="text" name="kode_brg" id="barang" placeholder="Kode Barang" class="form-control" style="text-transform:uppercase" readonly>
+                    <input type="text" name="kode_brg" id="barang" placeholder="Kode Barang" class="form-control" style="text-transform:uppercase">
                 </div>
                 <div class="form-group">
                     <input type="text" name="qty" placeholder="Qty" class="form-control">
