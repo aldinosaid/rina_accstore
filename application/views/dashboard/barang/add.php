@@ -17,15 +17,21 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 col-sm-3 col-xs-12 control-label">Checkboxes and radios
-                                <br>
-                                <small class="text-navy">Normal Bootstrap elements</small>
-                            </label>
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" class="flat" checked="checked"> Checked
-                                </label>
+                            <div class="col-md-offset-3">
+                                <div class="checkbox">
+                                    <label>
+                                        <div class="icheckbox_flat-green">
+                                            <input type="checkbox" class="flat" id="equal">
+                                        </div>
+                                        Barcode sama dengan kode barang
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Barcode</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" class="form-control" placeholder="0000000000" name="barcode" style="text-transform:uppercase">
                             </div>
                         </div>
                         <div class="form-group">
@@ -38,6 +44,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama Kategori *</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <select class="form-control" id="select-kategori">
+                                    <option>- Pilih Kategori -</option>
                                     <?php foreach ($kategories as $kategori) : ?>
                                         <option value="<?php echo $kategori->kode_kat; ?>"><?php echo $kategori->kategori; ?></option>
                                     <?php endforeach; ?>
@@ -87,7 +94,6 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
-        $(document).ready(function() {
         function btnRemoveGrosir() {
             var removeGrosir = document.querySelectorAll('.remove-grosir-item'); 
             [].forEach.call(removeGrosir, function(elm) {
@@ -98,6 +104,23 @@
                         $('.grosir').append('<p class="text-center grosir-default">Tidak ada data Grosir</p>');
                     }
                 });
+            });
+        }
+
+        function barcodeIsEqualItemCode() {
+            var isEqual = document.getElementById('equal');
+            if (isEqual.checked) {
+                $('[name=barcode]').val($('[name=kode_brg]').val());
+                $('[name=barcode]').attr('readonly', 'readonly');
+            } else {
+                $('[name=barcode]').val('');
+                $('[name=barcode]').removeAttr('readonly');
+            }
+        }
+
+        function eventClickIsEqual() {
+            $('#equal').on('click', function() {
+                barcodeIsEqualItemCode();
             });
         }
 
@@ -147,6 +170,7 @@
         function init() {
             btnAddGrosir();
             btnRemoveGrosir();
+            eventClickIsEqual();
             inputMask();
         }
 

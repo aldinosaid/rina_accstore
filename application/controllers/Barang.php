@@ -149,6 +149,7 @@ class Barang extends CI_Controller
 
         $args = [
             'kode_brg'      => strtoupper($input['kode_brg']),
+            'barcode'       => strtoupper($input['barcode']),
             'nama_brg'      => $input['nama_brg'],
             'qty'           => $input['qty'],
             'harga_jual'    => idrToString($input['harga_jual']),
@@ -170,6 +171,18 @@ class Barang extends CI_Controller
             redirect('barang');
         } else {
             $this->session->set_flashdata('error_notification', 'Data Barang gagal disimpan');
+            redirect('barang');
+        }
+    }
+
+    public function delete($id)
+    {
+        $deleted = $this->barang_model->delete($id);
+        if ($deleted) {
+            $this->session->set_flashdata('notification', 'Data Barang berhasil dihapus');
+            redirect('barang');
+        } else {
+            $this->session->set_flashdata('error_notification', 'Data Barang gagal dihapus');
             redirect('barang');
         }
     }

@@ -84,28 +84,32 @@
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="grosir">
-                                <?php if (sizeof($value->grosir) > 0) : ?>
-                                    <?php foreach ($value->grosir->min as $key_grosir => $value_grosir) : ?>
-                                        <div class="item-grosir col-md-12">
-                                            <div class="col-md-5 col-sm-6 form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Min beli</label>
-                                                <div class="col-md-9 col-sm-9 col-xs-12">
-                                                    <input type="text" class="form-control" name="grosir[min][]" value="<?php echo $value->grosir->min[$key_grosir]; ?>">
+                                <?php if (!empty($value->grosir->min)) : ?>
+                                    <?php if (sizeof($value->grosir->min) > 0 ) : ?>
+                                        <?php foreach ($value->grosir->min as $key_grosir => $value_grosir) : ?>
+                                            <div class="item-grosir col-md-12">
+                                                <div class="col-md-5 col-sm-6 form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Min beli</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                                        <input type="text" class="form-control" name="grosir[min][]" value="<?php echo $value->grosir->min[$key_grosir]; ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-sm-6 form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Harga Grosir</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                                        <input type="text" class="form-control harga" name="grosir[harga_jual_grosir][]" value="<?php echo $value->grosir->harga_jual_grosir[$key_grosir]; ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <a href="javascript:void(0)" class="btn btn-danger remove-grosir-item">
+                                                        <i class="fa fa-minus-circle"></i>
+                                                    </a>
                                                 </div>
                                             </div>
-                                            <div class="col-md-5 col-sm-6 form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Harga Grosir</label>
-                                                <div class="col-md-9 col-sm-9 col-xs-12">
-                                                    <input type="text" class="form-control harga" name="grosir[harga_jual_grosir][]" value="<?php echo $value->grosir->harga_jual_grosir[$key_grosir]; ?>">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <a href="javascript:void(0)" class="btn btn-danger remove-grosir-item">
-                                                    <i class="fa fa-minus-circle"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; ?>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <p class="text-center grosir-default">Tidak ada data Grosir</p>
+                                    <?php endif; ?>
                                 <?php else: ?>
                                     <p class="text-center grosir-default">Tidak ada data Grosir</p>
                                 <?php endif; ?>

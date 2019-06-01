@@ -49,7 +49,7 @@
                             <td><?php echo idr_format($value->harga_beli); ?></td>
                             <td><?php echo idr_format($value->harga_jual); ?></td>
                             <td>
-                            <a href="<?php echo base_url('barang/details/' . $value->id); ?>"><i class="fa fa-eye"></i></a>
+                            <a href="<?php echo base_url('barang/delete/' . $value->id); ?>"><i class="fa fa-trash"></i></a>
                             <a href="<?php echo base_url('barang/edit/' . $value->id); ?>"><i class="fa fa-edit"></i></a>
                             </td>
                             </tr>

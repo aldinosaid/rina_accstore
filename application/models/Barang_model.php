@@ -11,6 +11,12 @@ class Barang_model extends CI_Model
                     ->insert('barang', $args);
     }
 
+    public function delete($id)
+    {
+        return $this->db
+                    ->delete('barang', ['id' => $id]);
+    }
+
     public function update($args, $id)
     {
         return $this->db
