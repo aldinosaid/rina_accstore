@@ -110,6 +110,27 @@ class Barang extends CI_Controller
         echo json_encode($barang);
     }
 
+    public function ajaxCariBarcode($barcode)
+    {
+        $data = [
+            'barcode' => $barcode
+        ];
+
+        $brg = $this->barang_model->getByBarcode($data);
+
+        $brg = $brg[0];
+
+        $barang = [
+            'kode_brg'  => $brg->kode_brg,
+            'barcode'  => $brg->barcode,
+            'harga'     => idr_format($brg->harga_jual),
+            'nama_brg'  => $brg->nama_brg,
+            'grosir'    => json_decode($brg->grosir)
+        ];
+        
+        echo json_encode($barang);
+    }
+
     public function update($id)
     {
         $input = $this->input->post();

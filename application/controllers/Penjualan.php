@@ -38,21 +38,44 @@ class Penjualan extends CI_Controller
         echo json_encode($data);
     }
 
+    private function checkItem($barcode)
+    {
+        $data = [
+            'barcode' => $barcode
+        ];
+
+        $brg = $this->penjualan_model->getItemByBarcode($data);
+
+        return $brg;
+    }
+
     public function add()
     {
         $input = $this->input->post();
         $html = '';
-        $barang = $this->penjualan_model->getBarangByKode($input['kode_brg']);
+        $barang = $this->penjualan_model->getBarangByBarcode($input['barcode']);
         $data = [
-            'kode_brg'      => $input['kode_brg'],
+            'kode_brg'      => $barang[0]->kode_brg,
             'qty'           => $input['qty'],
             'harga_jual'    => $barang[0]->harga_jual,
             'harga_beli'    => $barang[0]->harga_beli
         ];
 
-        $tambah = $this->penjualan_model->addKeranjang($data);
+        $isAlreadyItem = $this->checkItem($input['barcode']);
+        if ($isAlreadyItem) {
+            $data['qty'] = (int)$input['qty']+(int)$isAlreadyItem[0]->qty;
+            $where['barcode'] = $input['barcode'];
+            if ($barang[0]->qty >= $data['qty']) {
+                $query = $this->penjualan_model->updateKeranjang($data, $where);
+            } else {
+                $query = true;
+            }
+        } else {
+            $data['barcode'] = $input['barcode'];
+            $query = $this->penjualan_model->addKeranjang($data);
+        }
 
-        if ($tambah) {
+        if ($query) {
             $keranjang = $this->penjualan_model->getAll();
             $i = 1;
             foreach ($keranjang as $value) {

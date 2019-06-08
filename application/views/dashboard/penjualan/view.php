@@ -93,13 +93,17 @@
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <input type="text" name="kode_brg" id="barang" placeholder="Kode Barang" class="form-control" style="text-transform:uppercase">
+                    <input type="text" name="barcode" id="barcode" placeholder="Barcode" class="form-control" style="text-transform:uppercase">
                 </div>
                 <div class="form-group">
                     <input type="text" name="qty" placeholder="Qty" class="form-control">
                 </div>
                 <div class="table-responsive">
                     <table class="table">
+                        <tr>
+                            <th>Kode Barang</th>
+                            <td id="kd_brg">-</td>
+                        </tr>
                         <tr>
                             <th>Nama Barang</th>
                             <td id="nm_brg">-</td>
@@ -110,7 +114,7 @@
                         </tr>
                     </table>
                 </div>
-                <button class="btn btn-primary" id="cari-barang"><i class="fa fa-search"></i> Cari Barang</button>
+                <button class="btn btn-primary hidden" id="cari-barang"><i class="fa fa-search"></i> Cari Barang</button>
                 <button class="btn btn-success" id="btn-keranjang"><i class="fa fa-shopping-cart"></i> Tambah Ke daftar belanja</button>
             </div>
         </div>
@@ -128,7 +132,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Kode Barang</th>
+                            <th>Barcode</th>
                             <th>Nama Barang</th>
                             <th>Harga</th>
                             <th>Action</th>
@@ -142,11 +146,11 @@
                         ?>
                         <tr>
                         <td><?php echo $i; ?></td>
-                        <td><?php echo $value->kode_brg; ?></td>
+                        <td><?php echo $value->barcode; ?></td>
                         <td><?php echo $value->nama_brg; ?></td>
                         <td><?php echo idr_format($value->harga_jual); ?></td>
                         <td>
-                        <button class="btn btn-primary pilih-barang" kode-brg="<?php echo $value->kode_brg; ?>"><i class="fa fa-plus"></i> Pilih</button>
+                        <button class="btn btn-primary pilih-barang" barcode="<?php echo $value->barcode; ?>"><i class="fa fa-plus"></i> Pilih</button>
                         </td>
                         </tr>
                         <?php

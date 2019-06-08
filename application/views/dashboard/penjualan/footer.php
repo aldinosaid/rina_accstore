@@ -14,7 +14,7 @@
                     url : baseUrl+'barang/findMaxId/'+kodeKat,
                     dataType : 'json'
                 }).done(function(r){
-                    $('[name=kode_brg]').val(r.kode_brg);
+                    $('[name=barcode]').val(r.barcode);
                 }); 
             });
         }
@@ -26,10 +26,9 @@
 
             tableCari.on( 'draw.dt', function () {
                 $('.pilih-barang').click(function() {
-                    var kode_brg = $(this).attr('kode-brg');
-                    $('[name=kode_brg]').val(kode_brg);
+                    var barcode = $(this).attr('barcode');
+                    $('[name=barcode]').val(barcode);
                     $('#modal-data-barang').modal('hide');
-                    cariBarang();
                 });
             });
         }
@@ -72,31 +71,31 @@
                 $('#modal-data-barang').modal('show');
                 $('#modal-data-barang').on('shown.bs.modal', function() {
                     $('.pilih-barang').click(function() {
-                        var kode_brg = $(this).attr('kode-brg');
-                        $('[name=kode_brg]').val(kode_brg);
+                        var barcode = $(this).attr('barcode');
+                        $('[name=barcode]').val(barcode);
                         $('[name=qty]').val(1);
                         $('#modal-data-barang').modal('hide');
-                        $("#barang").click();
+                        $("#barcode").change();
                     });
                 });
             });
         }
 
         function kodeBarangChange() {
-            $("#barang").change(function(){
+            $("#barcode").change(function(e){
                 cariBarang();
             });
         }
 
         function btnKeranjang() {
             $('#btn-keranjang').click(function() {
-                var kode_brg = $('[name=kode_brg]').val();
+                var barcode = $('[name=barcode]').val();
                 var qty = 0;
                 var harga = $('[hrg-brg]').attr('hrg-brg');
                 qty = $('[name=qty]').val();
 
                 var data = {
-                    kode_brg : kode_brg,
+                    barcode : barcode,
                     qty     : qty,
                     harga   : harga
                 }
@@ -104,10 +103,12 @@
                 $.ajax({
                     url : baseUrl+'penjualan/add',
                     type : 'post',
+                    dataType : 'json',
                     data : data
                 }).done(function(r) {
-                    $('.keranjang tbody').html(r);
+                    $('.keranjang tbody').html(r.html);
                     ajaxCount();
+                    resetForm();
                 });
             });
         }
@@ -122,12 +123,17 @@
         }
 
         function cariBarang() {
-            var kode_brg = $('[name=kode_brg]').val();
+            var barcode = $('[name=barcode]').val();
             $.ajax({
-                url : baseUrl+'barang/ajaxCariId/'+kode_brg,
+                url : baseUrl+'barang/ajaxCariBarcode/'+barcode,
                 dataType : 'json'
             }).done(function(r) {
                 var grosir = r.grosir
+                $('#kd_brg').html(r.kode_brg);
+                $('#nm_brg').html(r.nama_brg);
+                $('#hrg_brg').html(r.harga);
+                $('#hrg_brg').attr('hrg-brg', r.harga);
+
                 if (grosir) {
                     var minGrosir = grosir.min;
                     minGrosir.forEach(function(val, i){
@@ -135,12 +141,20 @@
                         console.log(val);
                         console.log(hargaGrosir);
                     });
+                } else {
+                    $('[name=qty]').val(1);
+                    $('#btn-keranjang').click();
                 }
-                $('#nm_brg').html(r.nama_brg);
-                $('#hrg_brg').html(r.harga);
-                $('#hrg_brg').attr('hrg-brg', r.harga);
-                $('#btn-keranjang').focus();
             });
+        }
+
+        function resetForm() {
+            $('[name=barcode]').val('');
+            $('#kd_brg').html('-');
+            $('#nm_brg').html('-');
+            $('#hrg_brg').html('-');
+            $('#hrg_brg').attr('hrg-brg', '0');
+            $('[name=qty]').val(0);
         }
 
         function cetak() {
@@ -176,6 +190,7 @@
             $('#modal-data-barang').on('hidden.bs.modal', function () {
               $(this).data('bs.modal', null);
             });
+            $('#barcode').focus();
             modal();
             kodeBarangChange();
             count();

@@ -11,10 +11,25 @@ class Penjualan_model extends CI_Model
                     ->insert('keranjang', $args);
     }
 
+    public function updateKeranjang($args, $where)
+    {
+        return $this->db
+                    ->where($where)
+                    ->update('keranjang', $args);
+    }
+
     public function count()
     {
         return $this->db
                     ->select('sum(qty*harga_jual) as total')
+                    ->get('keranjang')
+                    ->result();
+    }
+
+    public function getItemByBarcode($data)
+    {
+        return $this->db
+                    ->where($data)
                     ->get('keranjang')
                     ->result();
     }
@@ -37,11 +52,11 @@ class Penjualan_model extends CI_Model
         $this->db->query($sql);
     }
 
-    public function getBarangByKode($kode_brg)
+    public function getBarangByBarcode($barcode)
     {
         $where = [
             'flag' => 0,
-            'kode_brg' => $kode_brg
+            'barcode' => $barcode
         ];
 
         return $this->db
