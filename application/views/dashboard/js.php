@@ -50,3 +50,5 @@
 
 <!-- Custom Theme Scripts -->
 <script src="<?php echo base_url('assets/build/js/custom.min.js'); ?>"></script>
+<!-- select2 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>

@@ -29,6 +29,8 @@
 
     <!-- Custom Theme Style -->
     <link href="<?php echo base_url('assets/build/css/custom.min.css'); ?>" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body class="nav-sm">

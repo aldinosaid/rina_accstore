@@ -23,6 +23,9 @@
                     <li><a href="<?php echo base_url('laporan/pembelian'); ?>">Pembelian</a></li>
                 </ul>
             </li>
+            <li>
+                <a href="<?php echo base_url('print_barcode'); ?>"><i class="fa fa-barcode"></i> Print Barcode</a>
+            </li>
             <?php endif ?>
             <li><a><i class="fa fa-gear"></i> Settings <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">

@@ -140,14 +140,17 @@ function do_barcode_print($dataBarcode)
         /* Print a "Hello world" receipt" */
         $printer = new Printer($connector);
         // Set Header Invoice
-        $printer -> text("-------------------------------\n");
-        $printer -> text("Min 6 @ Rp. 10.000,-\n");
-        $printer -> setBarcodeHeight(110);
-        $printer -> barcode($dataBarcode['barcode'], Printer::BARCODE_JAN13);
-        $printer -> text("KODE:2000000000009\n");
-        $printer -> text("SEPATU KACA BIRU\n");
-        $printer -> text("-------------------------------\n");
-        $printer -> text("");
+        for ($i=0; $i < $dataBarcode['qty']; $i++) { 
+            $printer -> setJustification(Printer::JUSTIFY_RIGHT);
+            $printer -> text("Harga @ ". $dataBarcode['harga'] ."\n");
+            $printer -> setBarcodeHeight(110);
+            $printer -> setBarcodeWidth(2);
+            $printer -> setBarcodeTextPosition(Printer::BARCODE_TEXT_BELOW);
+            $printer -> barcode($dataBarcode['barcode'], Printer::BARCODE_CODE39);
+            $printer -> text($dataBarcode['nama_barang']." \n");
+            $printer -> feed(2);
+        }
+
         $printer -> cut();
             
         /* Close printer */

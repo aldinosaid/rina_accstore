@@ -82,7 +82,8 @@
         }
 
         function kodeBarangChange() {
-            $("#barcode").change(function(e){
+            $("#barcode").keypress(function(e){
+                $(this).select();
                 cariBarang();
             });
         }
@@ -135,11 +136,18 @@
                 $('#hrg_brg').attr('hrg-brg', r.harga);
 
                 if (grosir) {
+                    var fQty = $('[name=qty]').val();
+                    var newQty = fQty + 1;
+                    $('[name=qty]').val(newQty);
                     var minGrosir = grosir.min;
+
                     minGrosir.forEach(function(val, i){
                         var hargaGrosir = grosir.harga_jual_grosir[i];
                         console.log(val);
-                        console.log(hargaGrosir);
+                        if (newQty >= val) {
+                            $('#hrg_brg').html(hargaGrosir);
+                            $('#hrg_brg').attr('hrg-brg', hargaGrosir);
+                        }
                     });
                 } else {
                     $('[name=qty]').val(1);

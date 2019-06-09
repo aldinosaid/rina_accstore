@@ -65,6 +65,14 @@ class Barang_model extends CI_Model
                     ->result();
     }
 
+    public function getItemOrderByBarcode() {
+
+        return $this->db
+                    ->where("barcode != ''", null, false)
+                    ->get('barang')
+                    ->result();   
+    }
+
     public function getBarangById($id)
     {
         $where = [
