@@ -1,9 +1,5 @@
 <script type="text/javascript">var baseUrl = '<?php echo base_url(); ?>';</script>
 <script type="text/javascript">
-    $('#all_finalist').DataTable({
-      fixedHeader: true
-    });
-
     $(document).ready(function() {
         
         function selectKategori() {
@@ -83,8 +79,7 @@
 
         function kodeBarangChange() {
             $("#barcode").keypress(function(e){
-                $(this).select();
-                cariBarang();
+                cariBarang(this);
             });
         }
 
@@ -104,10 +99,9 @@
                 $.ajax({
                     url : baseUrl+'penjualan/add',
                     type : 'post',
-                    dataType : 'json',
                     data : data
                 }).done(function(r) {
-                    $('.keranjang tbody').html(r.html);
+                    $('.keranjang tbody').html(r);
                     ajaxCount();
                     resetForm();
                 });
@@ -123,7 +117,7 @@
             });
         }
 
-        function cariBarang() {
+        function cariBarang(elm) {
             var barcode = $('[name=barcode]').val();
             $.ajax({
                 url : baseUrl+'barang/ajaxCariBarcode/'+barcode,
@@ -136,8 +130,9 @@
                 $('#hrg_brg').attr('hrg-brg', r.harga);
 
                 if (grosir) {
+                    $(elm).select();
                     var fQty = $('[name=qty]').val();
-                    var newQty = fQty + 1;
+                    var newQty = parseInt(fQty) + 1;
                     $('[name=qty]').val(newQty);
                     var minGrosir = grosir.min;
 
@@ -177,10 +172,11 @@
                 }
                 $.ajax({
                     url : baseUrl+'penjualan/cetak',
-                    method : 'post',
+                    type : 'post',
                     data : data
                 }).done(function(r){
-                    location.reload();
+                    console.log(r);
+                    // location.reload();
                 });
             });
         }

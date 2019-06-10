@@ -130,4 +130,10 @@ class Penjualan_model extends CI_Model
                     ->get('barang')
                     ->result();
     }
+
+    public function factory_reset() {
+        if ($this->db->query('TRUNCATE table penjualan')) {
+            return $this->db->query('TRUNCATE table det_penjualan');
+        }
+    }
 }

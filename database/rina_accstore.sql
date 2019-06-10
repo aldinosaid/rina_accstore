@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2019 at 11:00 AM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 7.0.30
+-- Generation Time: Jun 10, 2019 at 06:45 PM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 7.0.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -67,8 +67,8 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id`, `kode_brg`, `barcode`, `nama_brg`, `qty`, `harga_beli`, `harga_jual`, `grosir`, `flag`) VALUES
-(1, 'SPT000001', 'SPT000001', 'Sepatu Kaca', 101, 12000, 25000, '{\"min\":[\"2\"],\"harga_jual_grosir\":[\"10000\"]}', 0),
-(2, 'SPT000002', 'SPT000002', 'Sepatu Bola', 87, 10000, 15000, '', 0),
+(1, 'SPT000001', 'SPT000001', 'Sepatu Kaca', 85, 12000, 25000, '{\"min\":[\"2\"],\"harga_jual_grosir\":[\"10000\"]}', 0),
+(2, 'SPT000002', 'SPT000002', 'Sepatu Bola', 2, 10000, 15000, '', 0),
 (3, 'SGP000007', 'SGP000007', 'Segiempat 15', 38, 12500, 15000, '', 0),
 (4, 'SPT000003', '', 'Nike Lokal', 10, 50000, 60000, '', 0),
 (5, 'COS000001', '', 'Serum Gold', 47, 8000, 12000, '', 0),
@@ -1122,7 +1122,14 @@ INSERT INTO `det_penjualan` (`id`, `no_nota`, `kode_brg`, `qty`, `harga_beli`, `
 (928, '3010180004', 'SPT000001', 1, 12000, 25000),
 (929, '3010180005', 'SPT000001', 1, 12000, 25000),
 (930, '3110180001', 'SPT000002', 1, 10000, 15000),
-(931, '0111180001', 'SPT000001', 1, 12000, 25000);
+(931, '0111180001', 'SPT000001', 1, 12000, 25000),
+(932, '1006190001', 'SPT000001', 4, 12000, 10000),
+(933, '1006190002', 'SPT000001', 4, 12000, 10000),
+(934, '1006190003', 'SPT000001', 4, 12000, 10000),
+(935, '1006190004', 'SPT000001', 4, 12000, 10000),
+(936, '1006190005', 'SPT000002', 2, 10000, 15000),
+(937, '1006190006', 'SPT000002', 1, 10000, 15000),
+(938, '1006190007', 'SPT000002', 1, 10000, 15000);
 
 --
 -- Triggers `det_penjualan`
@@ -1175,6 +1182,7 @@ INSERT INTO `kategori` (`id`, `kode_kat`, `kategori`, `flag`) VALUES
 
 CREATE TABLE `keranjang` (
   `kode_brg` varchar(10) NOT NULL,
+  `barcode` varchar(20) NOT NULL,
   `qty` tinyint(4) NOT NULL,
   `harga_jual` int(11) NOT NULL,
   `harga_beli` int(11) NOT NULL
@@ -1600,7 +1608,14 @@ INSERT INTO `penjualan` (`id`, `no_nota`, `total`, `bayar`, `kembali`, `tanggal`
 (397, '3010180004', 0, 0, 0, '2018-10-30 04:53:32', 0),
 (398, '3010180005', 0, 0, 0, '2018-10-30 12:36:57', 0),
 (399, '3110180001', 0, 0, 0, '2018-10-31 12:45:49', 0),
-(400, '0111180001', 0, 0, 0, '2018-11-01 07:12:14', 0);
+(400, '0111180001', 0, 0, 0, '2018-11-01 07:12:14', 0),
+(401, '1006190001', 0, 0, 0, '2019-06-10 18:06:51', 0),
+(402, '1006190002', 0, 0, 0, '2019-06-10 18:07:24', 0),
+(403, '1006190003', 0, 0, 0, '2019-06-10 18:08:33', 0),
+(404, '1006190004', 0, 0, 0, '2019-06-10 18:10:47', 0),
+(405, '1006190005', 0, 0, 0, '2019-06-10 18:11:59', 0),
+(406, '1006190006', 0, 0, 0, '2019-06-10 18:12:42', 0),
+(407, '1006190007', 15000, 20000, 5000, '2019-06-10 18:15:55', 0);
 
 --
 -- Indexes for dumped tables
@@ -1632,6 +1647,13 @@ ALTER TABLE `kategori`
   ADD UNIQUE KEY `kode_kat` (`kode_kat`);
 
 --
+-- Indexes for table `keranjang`
+--
+ALTER TABLE `keranjang`
+  ADD UNIQUE KEY `kode_brg` (`kode_brg`),
+  ADD UNIQUE KEY `barcode` (`barcode`);
+
+--
 -- Indexes for table `penjualan`
 --
 ALTER TABLE `penjualan`
@@ -1657,7 +1679,7 @@ ALTER TABLE `barang`
 -- AUTO_INCREMENT for table `det_penjualan`
 --
 ALTER TABLE `det_penjualan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=932;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=939;
 
 --
 -- AUTO_INCREMENT for table `kategori`
@@ -1669,7 +1691,7 @@ ALTER TABLE `kategori`
 -- AUTO_INCREMENT for table `penjualan`
 --
 ALTER TABLE `penjualan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=401;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=408;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

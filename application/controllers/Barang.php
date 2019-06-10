@@ -119,13 +119,20 @@ class Barang extends CI_Controller
         $brg = $this->barang_model->getByBarcode($data);
 
         $brg = $brg[0];
+        $grosir_data = json_decode($brg->grosir);
+        
+        if(sizeof($grosir_data)) {
+            foreach ($grosir_data->min as $key => $value) {
+                $grosir_data->harga_jual_grosir[$key] = idr_format($grosir_data->harga_jual_grosir[$key]); 
+            }
+        }
 
         $barang = [
             'kode_brg'  => $brg->kode_brg,
             'barcode'  => $brg->barcode,
             'harga'     => idr_format($brg->harga_jual),
             'nama_brg'  => $brg->nama_brg,
-            'grosir'    => json_decode($brg->grosir)
+            'grosir'    => $grosir_data
         ];
         
         echo json_encode($barang);

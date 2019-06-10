@@ -31,6 +31,7 @@
                 <ul class="nav child_menu">
                     <?php if (user_level($this->session->userdata('level')) == 'Admin') : ?>
                     <li><a href="<?php echo base_url('admin_login'); ?>">Pengguna</a></li>
+                    <li><a href="<?php echo base_url('settings/factory_reset'); ?>">Factory Reset</a></li>
                     <?php endif; ?>
                     <li><a href="<?php echo base_url('settings/test_print'); ?>">Test Print</a></li>
                 </ul>

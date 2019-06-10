@@ -96,7 +96,7 @@
                     <input type="text" name="barcode" id="barcode" placeholder="Barcode" class="form-control" style="text-transform:uppercase">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="qty" placeholder="Qty" class="form-control">
+                    <input type="text" name="qty" placeholder="Qty" class="form-control" value="0">
                 </div>
                 <div class="table-responsive">
                     <table class="table">

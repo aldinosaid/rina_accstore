@@ -85,4 +85,9 @@ class Barang_model extends CI_Model
                     ->get('barang')
                     ->result();
     }
+
+    public function factory_reset() {
+        return $this->db
+                    ->query('TRUNCATE table barang');   
+    }
 }

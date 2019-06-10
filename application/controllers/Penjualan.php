@@ -57,7 +57,7 @@ class Penjualan extends CI_Controller
         $data = [
             'kode_brg'      => $barang[0]->kode_brg,
             'qty'           => $input['qty'],
-            'harga_jual'    => $barang[0]->harga_jual,
+            'harga_jual'    => idrToString($input['harga']),
             'harga_beli'    => $barang[0]->harga_beli
         ];
 
@@ -147,7 +147,6 @@ class Penjualan extends CI_Controller
 
     public function cetak()
     {
-        $this->load->library('pdfgenerator');
         $total = $this->input->post('total');
         $bayar = $this->input->post('bayar');
         $kembali = $this->input->post('kembali');
@@ -157,9 +156,9 @@ class Penjualan extends CI_Controller
         $dataNota = [
             'no_nota'   => $no_nota,
             'tanggal'   => $date,
-            'total'     => $total,
-            'bayar'     => $bayar,
-            'kembali'   => $kembali
+            'total'     => idrToString($total),
+            'bayar'     => idrToString($bayar),
+            'kembali'   => idrToString($kembali)
         ];
 
         $save_nota = $this->penjualan_model->createNota($dataNota);

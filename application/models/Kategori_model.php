@@ -38,4 +38,9 @@ class Kategori_model extends CI_Model
                     ->get('kategori')
                     ->result();
     }
+
+    public function factory_reset() {
+        return $this->db
+                    ->query('TRUNCATE table kategori');   
+    }
 }
