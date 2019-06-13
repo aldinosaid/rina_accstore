@@ -121,9 +121,11 @@ class Barang extends CI_Controller
         $brg = $brg[0];
         $grosir_data = json_decode($brg->grosir);
         
-        if(sizeof($grosir_data)) {
-            foreach ($grosir_data->min as $key => $value) {
-                $grosir_data->harga_jual_grosir[$key] = idr_format($grosir_data->harga_jual_grosir[$key]); 
+        if (is_array($grosir_data)) {
+            if(sizeof($grosir_data)) {
+                foreach ($grosir_data->min as $key => $value) {
+                    $grosir_data->harga_jual_grosir[$key] = idr_format($grosir_data->harga_jual_grosir[$key]); 
+                }
             }
         }
 

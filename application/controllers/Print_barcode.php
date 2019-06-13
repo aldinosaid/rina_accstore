@@ -45,4 +45,9 @@ class Print_barcode extends CI_Controller
         echo do_barcode_print($data);
 
     }
+
+    public function enable_code39()
+    {
+        enable_code39();
+    }
 }

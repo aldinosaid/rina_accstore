@@ -12,11 +12,19 @@ function cnull($value)
     return (empty($value))?'':$value;
 }
 
-function doGenerateBarcode($kode_brg)
+function enable_code39()
 {
-    $bar = new Picqer\Barcode\BarcodeGeneratorHTML();
-    $code = $bar->getBarcode($kode_brg, $bar::TYPE_CODE_128);
-    return $code;
+    $connector = new WindowsPrintConnector("POS-58");
+
+    /* Print a "Hello world" receipt" */
+    $printer = new Printer($connector);
+    // Set Header Invoice
+    $printer -> barcode('{A00221', Printer::BARCODE_CODE128);
+    $printer -> text("Enable code39\n");
+    $printer -> cut();
+        
+    /* Close printer */
+    $printer -> close();
 }
 
 function shop_version()
@@ -167,7 +175,7 @@ function do_print($dataNota)
     try {
         // Enter the share name for your USB printer here
         // $connector = null;
-        $connector = new WindowsPrintConnector("RINAACC");
+        $connector = new WindowsPrintConnector("POS-58");
 
         /* Print a "Hello world" receipt" */
         $printer = new Printer($connector);
