@@ -79,7 +79,9 @@
 
         function kodeBarangChange() {
             $("#barcode").keypress(function(e){
-                cariBarang(this);
+                if (e.keyCode == 13) {
+                    cariBarang(this);
+                }
             });
         }
 
@@ -176,7 +178,7 @@
                     data : data
                 }).done(function(r){
                     console.log(r);
-                    // location.reload();
+                    location.reload();
                 });
             });
         }
