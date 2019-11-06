@@ -50,11 +50,11 @@
                             <th>Laba</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <?php
                             $no = 1;
-                        foreach ($semua_penjualan as $penjualan) :
+                            $laba = 0;
+                            foreach ($semua_penjualan as $penjualan) :
                         ?>
                         <tr>
                         <td><?php echo $no; ?></td>
@@ -63,13 +63,21 @@
                         <td><?php echo $penjualan->qty; ?></td>
                         <td><?php echo idr_format($penjualan->harga_pokok); ?></td>
                         <td><?php echo idr_format($penjualan->total); ?></td>
-                        <td><?php echo $penjualan->laba; ?></td>
+                        <td><?php echo idr_format($penjualan->laba); ?></td>
                         </tr>
                         <?php
-                        $no++;
-                        endforeach;
+                            $laba += $penjualan->laba;
+                            $no++;
+                            endforeach;
                         ?>
                     </tbody>
+                    <tfoot> 
+                        <tr>
+                            <th colspan="5" class="text-center">Jumlah</th>
+                            <th><?php echo idr_format($total); ?></th>
+                            <th><?php echo idr_format($laba); ?></th>
+                        </tr>
+                    </tfoot>
                 </table>
                 <div class="col-md-6 col-sm-12 pull-right">
                     <div class="table-responsive">
@@ -127,34 +135,62 @@
     $this->load->view('dashboard/js');
 ?>
 <script type="text/javascript">
-    $("#laporan_penjualan").DataTable({
-      dom: "Blfrtip",
-      buttons: [
-        {
-          extend: "copy",
-          className: "btn-sm"
-        },
-        {
-          extend: "csv",
-          className: "btn-sm"
-        },
-        {
-          extend: "excel",
-          className: "btn-sm"
-        },
-        {
-          extend: "pdfHtml5",
-          className: "btn-sm"
-        },
-        {
-          extend: "print",
-          className: "btn-sm"
-        },
-      ],
-      responsive: true
-    });
-    
     $(document).ready(function() {
+        function getDateNow()
+        {
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; 
+            var yyyy = today.getFullYear();
+            if(dd<10) 
+            {
+                dd='0'+dd;
+            } 
+
+            if(mm<10) 
+            {
+                mm='0'+mm;
+            }
+            today = dd+'_'+mm+'_'+yyyy;
+            return today;
+        }
+
+        $("#laporan_penjualan").DataTable({
+          dom: "Blfrtip",
+          buttons: [
+            {
+              extend: "copy",
+              title: 'Laporan tanggal '+getDateNow(),
+              className: "btn-sm",
+              footer: true
+            },
+            {
+              extend: "csvHtml5",
+              title: 'Laporan tanggal '+getDateNow(),
+              className: "btn-sm",
+              footer: true
+            },
+            {
+              extend: "excelHtml5",
+              title: 'Laporan tanggal '+getDateNow(),
+              className: "btn-sm",
+              footer: true
+            },
+            {
+              extend: "pdfHtml5",
+              title: 'Laporan tanggal '+getDateNow(),
+              className: "btn-sm",
+              footer: true
+            },
+            {
+              extend: "print",
+              title: 'Laporan tanggal '+getDateNow(),
+              className: "btn-sm",
+              footer: true
+            },
+          ],
+          responsive: true
+        });
 
         function init_datetime() {
             $('#startDate').datetimepicker({
