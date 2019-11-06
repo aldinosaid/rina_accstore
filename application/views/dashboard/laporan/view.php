@@ -47,6 +47,7 @@
                             <th>Qty</th>
                             <th>Harga Pokok</th>
                             <th>Total</th>
+                            <th>Laba</th>
                         </tr>
                     </thead>
 
@@ -62,6 +63,7 @@
                         <td><?php echo $penjualan->qty; ?></td>
                         <td><?php echo idr_format($penjualan->harga_pokok); ?></td>
                         <td><?php echo idr_format($penjualan->total); ?></td>
+                        <td><?php echo $penjualan->laba; ?></td>
                         </tr>
                         <?php
                         $no++;

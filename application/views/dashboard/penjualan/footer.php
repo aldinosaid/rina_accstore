@@ -81,7 +81,15 @@
             $("#barcode").keypress(function(e){
                 if (e.keyCode == 13) {
                     cariBarang(this);
+                    $(this).select();
                 }
+            });
+        }
+
+        function qtyChange()
+        {
+            $('[name=qty]').keypress(function() {
+                cariBarang($("#barcode"));
             });
         }
 
@@ -132,7 +140,6 @@
                 $('#hrg_brg').attr('hrg-brg', r.harga);
 
                 if (grosir) {
-                    $(elm).select();
                     var fQty = $('[name=qty]').val();
                     var newQty = parseInt(fQty) + 1;
                     $('[name=qty]').val(newQty);
@@ -203,6 +210,7 @@
             dataTable();
             btnKeranjang();
             cetak();
+            // qtyChange();
         }
 
         init();
