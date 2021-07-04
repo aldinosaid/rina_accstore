@@ -18,33 +18,35 @@ use OutOfBoundsException;
  *
  * @package php-font-lib
  */
-class Collection extends BinaryStream implements Iterator, Countable {
+class Collection extends BinaryStream implements Iterator, Countable
+{
   /**
    * Current iterator position.
    *
    * @var integer
    */
-  private $position = 0;
+    private $position = 0;
 
-  protected $collectionOffsets = array();
-  protected $collection = array();
-  protected $version;
-  protected $numFonts;
+    protected $collectionOffsets = array();
+    protected $collection = array();
+    protected $version;
+    protected $numFonts;
 
-  function parse() {
-    if (isset($this->numFonts)) {
-      return;
+    function parse()
+    {
+        if (isset($this->numFonts)) {
+            return;
+        }
+
+        $this->read(4); // tag name
+
+        $this->version  = $this->readFixed();
+        $this->numFonts = $this->readUInt32();
+
+        for ($i = 0; $i < $this->numFonts; $i++) {
+            $this->collectionOffsets[] = $this->readUInt32();
+        }
     }
-
-    $this->read(4); // tag name
-
-    $this->version  = $this->readFixed();
-    $this->numFonts = $this->readUInt32();
-
-    for ($i = 0; $i < $this->numFonts; $i++) {
-      $this->collectionOffsets[] = $this->readUInt32();
-    }
-  }
 
   /**
    * @param int $fontId
@@ -52,49 +54,56 @@ class Collection extends BinaryStream implements Iterator, Countable {
    * @throws OutOfBoundsException
    * @return File
    */
-  function getFont($fontId) {
-    $this->parse();
+    function getFont($fontId)
+    {
+        $this->parse();
 
-    if (!isset($this->collectionOffsets[$fontId])) {
-      throw new OutOfBoundsException();
+        if (!isset($this->collectionOffsets[$fontId])) {
+            throw new OutOfBoundsException();
+        }
+
+        if (isset($this->collection[$fontId])) {
+            return $this->collection[$fontId];
+        }
+
+        $font    = new File();
+        $font->f = $this->f;
+        $font->setTableOffset($this->collectionOffsets[$fontId]);
+
+        return $this->collection[$fontId] = $font;
     }
 
-    if (isset($this->collection[$fontId])) {
-      return $this->collection[$fontId];
+    function current()
+    {
+        return $this->getFont($this->position);
     }
 
-    $font    = new File();
-    $font->f = $this->f;
-    $font->setTableOffset($this->collectionOffsets[$fontId]);
+    function key()
+    {
+        return $this->position;
+    }
 
-    return $this->collection[$fontId] = $font;
-  }
+    function next()
+    {
+        return ++$this->position;
+    }
 
-  function current() {
-    return $this->getFont($this->position);
-  }
+    function rewind()
+    {
+        $this->position = 0;
+    }
 
-  function key() {
-    return $this->position;
-  }
+    function valid()
+    {
+        $this->parse();
 
-  function next() {
-    return ++$this->position;
-  }
+        return isset($this->collectionOffsets[$this->position]);
+    }
 
-  function rewind() {
-    $this->position = 0;
-  }
+    function count()
+    {
+        $this->parse();
 
-  function valid() {
-    $this->parse();
-
-    return isset($this->collectionOffsets[$this->position]);
-  }
-
-  function count() {
-    $this->parse();
-
-    return $this->numFonts;
-  }
+        return $this->numFonts;
+    }
 }

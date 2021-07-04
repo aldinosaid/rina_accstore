@@ -41,21 +41,25 @@ class Text extends AbstractRenderer
     function render(Frame $frame)
     {
         $text = $frame->get_text();
-        if (trim($text) === "")
+        if (trim($text) === "") {
             return;
+        }
 
         $style = $frame->get_style();
         list($x, $y) = $frame->get_position();
         $cb = $frame->get_containing_block();
 
-        if (($ml = $style->margin_left) === "auto" || $ml === "none")
+        if (($ml = $style->margin_left) === "auto" || $ml === "none") {
             $ml = 0;
+        }
 
-        if (($pl = $style->padding_left) === "auto" || $pl === "none")
+        if (($pl = $style->padding_left) === "auto" || $pl === "none") {
             $pl = 0;
+        }
 
-        if (($bl = $style->border_left_width) === "auto" || $bl === "none")
+        if (($bl = $style->border_left_width) === "auto" || $bl === "none") {
             $bl = 0;
+        }
 
         $x += $style->length_in_pt(array($ml, $pl, $bl), $cb["w"]);
 
@@ -72,9 +76,16 @@ class Text extends AbstractRenderer
           $text
         );*/
 
-        $this->_canvas->text($x, $y, $text,
-            $font, $size,
-            $style->color, $word_spacing, $char_spacing);
+        $this->_canvas->text(
+            $x,
+            $y,
+            $text,
+            $font,
+            $size,
+            $style->color,
+            $word_spacing,
+            $char_spacing
+        );
 
         $line = $frame->get_containing_line();
 
@@ -114,20 +125,21 @@ class Text extends AbstractRenderer
         // Draw all applicable text-decorations.  Start with the root and work our way down.
         $p = $frame;
         $stack = array();
-        while ($p = $p->get_parent())
+        while ($p = $p->get_parent()) {
             $stack[] = $p;
+        }
 
         while (isset($stack[0])) {
             $f = array_pop($stack);
 
-            if (($text_deco = $f->get_style()->text_decoration) === "none")
+            if (($text_deco = $f->get_style()->text_decoration) === "none") {
                 continue;
+            }
 
             $deco_y = $y; //$line->y;
             $color = $f->get_style()->color;
 
             switch ($text_deco) {
-
                 default:
                     continue;
 

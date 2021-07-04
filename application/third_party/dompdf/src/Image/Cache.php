@@ -70,7 +70,6 @@ class Cache
         $enable_remote = $dompdf->get_option("enable_remote");
 
         try {
-
             // Remote not allowed and is not DataURI
             if (!$enable_remote && $remote && !$data_uri) {
                 throw new ImageException("Remote file access is disabled.", E_WARNING);

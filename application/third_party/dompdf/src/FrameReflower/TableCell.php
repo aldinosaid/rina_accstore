@@ -44,24 +44,32 @@ class TableCell extends Block
         //FIXME?
         $h = $this->_frame->get_containing_block("h");
 
-        $left_space = $style->length_in_pt(array($style->margin_left,
+        $left_space = $style->length_in_pt(
+            array($style->margin_left,
                 $style->padding_left,
                 $style->border_left_width),
-            $w);
+            $w
+        );
 
-        $right_space = $style->length_in_pt(array($style->padding_right,
+        $right_space = $style->length_in_pt(
+            array($style->padding_right,
                 $style->margin_right,
                 $style->border_right_width),
-            $w);
+            $w
+        );
 
-        $top_space = $style->length_in_pt(array($style->margin_top,
+        $top_space = $style->length_in_pt(
+            array($style->margin_top,
                 $style->padding_top,
                 $style->border_top_width),
-            $h);
-        $bottom_space = $style->length_in_pt(array($style->margin_bottom,
+            $h
+        );
+        $bottom_space = $style->length_in_pt(
+            array($style->margin_bottom,
                 $style->padding_bottom,
                 $style->border_bottom_width),
-            $h);
+            $h
+        );
 
         $style->width = $cb_w = $w - $left_space - $right_space;
 
@@ -80,9 +88,9 @@ class TableCell extends Block
 
         // Set the containing blocks and reflow each child
         foreach ($this->_frame->get_children() as $child) {
-
-            if ($page->is_full())
+            if ($page->is_full()) {
                 break;
+            }
 
             $child->set_containing_block($content_x, $content_y, $cb_w, $h);
 
@@ -103,18 +111,18 @@ class TableCell extends Block
         // Let the cellmap know our height
         $cell_height = $height / count($cells["rows"]);
 
-        if ($style_height <= $height)
+        if ($style_height <= $height) {
             $cell_height += $top_space + $bottom_space;
+        }
 
-        foreach ($cells["rows"] as $i)
+        foreach ($cells["rows"] as $i) {
             $cellmap->set_row_height($i, $cell_height);
+        }
 
         $style->height = $height;
 
         $this->_text_align();
 
         $this->vertical_align();
-
     }
-
 }

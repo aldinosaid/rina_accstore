@@ -35,4 +35,4 @@ class Line extends Shape
         $surface->moveTo($this->x1, $this->y1);
         $surface->lineTo($this->x2, $this->y2);
     }
-} 
+}

@@ -88,10 +88,11 @@ class ListBullet extends AbstractRenderer
             case "decimal-leading-zero":
             case "decimal":
             case "1":
-                if ($pad)
+                if ($pad) {
                     $text = str_pad($n, $pad, "0", STR_PAD_LEFT);
-                else
+                } else {
                     $text = $n;
+                }
                 break;
 
             case "upper-alpha":
@@ -144,7 +145,6 @@ class ListBullet extends AbstractRenderer
         if ($style->list_style_image !== "none" &&
             !Cache::is_broken($img = $frame->get_image_url())
         ) {
-
             list($x, $y) = $frame->get_position();
 
             //For expected size and aspect, instead of box size, use image natural size scaled to DPI.
@@ -162,15 +162,12 @@ class ListBullet extends AbstractRenderer
             $y -= ($line_height - $font_size) / 2; //Reverse hinting of list_bullet_positioner
 
             $this->_canvas->image($img, $x, $y, $w, $h);
-
         } else {
-
             $bullet_style = $style->list_style_type;
 
             $fill = false;
 
             switch ($bullet_style) {
-
                 default:
                 case "disc":
                     $fill = true;
@@ -236,9 +233,15 @@ class ListBullet extends AbstractRenderer
                     $line_height = $style->line_height;
                     $y += ($line_height - $font_size) / 4; // FIXME I thought it should be 2, but 4 gives better results
 
-                    $this->_canvas->text($x, $y, $text,
-                        $font_family, $font_size,
-                        $style->color, $spacing);
+                    $this->_canvas->text(
+                        $x,
+                        $y,
+                        $text,
+                        $font_family,
+                        $font_size,
+                        $style->color,
+                        $spacing
+                    );
 
                 case "none":
                     break;

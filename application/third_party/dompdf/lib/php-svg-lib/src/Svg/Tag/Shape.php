@@ -47,12 +47,11 @@ class Shape extends AbstractTag
                 }
             } elseif ($stroke) {
                 $surface->stroke();
-            }
-            else {
+            } else {
                 $surface->endPath();
             }
         }
 
         $surface->restore();
     }
-} 
+}

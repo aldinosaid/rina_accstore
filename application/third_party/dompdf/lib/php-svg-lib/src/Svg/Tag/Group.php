@@ -33,4 +33,4 @@ class Group extends AbstractTag
     {
         $this->document->getSurface()->restore();
     }
-} 
+}

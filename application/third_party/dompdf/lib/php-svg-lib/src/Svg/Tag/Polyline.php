@@ -28,4 +28,4 @@ class Polyline extends Shape
             $surface->lineTo($x, $y);
         }
     }
-} 
+}

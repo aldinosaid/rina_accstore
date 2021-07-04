@@ -44,8 +44,9 @@ class Inline extends AbstractPositioner
 
         // End debugging
 
-        if (!$p)
+        if (!$p) {
             throw new Exception("No block-level parent found.  Not good.");
+        }
 
         $f = $this->_frame;
 
@@ -67,7 +68,6 @@ class Inline extends AbstractPositioner
             $f->get_parent() instanceof InlineFrameDecorator &&
             $f->is_text_node()
         ) {
-
             $min_max = $f->get_reflower()->get_min_max_width();
 
             // If the frame doesn't fit in the current line, a line break occurs
@@ -77,6 +77,5 @@ class Inline extends AbstractPositioner
         }
 
         $f->set_position($cb["x"] + $line->w, $line->y);
-
     }
 }

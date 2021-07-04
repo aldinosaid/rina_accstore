@@ -54,13 +54,15 @@ class TableCell extends BlockFrameDecorator
     function set_cell_height($height)
     {
         $style = $this->get_style();
-        $v_space = $style->length_in_pt(array($style->margin_top,
+        $v_space = $style->length_in_pt(
+            array($style->margin_top,
                 $style->padding_top,
                 $style->border_top_width,
                 $style->border_bottom_width,
                 $style->padding_bottom,
                 $style->margin_bottom),
-            $style->width);
+            $style->width
+        );
 
         $new_height = $height - $v_space;
         $style->height = $new_height;
@@ -90,12 +92,12 @@ class TableCell extends BlockFrameDecorator
             if ($y_offset) {
                 // Move our children
                 foreach ($this->get_line_boxes() as $line) {
-                    foreach ($line->get_frames() as $frame)
+                    foreach ($line->get_frames() as $frame) {
                         $frame->move(0, $y_offset);
+                    }
                 }
             }
         }
-
     }
 
     function set_resolved_border($side, $border_spec)

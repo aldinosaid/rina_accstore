@@ -8,7 +8,7 @@
                     </button>
                     <strong><?php echo $this->session->flashdata('notification'); ?></strong>
                 </div>
-            <?php elseif($this->session->flashdata('error_notification')) : ?>
+            <?php elseif ($this->session->flashdata('error_notification')) : ?>
                 <div class="alert alert-danger alert-dismissible fade in" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                     </button>
@@ -32,22 +32,22 @@
                         </thead>
 
                         <tbody>
-                            <?php 
+                            <?php
                                 $i = 1;
-                                foreach ($kategories as $kategori) : 
+                            foreach ($kategories as $kategori) :
                             ?>
                             <tr>
-                                <td><?php echo $i; ?></td>
-                                <td><?php echo $kategori->kode_kat; ?></td>
-                                <td><?php echo $kategori->kategori; ?></td>
-                                <td>
-                                    <a href="<?php echo base_url('kategori/details/' . $kategori->id); ?>"><i class="fa fa-eye"></i></a>
-                                    <a href="<?php echo base_url('kategori/edit/' . $kategori->id); ?>"><i class="fa fa-edit"></i></a>
-                                </td>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo $kategori->kode_kat; ?></td>
+                            <td><?php echo $kategori->kategori; ?></td>
+                            <td>
+                            <a href="<?php echo base_url('kategori/details/' . $kategori->id); ?>"><i class="fa fa-eye"></i></a>
+                            <a href="<?php echo base_url('kategori/edit/' . $kategori->id); ?>"><i class="fa fa-edit"></i></a>
+                            </td>
                             </tr>
-                            <?php 
-                                $i++;
-                                endforeach; 
+                            <?php
+                            $i++;
+                            endforeach;
                             ?>
                         </tbody>
                     </table>

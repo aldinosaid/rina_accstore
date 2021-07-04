@@ -133,12 +133,10 @@ class Table extends AbstractFrameDecorator
         if (count($this->_headers) && !in_array($child, $this->_headers, true) &&
             !in_array($child->get_prev_sibling(), $this->_headers, true)
         ) {
-
             $first_header = null;
 
             // Insert copies of the table headers before $child
             foreach ($this->_headers as $header) {
-
                 $new_header = $header->deep_copy();
 
                 if (is_null($first_header)) {
@@ -149,14 +147,10 @@ class Table extends AbstractFrameDecorator
             }
 
             parent::split($first_header);
-
         } elseif (in_array($child->get_style()->display, self::$ROW_GROUPS)) {
-
             // Individual rows should have already been handled
             parent::split($child);
-
         } else {
-
             $iter = $child;
 
             while ($iter) {
@@ -196,9 +190,11 @@ class Table extends AbstractFrameDecorator
     public static function find_parent_table(Frame $frame)
     {
 
-        while ($frame = $frame->get_parent())
-            if ($frame->is_table())
+        while ($frame = $frame->get_parent()) {
+            if ($frame->is_table()) {
                 break;
+            }
+        }
 
         return $frame;
     }
@@ -271,7 +267,6 @@ class Table extends AbstractFrameDecorator
             $display = $child->get_style()->display;
 
             if ($anon_row) {
-
                 if ($display === "table-row") {
                     // Add the previous anonymous row
                     $this->insert_child_before($table_row, $child);
@@ -285,9 +280,7 @@ class Table extends AbstractFrameDecorator
                 // add the child to the anonymous row
                 $table_row->append_child($child);
                 continue;
-
             } else {
-
                 if ($display === "table-row") {
                     $child->normalise();
                     continue;

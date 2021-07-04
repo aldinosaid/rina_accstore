@@ -78,12 +78,12 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 	<div class="login">
 		<h1>Face Of Jafra</h1>
 		<form method="post" action="<?php echo base_url('login/validation'); ?>" method="POST">
-			<input type="email" name="email" placeholder="your@email.com" required="required" />
-			<input type="password" name="password" placeholder="Password" required="required" />
-			<button type="submit" class="btn btn-primary btn-block btn-large">Sign in</button>
-			<p style="text-align: center;color: red;font-family: inherit;"><?php echo $this->session->flashdata('notif'); ?></p>
-		</form>
-	</div>
+            <input type="email" name="email" placeholder="your@email.com" required="required" />
+            <input type="password" name="password" placeholder="Password" required="required" />
+            <button type="submit" class="btn btn-primary btn-block btn-large">Sign in</button>
+            <p style="text-align: center;color: red;font-family: inherit;"><?php echo $this->session->flashdata('notif'); ?></p>
+        </form>
+    </div>
 </body>
 
 </html>

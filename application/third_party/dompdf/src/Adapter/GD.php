@@ -283,8 +283,9 @@ class GD implements Canvas
         }
 
         // Full opacity if no alpha set
-        if (!isset($color[3]))
+        if (!isset($color[3])) {
             $color[3] = 0;
+        }
 
         list($r, $g, $b, $a) = $color;
 
@@ -306,16 +307,17 @@ class GD implements Canvas
 
         $key = sprintf("#%02X%02X%02X%02X", $r, $g, $b, $a);
 
-        if (isset($this->_colors[$key]))
+        if (isset($this->_colors[$key])) {
             return $this->_colors[$key];
+        }
 
-        if ($a != 0)
+        if ($a != 0) {
             $this->_colors[$key] = imagecolorallocatealpha($this->get_image(), $r, $g, $b, $a);
-        else
+        } else {
             $this->_colors[$key] = imagecolorallocate($this->get_image(), $r, $g, $b);
+        }
 
         return $this->_colors[$key];
-
     }
 
     /**
@@ -379,28 +381,25 @@ class GD implements Canvas
                 for ($i = 0; $i < $style[0] * $this->_aa_factor; $i++) {
                     $gd_style[] = $this->_bg_color;
                 }
-
             } else {
-
                 $i = 0;
                 foreach ($style as $length) {
-
                     if ($i % 2 == 0) {
                         // 'On' pattern
-                        for ($i = 0; $i < $style[0] * $this->_aa_factor; $i++)
+                        for ($i = 0; $i < $style[0] * $this->_aa_factor; $i++) {
                             $gd_style[] = $c;
-
+                        }
                     } else {
                         // Off pattern
-                        for ($i = 0; $i < $style[0] * $this->_aa_factor; $i++)
+                        for ($i = 0; $i < $style[0] * $this->_aa_factor; $i++) {
                             $gd_style[] = $this->_bg_color;
-
+                        }
                     }
                     $i++;
                 }
             }
 
-            if(!empty($gd_style)) {
+            if (!empty($gd_style)) {
                 imagesetstyle($this->get_image(), $gd_style);
                 $c = IMG_COLOR_STYLED;
             }
@@ -409,7 +408,6 @@ class GD implements Canvas
         imagesetthickness($this->get_image(), $width);
 
         imageline($this->get_image(), $x1, $y1, $x2, $y2, $c);
-
     }
 
     function arc($x1, $y1, $r1, $r2, $astart, $aend, $color, $width, $style = array())
@@ -454,7 +452,7 @@ class GD implements Canvas
                 }
             }
 
-            if(!empty($gd_style)) {
+            if (!empty($gd_style)) {
                 imagesetstyle($this->get_image(), $gd_style);
                 $c = IMG_COLOR_STYLED;
             }
@@ -463,7 +461,6 @@ class GD implements Canvas
         imagesetthickness($this->get_image(), $width);
 
         imagerectangle($this->get_image(), $x1, $y1, $x1 + $w, $y1 + $h, $c);
-
     }
 
     /**
@@ -489,7 +486,6 @@ class GD implements Canvas
         $c = $this->_allocate_color($color);
 
         imagefilledrectangle($this->get_image(), $x1, $y1, $x1 + $w, $y1 + $h, $c);
-
     }
 
     /**
@@ -581,8 +577,9 @@ class GD implements Canvas
     {
 
         // Scale each point by the AA factor and DPI
-        foreach (array_keys($points) as $i)
+        foreach (array_keys($points) as $i) {
             $points[$i] = $this->_upscale($points[$i]);
+        }
 
         $c = $this->_allocate_color($color);
 
@@ -596,7 +593,7 @@ class GD implements Canvas
                 }
             }
 
-            if(!empty($gd_style)) {
+            if (!empty($gd_style)) {
                 imagesetstyle($this->get_image(), $gd_style);
                 $c = IMG_COLOR_STYLED;
             }
@@ -604,11 +601,11 @@ class GD implements Canvas
 
         imagesetthickness($this->get_image(), $width);
 
-        if ($fill)
+        if ($fill) {
             imagefilledpolygon($this->get_image(), $points, count($points) / 2, $c);
-        else
+        } else {
             imagepolygon($this->get_image(), $points, count($points) / 2, $c);
-
+        }
     }
 
     /**
@@ -646,7 +643,7 @@ class GD implements Canvas
                 }
             }
 
-            if(!empty($gd_style)) {
+            if (!empty($gd_style)) {
                 imagesetstyle($this->get_image(), $gd_style);
                 $c = IMG_COLOR_STYLED;
             }
@@ -654,11 +651,11 @@ class GD implements Canvas
 
         imagesetthickness($this->get_image(), $width);
 
-        if ($fill)
+        if ($fill) {
             imagefilledellipse($this->get_image(), $x, $y, $r, $r, $c);
-        else
+        } else {
             imageellipse($this->get_image(), $x, $y, $r, $r, $c);
-
+        }
     }
 
     /**
@@ -708,7 +705,6 @@ class GD implements Canvas
         $img_h = imagesy($src);
 
         imagecopyresampled($this->get_image(), $src, $x, $y, 0, 0, $w, $h, $img_w, $img_h);
-
     }
 
     /**
@@ -750,7 +746,6 @@ class GD implements Canvas
 
         // FIXME: word spacing
         imagettftext($this->get_image(), $size, $angle, $x, $y + $h, $c, $font, $text);
-
     }
 
     function javascript($code)
@@ -831,8 +826,9 @@ class GD implements Canvas
 
     function get_ttf_file($font)
     {
-        if (strpos($font, '.ttf') === false)
+        if (strpos($font, '.ttf') === false) {
             $font .= ".ttf";
+        }
 
         /*$filename = substr(strtolower(basename($font)), 0, -4);
 
@@ -935,15 +931,25 @@ class GD implements Canvas
             $dst_w = $this->_actual_width / $this->_aa_factor;
             $dst_h = $this->_actual_height / $this->_aa_factor;
             $dst = imagecreatetruecolor($dst_w, $dst_h);
-            imagecopyresampled($dst, $img, 0, 0, 0, 0,
-                $dst_w, $dst_h,
-                $this->_actual_width, $this->_actual_height);
+            imagecopyresampled(
+                $dst,
+                $img,
+                0,
+                0,
+                0,
+                0,
+                $dst_w,
+                $dst_h,
+                $this->_actual_width,
+                $this->_actual_height
+            );
         } else {
             $dst = $img;
         }
 
-        if (!isset($options["type"]))
+        if (!isset($options["type"])) {
             $options["type"] = "png";
+        }
 
         $type = strtolower($options["type"]);
 
@@ -951,7 +957,6 @@ class GD implements Canvas
 
         $filename = str_replace(array("\n", "'"), "", basename($filename));
         switch ($type) {
-
             case "jpg":
             case "jpeg":
                 $filename .= ".jpg";
@@ -973,11 +978,11 @@ class GD implements Canvas
         header("Content-Disposition: $attach; filename=". $encodedfallbackfilename ."; filename*=UTF-8''$encodedfilename");
         
         switch ($type) {
-
             case "jpg":
             case "jpeg":
-                if (!isset($options["quality"]))
+                if (!isset($options["quality"])) {
                     $options["quality"] = 75;
+                }
 
                 header("Content-type: image/jpeg");
                 imagejpeg($dst, '', $options["quality"]);
@@ -990,8 +995,9 @@ class GD implements Canvas
                 break;
         }
 
-        if ($this->_aa_factor != 1)
+        if ($this->_aa_factor != 1) {
             imagedestroy($dst);
+        }
     }
 
     /**
@@ -1013,26 +1019,36 @@ class GD implements Canvas
             $dst_w = $this->_actual_width / $this->_aa_factor;
             $dst_h = $this->_actual_height / $this->_aa_factor;
             $dst = imagecreatetruecolor($dst_w, $dst_h);
-            imagecopyresampled($dst, $img, 0, 0, 0, 0,
-                $dst_w, $dst_h,
-                $this->_actual_width, $this->_actual_height);
+            imagecopyresampled(
+                $dst,
+                $img,
+                0,
+                0,
+                0,
+                0,
+                $dst_w,
+                $dst_h,
+                $this->_actual_width,
+                $this->_actual_height
+            );
         } else {
             $dst = $img;
         }
 
-        if (!isset($options["type"]))
+        if (!isset($options["type"])) {
             $options["type"] = "png";
+        }
 
         $type = $options["type"];
 
         ob_start();
 
         switch ($type) {
-
             case "jpg":
             case "jpeg":
-                if (!isset($options["quality"]))
+                if (!isset($options["quality"])) {
                     $options["quality"] = 75;
+                }
 
                 imagejpeg($dst, '', $options["quality"]);
                 break;
@@ -1045,11 +1061,10 @@ class GD implements Canvas
 
         $image = ob_get_clean();
 
-        if ($this->_aa_factor != 1)
+        if ($this->_aa_factor != 1) {
             imagedestroy($dst);
+        }
 
         return $image;
     }
-
-
 }

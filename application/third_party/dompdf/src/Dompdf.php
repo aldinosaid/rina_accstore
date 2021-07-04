@@ -216,7 +216,7 @@ class Dompdf
     /**
     * Protocol whitelist
     *
-    * Protocols and PHP wrappers allowed in URLs. Full support is not 
+    * Protocols and PHP wrappers allowed in URLs. Full support is not
     * guarantee for the protocols/wrappers contained in this array.
     *
     * @var array
@@ -291,7 +291,7 @@ class Dompdf
         
         $versionFile = realpath(__DIR__ . '/../VERSION');
         if (file_exists($versionFile) && ($version = file_get_contents($versionFile)) !== false && $version !== '$Format:<%h>$') {
-          $this->version = sprintf('dompdf %s', $version);
+            $this->version = sprintf('dompdf %s', $version);
         }
 
         $this->localeStandard = sprintf('%.1f', 1.0) == '1.0';
@@ -356,7 +356,7 @@ class Dompdf
             list($this->protocol, $this->baseHost, $this->basePath) = Helpers::explode_url($file);
         }
 
-        if ( !in_array($this->protocol, $this->allowedProtocols) ) {
+        if (!in_array($this->protocol, $this->allowedProtocols)) {
             throw new Exception("Permission denied on $file. The communication protocol is not supported.");
         }
     
@@ -365,7 +365,6 @@ class Dompdf
         }
 
         if ($this->protocol == "" || $this->protocol === "file://") {
-
             // Get the full path to $file, returns false if the file doesn't exist
             $realfile = realpath($file);
             
@@ -437,7 +436,9 @@ class Dompdf
             );
 
             foreach ($metatags as $metatag) {
-                if (preg_match($metatag, $str, $matches)) break;
+                if (preg_match($metatag, $str, $matches)) {
+                    break;
+                }
             }
 
             if (mb_detect_encoding($str) == '') {
@@ -882,7 +883,11 @@ class Dompdf
             "<span style='color: #900' title='Time'>%10.2f ms</span>" .
             "<span  title='Quirksmode'>  " .
             ($this->quirksmode ? "<span style='color: #d00'> ON</span>" : "<span style='color: #0d0'>OFF</span>") .
-            "</span><br />", $frames, $memory, $time);
+            "</span><br />",
+            $frames,
+            $memory,
+            $time
+        );
 
         $out .= ob_get_clean();
 
@@ -1458,7 +1463,7 @@ class Dompdf
     
     /**
      * PHP5 overloaded getter
-     * Along with {@link Dompdf::__set()} __get() provides access to all 
+     * Along with {@link Dompdf::__set()} __get() provides access to all
      * properties directly.  Typically __get() is not called directly outside
      * of this class.
      *
@@ -1469,12 +1474,11 @@ class Dompdf
      */
     function __get($prop)
     {
-        switch ($prop)
-        {
-            case 'version' :
+        switch ($prop) {
+            case 'version':
                 return $this->version;
             default:
-                throw new Exception( 'Invalid property: ' . $prop );
+                throw new Exception('Invalid property: ' . $prop);
         }
     }
 }

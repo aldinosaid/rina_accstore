@@ -42,4 +42,4 @@ class Rect extends Shape
 
         $this->document->getSurface()->rect($this->x, $this->y, $this->width, $this->height, $this->rx, $this->ry);
     }
-} 
+}

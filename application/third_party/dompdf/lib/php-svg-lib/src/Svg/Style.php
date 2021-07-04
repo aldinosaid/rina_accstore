@@ -82,7 +82,8 @@ class Style
         }
     }
 
-    public function inherit(AbstractTag $tag) {
+    public function inherit(AbstractTag $tag)
+    {
         $group = $tag->getParentGroup();
         if ($group) {
             $parent_style = $group->getStyle();
@@ -129,8 +130,7 @@ class Style
 
         if (count($parts) == 2) {
             $color = $parts[1];
-        }
-        else {
+        } else {
             $color = $parts[0];
         }
 
@@ -221,7 +221,8 @@ class Style
         return null;
     }
 
-    static function getTriplet($color, $percent = false) {
+    static function getTriplet($color, $percent = false)
+    {
         $i = strpos($color, "(");
         $j = strpos($color, ")");
 
@@ -242,12 +243,10 @@ class Style
             if ($percent) {
                 if ($triplet[$c][strlen($triplet[$c]) - 1] === "%") {
                     $triplet[$c] = $triplet[$c] / 100;
-                }
-                else {
+                } else {
                     $triplet[$c] = $triplet[$c] / 255;
                 }
-            }
-            else {
+            } else {
                 if ($triplet[$c][strlen($triplet[$c]) - 1] === "%") {
                     $triplet[$c] = round($triplet[$c] * 2.55);
                 }
@@ -304,7 +303,8 @@ class Style
      *
      * @return float|null
      */
-    static function convertSize($size, $dpi = 72.0, $fontsize = 11.0) {
+    static function convertSize($size, $dpi = 72.0, $fontsize = 11.0)
+    {
         $size = trim(strtolower($size));
 
         if (is_numeric($size)) {

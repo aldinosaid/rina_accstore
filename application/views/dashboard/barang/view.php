@@ -8,7 +8,7 @@
                     </button>
                     <strong><?php echo $this->session->flashdata('notification'); ?></strong>
                 </div>
-            <?php elseif($this->session->flashdata('error_notification')) : ?>
+            <?php elseif ($this->session->flashdata('error_notification')) : ?>
                 <div class="alert alert-danger alert-dismissible fade in" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                     </button>
@@ -26,6 +26,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Kode Barang</th>
+                                <th>Barcode</th>
                                 <th>Nama Barang</th>
                                 <th>Qty</th>
                                 <th>Harga beli</th>
@@ -35,25 +36,26 @@
                         </thead>
 
                         <tbody>
-                            <?php 
+                            <?php
                                 $i = 1;
-                                foreach ($barang as $value) : 
+                            foreach ($barang as $value) :
                             ?>
                             <tr>
-                                <td><?php echo $i; ?></td>
-                                <td><?php echo $value->kode_brg; ?></td>
-                                <td><?php echo $value->nama_brg; ?></td>
-                                <td><?php echo $value->qty; ?></td>
-                                <td><?php echo idr_format($value->harga_beli); ?></td>
-                                <td><?php echo idr_format($value->harga_jual); ?></td>
-                                <td>
-                                    <a href="<?php echo base_url('barang/details/' . $value->id); ?>"><i class="fa fa-eye"></i></a>
-                                    <a href="<?php echo base_url('barang/edit/' . $value->id); ?>"><i class="fa fa-edit"></i></a>
-                                </td>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo $value->kode_brg; ?></td>
+                            <td><?php echo $value->barcode; ?></td>
+                            <td><?php echo $value->nama_brg; ?></td>
+                            <td><?php echo $value->qty; ?></td>
+                            <td><?php echo idr_format($value->harga_beli); ?></td>
+                            <td><?php echo idr_format($value->harga_jual); ?></td>
+                            <td>
+                            <a href="<?php echo base_url('barang/delete/' . $value->id); ?>"><i class="fa fa-trash"></i></a>
+                            <a href="<?php echo base_url('barang/edit/' . $value->id); ?>"><i class="fa fa-edit"></i></a>
+                            </td>
                             </tr>
-                            <?php 
-                                $i++;
-                                endforeach; 
+                            <?php
+                            $i++;
+                            endforeach;
                             ?>
                         </tbody>
                     </table>

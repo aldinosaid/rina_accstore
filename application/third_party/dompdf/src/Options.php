@@ -36,7 +36,7 @@ class Options
      *
      * This directory contains the cached font metrics for the fonts used by DOMPDF.
      * This directory can be the same as $fontDir
-     * 
+     *
      * Note: This directory must exist and be writable by the webserver process.
      *
      * @var string
@@ -52,7 +52,7 @@ class Options
      * read any files on the server.  This should be an absolute path.
      *
      * ==== IMPORTANT ====
-     * This setting may increase the risk of system exploit. Do not change 
+     * This setting may increase the risk of system exploit. Do not change
      * this settings without understanding the consequences. Additional
      * documentation is available on the dompdf wiki at:
      * https://github.com/dompdf/dompdf/wiki
@@ -141,7 +141,7 @@ class Options
      * system access available to dompdf. Set this option to false (recommended)
      * if you wish to process untrusted documents.
      *
-     * This setting may increase the risk of system exploit. Do not change 
+     * This setting may increase the risk of system exploit. Do not change
      * this settings without understanding the consequences. Additional
      * documentation is available on the dompdf wiki at:
      * https://github.com/dompdf/dompdf/wiki
@@ -163,7 +163,7 @@ class Options
      * tracing back appears to being downloaded by your server, or allows malicious php code
      * in remote html pages to be executed by your server with your account privileges.
      *
-     * This setting may increase the risk of system exploit. Do not change 
+     * This setting may increase the risk of system exploit. Do not change
      * this settings without understanding the consequences. Additional
      * documentation is available on the dompdf wiki at:
      * https://github.com/dompdf/dompdf/wiki
@@ -239,9 +239,9 @@ class Options
     /**
      * The PDF rendering backend to use
      *
-     * Valid settings are 'PDFLib', 'CPDF', 'GD', and 'auto'. 'auto' will 
-     * look for PDFLib and use it if found, or if not it will fall back on 
-     * CPDF. 'GD' renders PDFs to graphic files. {@link Dompdf\CanvasFactory} 
+     * Valid settings are 'PDFLib', 'CPDF', 'GD', and 'auto'. 'auto' will
+     * look for PDFLib and use it if found, or if not it will fall back on
+     * CPDF. 'GD' renders PDFs to graphic files. {@link Dompdf\CanvasFactory}
      * ultimately determines which rendering class to instantiate
      * based on this setting.
      *

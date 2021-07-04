@@ -55,7 +55,8 @@ class Document extends AbstractTag
         $this->filename = $filename;
     }
 
-    protected function initParser() {
+    protected function initParser()
+    {
         $parser = xml_parser_create("utf-8");
         xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, false);
         xml_set_element_handler(
@@ -71,8 +72,8 @@ class Document extends AbstractTag
         return $this->parser = $parser;
     }
 
-    public function __construct() {
-
+    public function __construct()
+    {
     }
 
     /**
@@ -98,7 +99,8 @@ class Document extends AbstractTag
         return $this->height;
     }
 
-    public function getDimensions() {
+    public function getDimensions()
+    {
         $rootAttributes = null;
 
         $parser = xml_parser_create("utf-8");
@@ -112,7 +114,8 @@ class Document extends AbstractTag
                     $rootAttributes = $attributes;
                 }
             },
-            function ($parser, $name) {}
+            function ($parser, $name) {
+            }
         );
 
         $fp = fopen($this->filename, "r");
@@ -129,7 +132,8 @@ class Document extends AbstractTag
         return $this->handleSizeAttributes($rootAttributes);
     }
 
-    public function handleSizeAttributes($attributes){
+    public function handleSizeAttributes($attributes)
+    {
         if ($this->width === null) {
             if (isset($attributes["width"])) {
                 $width  = (int)$attributes["width"];
@@ -166,7 +170,8 @@ class Document extends AbstractTag
         );
     }
 
-    protected function getDocument(){
+    protected function getDocument()
+    {
         return $this;
     }
 
@@ -228,8 +233,7 @@ class Document extends AbstractTag
             case 'svg':
                 if (count($this->attributes)) {
                     $tag = new Group($this);
-                }
-                else {
+                } else {
                     $tag = $this;
                     $this->svgOffset($attributes);
                 }
@@ -296,8 +300,7 @@ class Document extends AbstractTag
             if (!$this->inDefs) {
                 $this->stack[] = $tag;
                 $tag->handle($attributes);
-            }
-            else {
+            } else {
                 if (isset($attributes["id"])) {
                     $this->defs[$attributes["id"]] = $tag;
                 }
@@ -350,4 +353,4 @@ class Document extends AbstractTag
             $tag->handleEnd();
         }
     }
-} 
+}

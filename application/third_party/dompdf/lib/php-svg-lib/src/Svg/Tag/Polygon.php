@@ -30,4 +30,4 @@ class Polygon extends Shape
 
         $surface->closePath();
     }
-} 
+}

@@ -552,7 +552,6 @@ class CPdf
                     if (isset($options['id']) && isset($options['rid']) && isset($options['pos'])) {
                         $i = array_search($options['rid'], $o['info']['pages']);
                         if (isset($o['info']['pages'][$i]) && $o['info']['pages'][$i] == $options['rid']) {
-
                             // then there is a match
                             // make a space
                             switch ($options['pos']) {
@@ -650,12 +649,12 @@ class CPdf
                         if (isset($o['info']['mediaBox'])) {
                             $tmp = $o['info']['mediaBox'];
                             $res .= "\n/MediaBox [" . sprintf(
-                                    '%.3F %.3F %.3F %.3F',
-                                    $tmp[0],
-                                    $tmp[1],
-                                    $tmp[2],
-                                    $tmp[3]
-                                ) . ']';
+                                '%.3F %.3F %.3F %.3F',
+                                $tmp[0],
+                                $tmp[1],
+                                $tmp[2],
+                                $tmp[3]
+                            ) . ']';
                         }
                     }
 
@@ -1574,10 +1573,10 @@ EOT;
                     }
 
                     switch ($options['channels']) {
-                        case  1:
+                        case 1:
                             $info['ColorSpace'] = '/DeviceGray';
                             break;
-                        case  4:
+                        case 4:
                             $info['ColorSpace'] = '/DeviceCMYK';
                             break;
                         default:
@@ -1855,8 +1854,8 @@ EOT;
             $hex = substr('000000', 0, 6 - mb_strlen($hex, '8bit')) . $hex;
         }
         $tmp .= chr(hexdec(substr($hex, 4, 2))) . chr(hexdec(substr($hex, 2, 2))) . chr(
-                hexdec(substr($hex, 0, 2))
-            ) . chr(0) . chr(0);
+            hexdec(substr($hex, 0, 2))
+        ) . chr(0) . chr(0);
         $key = $this->md5_16($tmp);
         $this->ARC4_init(substr($key, 0, 10));
     }
@@ -3651,7 +3650,6 @@ EOT;
             if ($char_spacing != 0) {
                 $w += $char_spacing * $space_scale * (count($unicode) + $n_spaces);
             }
-
         } else {
             // If CPDF is in Unicode mode but the current font does not support Unicode we need to convert the character set to Windows-1252
             if ($this->isUnicode) {
@@ -4566,7 +4564,6 @@ EOT;
             $label = $this->imagelist[$imgname]['label'];
             //debugpng
             //if (DEBUGPNG) print '[addJpegImage_common Duplicate '.$imgname.']';
-
         } else {
             if ($data == null) {
                 $this->addMessage('addJpegImage_common error - (' . $imgname . ') data not present!');
@@ -4698,7 +4695,6 @@ EOT;
                     );
             }
         } else {
-
             // the user is trying to set a font family
             // note that this can also be used to set the base ones to something else
             if (mb_strlen($family)) {

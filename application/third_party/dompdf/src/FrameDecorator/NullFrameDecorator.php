@@ -27,5 +27,4 @@ class NullFrameDecorator extends AbstractFrameDecorator
         $style->margin = 0;
         $style->padding = 0;
     }
-
 }

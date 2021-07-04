@@ -1,12 +1,12 @@
 <script type="text/javascript">var baseUrl = '<?php echo base_url(); ?>';</script>
 <script type="text/javascript">
-	$('#all_finalist').DataTable({
+    $('#all_finalist').DataTable({
       fixedHeader: true
     });
 
     $(document).ready(function() {
-    	
-    	function selectKategori() {
+        
+        function selectKategori() {
             var selectedKategori = document.getElementById('select-kategori');
             $(selectedKategori).change(function() {
                 var kodeKat = this.options[this.selectedIndex].value;
@@ -17,7 +17,7 @@
                     $('[name=kode_brg]').val(r.kode_brg);
                 }); 
             });
-    	}
+        }
 
         function dataTable() {
             var tableCari = $('#cari_barang').DataTable({
@@ -156,7 +156,7 @@
             });
         }
 
-    	function init() {
+        function init() {
             $('.harga').inputmask("numeric", {
                 radixPoint: ".",
                 groupSeparator: ",",
@@ -169,21 +169,15 @@
             if ($('#barang')) {
                 autocomplete();
             }
-            $('#startDate').datetimepicker({
-                format: 'YYYY-MM-DD'
-            });
-            $('#endDate').datetimepicker({
-                format: 'YYYY-MM-DD'
-            });
             modal();
             selectKategori();
             count();
-    	    dataTable();
+            dataTable();
             btnKeranjang();
             cetak();
         }
 
-    	init();
+        init();
     });
 </script>
 </body>

@@ -18,7 +18,7 @@ class ImageResize
 
     public $quality_jpg = 85;
     public $quality_png = 6;
-    public $quality_truecolor = TRUE;
+    public $quality_truecolor = true;
 
     public $interlace = 1;
 
@@ -106,29 +106,30 @@ class ImageResize
     }
 
     // http://stackoverflow.com/a/28819866
-    public function imageCreateJpegfromExif($filename){
-      $img = imagecreatefromjpeg($filename);
-      $exif = @exif_read_data($filename);
+    public function imageCreateJpegfromExif($filename)
+    {
+        $img = imagecreatefromjpeg($filename);
+        $exif = @exif_read_data($filename);
 
-      if (!$exif || !isset($exif['Orientation'])){
+        if (!$exif || !isset($exif['Orientation'])) {
+            return $img;
+        }
+
+        $orientation = $exif['Orientation'];
+
+        if ($orientation === 6 || $orientation === 5) {
+            $img = imagerotate($img, 270, null);
+        } elseif ($orientation === 3 || $orientation === 4) {
+            $img = imagerotate($img, 180, null);
+        } elseif ($orientation === 8 || $orientation === 7) {
+            $img = imagerotate($img, 90, null);
+        }
+
+        if ($orientation === 5 || $orientation === 4 || $orientation === 7) {
+            imageflip($img, IMG_FLIP_HORIZONTAL);
+        }
+
         return $img;
-      }
-
-      $orientation = $exif['Orientation'];
-
-      if ($orientation === 6 || $orientation === 5){
-        $img = imagerotate($img, 270, null);
-      } else if ($orientation === 3 || $orientation === 4){
-        $img = imagerotate($img, 180, null);
-      } else if ($orientation === 8 || $orientation === 7){
-        $img = imagerotate($img, 90, null);
-      }
-
-      if ($orientation === 5 || $orientation === 4 || $orientation === 7){
-        imageflip($img, IMG_FLIP_HORIZONTAL);
-      }
-
-      return $img;
     }
 
     /**
@@ -150,7 +151,7 @@ class ImageResize
 
                 $background = imagecolorallocatealpha($dest_image, 255, 255, 255, 1);
                 imagecolortransparent($dest_image, $background);
-                imagefill($dest_image, 0, 0 , $background);
+                imagefill($dest_image, 0, 0, $background);
                 imagesavealpha($dest_image, true);
                 break;
 
@@ -167,7 +168,7 @@ class ImageResize
 
                     $background = imagecolorallocatealpha($dest_image, 255, 255, 255, 1);
                     imagecolortransparent($dest_image, $background);
-                    imagefill($dest_image, 0, 0 , $background);
+                    imagefill($dest_image, 0, 0, $background);
                 } else {
                     $dest_image = imagecreatetruecolor($this->getDestWidth(), $this->getDestHeight());
                 }
@@ -234,7 +235,7 @@ class ImageResize
     {
         $string_temp = tempnam(sys_get_temp_dir(), '');
 
-        $this->save($string_temp , $image_type, $quality);
+        $this->save($string_temp, $image_type, $quality);
 
         $string = file_get_contents($string_temp);
 
@@ -311,7 +312,7 @@ class ImageResize
      */
     public function resizeToBestFit($max_width, $max_height, $allow_enlarge = false)
     {
-        if($this->getSourceWidth() <= $max_width && $this->getSourceHeight() <= $max_height && $allow_enlarge === false){
+        if ($this->getSourceWidth() <= $max_width && $this->getSourceHeight() <= $max_height && $allow_enlarge === false) {
             return $this;
         }
 
@@ -319,7 +320,7 @@ class ImageResize
         $width = $max_width;
         $height = $width * $ratio;
 
-        if($height > $max_height){
+        if ($height > $max_height) {
             $height = $max_height;
             $width = $height / $ratio;
         }
@@ -438,21 +439,21 @@ class ImageResize
      */
     public function freecrop($width, $height, $x = false, $y = false)
     {
-        if($x === false or $y === false){
-          return $this->crop($width, $height);
+        if ($x === false or $y === false) {
+            return $this->crop($width, $height);
         }
         $this->source_x = $x;
         $this->source_y = $y;
-        if($width > $this->getSourceWidth() - $x){
-          $this->source_w = $this->getSourceWidth() - $x;
+        if ($width > $this->getSourceWidth() - $x) {
+            $this->source_w = $this->getSourceWidth() - $x;
         } else {
-          $this->source_w = $width;
+            $this->source_w = $width;
         }
 
-        if($height > $this->getSourceHeight() - $y){
-          $this->source_h = $this->getSourceHeight() - $y;
+        if ($height > $this->getSourceHeight() - $y) {
+            $this->source_h = $this->getSourceHeight() - $y;
         } else {
-          $this->source_h = $height;
+            $this->source_h = $height;
         }
 
         $this->dest_w = $width;
@@ -526,47 +527,48 @@ class ImageResize
 
 // imageflip definition for PHP < 5.5
 if (!function_exists('imageflip')) {
-  define('IMG_FLIP_HORIZONTAL', 0);
-  define('IMG_FLIP_VERTICAL', 1);
-  define('IMG_FLIP_BOTH', 2);
+    define('IMG_FLIP_HORIZONTAL', 0);
+    define('IMG_FLIP_VERTICAL', 1);
+    define('IMG_FLIP_BOTH', 2);
 
-  function imageflip($image, $mode) {
-    switch ($mode) {
-      case IMG_FLIP_HORIZONTAL: {
-        $max_x = imagesx($image) - 1;
-        $half_x = $max_x / 2;
-        $sy = imagesy($image);
-        $temp_image = imageistruecolor($image)? imagecreatetruecolor(1, $sy): imagecreate(1, $sy);
-        for ($x = 0; $x < $half_x; ++$x) {
-          imagecopy($temp_image, $image, 0, 0, $x, 0, 1, $sy);
-          imagecopy($image, $image, $x, 0, $max_x - $x, 0, 1, $sy);
-          imagecopy($image, $temp_image, $max_x - $x, 0, 0, 0, 1, $sy);
+    function imageflip($image, $mode)
+    {
+        switch ($mode) {
+            case IMG_FLIP_HORIZONTAL: {
+                $max_x = imagesx($image) - 1;
+                $half_x = $max_x / 2;
+                $sy = imagesy($image);
+                $temp_image = imageistruecolor($image)? imagecreatetruecolor(1, $sy): imagecreate(1, $sy);
+                for ($x = 0; $x < $half_x; ++$x) {
+                    imagecopy($temp_image, $image, 0, 0, $x, 0, 1, $sy);
+                    imagecopy($image, $image, $x, 0, $max_x - $x, 0, 1, $sy);
+                    imagecopy($image, $temp_image, $max_x - $x, 0, 0, 0, 1, $sy);
+                }
+                break;
+            }
+            case IMG_FLIP_VERTICAL: {
+                $sx = imagesx($image);
+                $max_y = imagesy($image) - 1;
+                $half_y = $max_y / 2;
+                $temp_image = imageistruecolor($image)? imagecreatetruecolor($sx, 1): imagecreate($sx, 1);
+                for ($y = 0; $y < $half_y; ++$y) {
+                    imagecopy($temp_image, $image, 0, 0, 0, $y, $sx, 1);
+                    imagecopy($image, $image, 0, $y, 0, $max_y - $y, $sx, 1);
+                    imagecopy($image, $temp_image, 0, $max_y - $y, 0, 0, $sx, 1);
+                }
+                break;
+            }
+            case IMG_FLIP_BOTH: {
+                $sx = imagesx($image);
+                $sy = imagesy($image);
+                $temp_image = imagerotate($image, 180, 0);
+                imagecopy($image, $temp_image, 0, 0, 0, 0, $sx, $sy);
+                break;
+            }
+            default: {
+                return;
+            }
         }
-        break;
-      }
-      case IMG_FLIP_VERTICAL: {
-        $sx = imagesx($image);
-        $max_y = imagesy($image) - 1;
-        $half_y = $max_y / 2;
-        $temp_image = imageistruecolor($image)? imagecreatetruecolor($sx, 1): imagecreate($sx, 1);
-        for ($y = 0; $y < $half_y; ++$y) {
-          imagecopy($temp_image, $image, 0, 0, 0, $y, $sx, 1);
-          imagecopy($image, $image, 0, $y, 0, $max_y - $y, $sx, 1);
-          imagecopy($image, $temp_image, 0, $max_y - $y, 0, 0, $sx, 1);
-        }
-        break;
-      }
-      case IMG_FLIP_BOTH: {
-        $sx = imagesx($image);
-        $sy = imagesy($image);
-        $temp_image = imagerotate($image, 180, 0);
-        imagecopy($image, $temp_image, 0, 0, 0, 0, $sx, $sy);
-        break;
-      }
-      default: {
-        return;
-      }
+        imagedestroy($temp_image);
     }
-    imagedestroy($temp_image);
-  }
 }

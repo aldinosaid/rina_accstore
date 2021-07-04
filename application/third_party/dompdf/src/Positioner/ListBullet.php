@@ -76,6 +76,5 @@ class ListBullet extends AbstractPositioner
 
         //Position is x-end y-top of character position of the bullet.
         $this->_frame->set_position($x, $y);
-
     }
 }
