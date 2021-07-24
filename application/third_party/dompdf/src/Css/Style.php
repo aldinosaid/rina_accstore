@@ -210,7 +210,6 @@ class Style
         $this->__font_size_calculated = false;
 
         if (!isset(self::$_defaults)) {
-
             // Shorthand
             $d =& self::$_defaults;
 
@@ -474,7 +473,6 @@ class Style
 
         $ret = 0;
         foreach ($length as $l) {
-
             if ($l === "auto") {
                 return "auto";
             }
@@ -639,7 +637,7 @@ class Style
                 //see __set and __get, on all assignments clear cache!
                 $this->_prop_cache[$prop] = null;
                 $this->_props[$prop] = $val;
-            } else if (!isset($this->_important_props[$prop])) {
+            } elseif (!isset($this->_important_props[$prop])) {
                 //see __set and __get, on all assignments clear cache!
                 $this->_prop_cache[$prop] = null;
                 $this->_props[$prop] = $val;
@@ -812,7 +810,7 @@ class Style
             } else {
                 $weight = "bold";
             }
-        } else if ($weight === "bold" || $weight === "bolder") {
+        } elseif ($weight === "bold" || $weight === "bolder") {
             $weight = "bold";
         } else {
             $weight = "normal";
@@ -823,9 +821,9 @@ class Style
 
         if ($weight === "bold" && ($font_style === "italic" || $font_style === "oblique")) {
             $subtype = "bold_italic";
-        } else if ($weight === "bold" && $font_style !== "italic" && $font_style !== "oblique") {
+        } elseif ($weight === "bold" && $font_style !== "italic" && $font_style !== "oblique") {
             $subtype = "bold";
-        } else if ($weight !== "bold" && ($font_style === "italic" || $font_style === "oblique")) {
+        } elseif ($weight !== "bold" && ($font_style === "italic" || $font_style === "oblique")) {
             $subtype = "italic";
         } else {
             $subtype = "normal";
@@ -850,7 +848,9 @@ class Style
             $font = $this->getFontMetrics()->getFont($family, $subtype);
 
             if ($font) {
-                if ($DEBUGCSS) print '(' . $font . ")get_font_family]\n</pre>";
+                if ($DEBUGCSS) {
+                    print '(' . $font . ")get_font_family]\n</pre>";
+                }
                 return $this->_font_family = $font;
             }
         }
@@ -862,12 +862,13 @@ class Style
         $font = $this->getFontMetrics()->getFont($family, $subtype);
 
         if ($font) {
-            if ($DEBUGCSS) print '(' . $font . ")get_font_family]\n</pre>";
+            if ($DEBUGCSS) {
+                print '(' . $font . ")get_font_family]\n</pre>";
+            }
             return $this->_font_family = $font;
         }
 
         throw new Exception("Unable to find a suitable font replacement for: '" . $this->_props["font_family"] . "'");
-
     }
 
     /**
@@ -919,7 +920,7 @@ class Style
         // Ensure relative sizes resolve to something
         if (($i = mb_strpos($fs, "em")) !== false) {
             $fs = mb_substr($fs, 0, $i) * $this->_parent_font_size;
-        } else if (($i = mb_strpos($fs, "ex")) !== false) {
+        } elseif (($i = mb_strpos($fs, "ex")) !== false) {
             $fs = mb_substr($fs, 0, $i) * $this->_parent_font_size;
         } else {
             $fs = $this->length_in_pt($fs);
@@ -930,7 +931,6 @@ class Style
         $this->_props["font_size"] = $fs;
         $this->__font_size_calculated = true;
         return $this->_props["font_size"];
-
     }
 
     /**
@@ -1046,7 +1046,6 @@ class Style
         }
 
         if (isset($tmp[1])) {
-
             switch ($tmp[1]) {
                 case "left":
                     $x = "0%";
@@ -1076,7 +1075,6 @@ class Style
                     $y = $tmp[1];
                     break;
             }
-
         } else {
             $y = "50%";
         }
@@ -1569,17 +1567,20 @@ class Style
                     $path = 'none';
                 }
             } else {
-                $path = Helpers::build_url($this->_stylesheet->get_protocol(),
+                $path = Helpers::build_url(
+                    $this->_stylesheet->get_protocol(),
                     $this->_stylesheet->get_host(),
                     $this->_stylesheet->get_base_path(),
-                    $val);
+                    $val
+                );
             }
         }
         if ($DEBUGCSS) {
             print "<pre>[_image\n";
             print_r($parsed_url);
             print $this->_stylesheet->get_protocol() . "\n" . $this->_stylesheet->get_base_path() . "\n" . $path . "\n";
-            print "_image]</pre>";;
+            print "_image]</pre>";
+            ;
         }
         return $path;
     }
@@ -1952,7 +1953,7 @@ class Style
             $value = trim($value);
             if (in_array($value, self::$BORDER_STYLES)) {
                 $this->_set_style_side_type('border', $side, '_style', $value, $important);
-            } else if (preg_match("/[.0-9]+(?:px|pt|pc|em|ex|%|in|mm|cm)|(?:thin|medium|thick)/", $value)) {
+            } elseif (preg_match("/[.0-9]+(?:px|pt|pc|em|ex|%|in|mm|cm)|(?:thin|medium|thick)/", $value)) {
                 $this->_set_style_side_type('border', $side, '_width', $value, $important);
             } else {
                 // must be color
@@ -2118,7 +2119,7 @@ class Style
 
             if (in_array($value, self::$BORDER_STYLES)) {
                 $this->set_outline_style($value);
-            } else if (preg_match("/[.0-9]+(?:px|pt|pc|em|ex|%|in|mm|cm)|(?:thin|medium|thick)/", $value)) {
+            } elseif (preg_match("/[.0-9]+(?:px|pt|pc|em|ex|%|in|mm|cm)|(?:thin|medium|thick)/", $value)) {
                 $this->set_outline_width($value);
             } else {
                 // must be color
@@ -2225,7 +2226,7 @@ class Style
 
             if (in_array($value, $types)) {
                 $this->_set_style("list_style_type", $value, $important);
-            } else if (in_array($value, $positions)) {
+            } elseif (in_array($value, $positions)) {
                 $this->_set_style("list_style_position", $value, $important);
             }
         }
@@ -2317,7 +2318,6 @@ class Style
                         case "skew":
                         case "skewX":
                         case "skewY":
-
                             foreach ($values as $i => $value) {
                                 if (strpos($value, "rad")) {
                                     $values[$i] = rad2deg(floatval($value));
@@ -2429,17 +2429,18 @@ class Style
      * @link http://www.w3.org/TR/css3-2d-transforms/#transform-origin
      * @return mixed[]
      */
-    function get_transform_origin() {
+    function get_transform_origin()
+    {
         $values = preg_split("/\s+/", $this->_props['transform_origin']);
 
         if (count($values) === 0) {
             $values = preg_split("/\s+/", self::$_defaults["transform_origin"]);
         }
 
-        $values = array_map(function($value) {
+        $values = array_map(function ($value) {
             if (in_array($value, array("top", "left"))) {
                 return 0;
-            } else if (in_array($value, array("bottom", "right"))) {
+            } elseif (in_array($value, array("bottom", "right"))) {
                 return "100%";
             } else {
                 return $value;
@@ -2554,8 +2555,10 @@ class Style
     /*DEBUGCSS print: see below additional debugging util*/
     function __toString()
     {
-        return print_r(array_merge(array("parent_font_size" => $this->_parent_font_size),
-            $this->_props), true);
+        return print_r(array_merge(
+            array("parent_font_size" => $this->_parent_font_size),
+            $this->_props
+        ), true);
     }
 
     /*DEBUGCSS*/

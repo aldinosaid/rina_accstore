@@ -8,7 +8,7 @@
                 <strong><?php echo $this->session->flashdata('notification'); ?></strong>
             </div>
         </div>
-    <?php elseif($this->session->flashdata('error_notification')) : ?>
+    <?php elseif ($this->session->flashdata('error_notification')) : ?>
         <div class="col-md-12">
             <div class="alert alert-danger alert-dismissible fade in" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
@@ -24,38 +24,60 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <table id="all_finalist" class="table table-striped table-bordered">
+                <div class="col-md-3 col-xs-12">
+                    <div class="alert alert-info alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        </button>
+                        <strong>Start : <?php echo idTimeFormat($start_date); ?></strong>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-12">
+                    <div class="alert alert-info alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        </button>
+                        <strong>End : <?php echo idTimeFormat($end_date); ?></strong>
+                    </div>
+                </div>
+                <table id="laporan_penjualan" class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <!-- <th>Tanggal</th> -->
                             <th>Kode Barang</th>
                             <th>Nama Barang</th>
                             <th>Qty</th>
                             <th>Harga Pokok</th>
                             <th>Total</th>
+                            <th>Laba</th>
                         </tr>
                     </thead>
-
                     <tbody>
-                        <?php 
+                        <?php
                             $no = 1;
-                            foreach ($semua_penjualan as $penjualan) : 
+                            $laba = 0;
+                            foreach ($semua_penjualan as $penjualan) :
                         ?>
                         <tr>
-                            <td><?php echo $no; ?></td>
-                            <!-- <td><?php echo idTimeFormat($penjualan->tanggal); ?></td> -->
-                            <td><?php echo $penjualan->kode_brg; ?></td>
-                            <td><?php echo $penjualan->nama_brg; ?></td>
-                            <td><?php echo $penjualan->qty; ?></td>
-                            <td><?php echo $penjualan->harga_pokok; ?></td>
-                            <td><?php echo $penjualan->total; ?></td>
+                        <td><?php echo $no; ?></td>
+                        <td><?php echo $penjualan->kode_brg; ?></td>
+                        <td><?php echo $penjualan->nama_brg; ?></td>
+                        <td><?php echo $penjualan->qty; ?></td>
+                        <td><?php echo idr_format($penjualan->harga_pokok); ?></td>
+                        <td><?php echo idr_format($penjualan->total); ?></td>
+                        <td><?php echo idr_format($penjualan->laba); ?></td>
                         </tr>
-                        <?php 
+                        <?php
+                            $laba += $penjualan->laba;
                             $no++;
-                            endforeach; 
+                            endforeach;
                         ?>
                     </tbody>
+                    <tfoot> 
+                        <tr>
+                            <th colspan="5" class="text-center">Jumlah</th>
+                            <th><?php echo idr_format($total); ?></th>
+                            <th><?php echo idr_format($laba); ?></th>
+                        </tr>
+                    </tfoot>
                 </table>
                 <div class="col-md-6 col-sm-12 pull-right">
                     <div class="table-responsive">
@@ -112,3 +134,77 @@
 <?php
     $this->load->view('dashboard/js');
 ?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        function getDateNow()
+        {
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; 
+            var yyyy = today.getFullYear();
+            if(dd<10) 
+            {
+                dd='0'+dd;
+            } 
+
+            if(mm<10) 
+            {
+                mm='0'+mm;
+            }
+            today = dd+'_'+mm+'_'+yyyy;
+            return today;
+        }
+
+        $("#laporan_penjualan").DataTable({
+          dom: "Blfrtip",
+          buttons: [
+            {
+              extend: "copy",
+              title: 'Laporan tanggal '+getDateNow(),
+              className: "btn-sm",
+              footer: true
+            },
+            {
+              extend: "csvHtml5",
+              title: 'Laporan tanggal '+getDateNow(),
+              className: "btn-sm",
+              footer: true
+            },
+            {
+              extend: "excelHtml5",
+              title: 'Laporan tanggal '+getDateNow(),
+              className: "btn-sm",
+              footer: true
+            },
+            {
+              extend: "pdfHtml5",
+              title: 'Laporan tanggal '+getDateNow(),
+              className: "btn-sm",
+              footer: true
+            },
+            {
+              extend: "print",
+              title: 'Laporan tanggal '+getDateNow(),
+              className: "btn-sm",
+              footer: true
+            },
+          ],
+          responsive: true
+        });
+
+        function init_datetime() {
+            $('#startDate').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+            $('#endDate').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+        }
+
+        function init() {
+            init_datetime();
+        }
+
+        init();
+    });
+</script>

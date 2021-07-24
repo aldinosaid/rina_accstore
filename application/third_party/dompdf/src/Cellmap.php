@@ -454,7 +454,6 @@ class Cellmap
         $row["height"] = $height;
         $next_row =& $this->get_row($i + 1);
         $next_row["y"] = $row["y"] + $height;
-
     }
 
     /**
@@ -513,7 +512,6 @@ class Cellmap
             $display === "inline-table" ||
             in_array($display, TableFrameDecorator::$ROW_GROUPS)
         ) {
-
             $start_row = $this->__row;
             foreach ($frame->get_children() as $child) {
                 // Ignore all Text frames and :before/:after pseudo-selector elements.
@@ -535,7 +533,6 @@ class Cellmap
             $this->_frames[$key]["frame"] = $frame;
 
             if ($display !== "table-row" && $collapse) {
-
                 $bp = $style->get_border_properties();
 
                 // Resolve the borders
@@ -649,7 +646,7 @@ class Cellmap
             if (Helpers::is_percent($width)) {
                 $var = "percent";
                 $val = (float)rtrim($width, "% ") / $colspan;
-            } else if ($width !== "auto") {
+            } elseif ($width !== "auto") {
                 $var = "absolute";
                 $val = $style->length_in_pt($frame_min) / $colspan;
             }
@@ -657,7 +654,6 @@ class Cellmap
             $min = 0;
             $max = 0;
             for ($cs = 0; $cs < $colspan; $cs++) {
-
                 // Resolve the frame's width(s) with other cells
                 $col =& $this->get_column($this->__col + $cs);
 
@@ -902,9 +898,11 @@ class Cellmap
         $str .= Helpers::pre_r($arr, true);
 
         if (php_sapi_name() == "cli") {
-            $str = strip_tags(str_replace(array("<br/>", "<b>", "</b>"),
+            $str = strip_tags(str_replace(
+                array("<br/>", "<b>", "</b>"),
                 array("\n", chr(27) . "[01;33m", chr(27) . "[0m"),
-                $str));
+                $str
+            ));
         }
 
         return $str;

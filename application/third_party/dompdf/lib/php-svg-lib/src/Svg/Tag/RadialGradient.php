@@ -12,6 +12,5 @@ class RadialGradient extends AbstractTag
 {
     public function start($attribs)
     {
-
     }
-} 
+}

@@ -28,5 +28,4 @@ class NullFrameReflower extends AbstractFrameReflower
     {
         return;
     }
-
 }

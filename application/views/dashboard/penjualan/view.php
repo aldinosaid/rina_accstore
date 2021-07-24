@@ -8,7 +8,7 @@
                 <strong><?php echo $this->session->flashdata('notification'); ?></strong>
             </div>
         </div>
-    <?php elseif($this->session->flashdata('error_notification')) : ?>
+    <?php elseif ($this->session->flashdata('error_notification')) : ?>
         <div class="col-md-12">
             <div class="alert alert-danger alert-dismissible fade in" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
@@ -24,44 +24,45 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <table class="table table-striped keranjang">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Kode Barang</th>
-                            <th>Nama Barang</th>
-                            <th>Qty</th>
-                            <th>Harga</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <?php 
-                            $i = 1;
-                            foreach ($keranjang as $item) : 
-                        ?>
+                <div class="table-responsive">
+                    <table class="table table-striped keranjang">
+                        <thead>
                             <tr>
-                                <td><?php echo $i; ?></td>
-                                <td><?php echo $item->kode_brg; ?></td>
-                                <td><?php echo $item->nama_brg; ?></td>
-                                <td><?php echo $item->qty; ?></td>
-                                <td><?php echo idr_format($item->harga); ?></td>
+                                <th>No</th>
+                                <th>Kode Barang</th>
+                                <th>Nama Barang</th>
+                                <th>Qty</th>
+                                <th>Harga</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php
+                                $i = 1;
+                            foreach ($keranjang as $item) :
+                            ?>
+                            <tr>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo $item->kode_brg; ?></td>
+                            <td><?php echo $item->nama_brg; ?></td>
+                            <td><?php echo $item->qty; ?></td>
+                            <td><?php echo idr_format($item->harga); ?></td>
                                 <td>
-                                    <a href="<?php echo base_url('penjualan/hapus/' . $item->kode_brg); ?>" class="remove" kode_brg="<?php echo $item->kode_brg; ?>">
+                                <a href="<?php echo base_url('penjualan/hapus/' . $item->kode_brg); ?>" class="remove" kode_brg="<?php echo $item->kode_brg; ?>">
                                         <i class="fa fa-remove"></i>
                                     </a>
                                 </td>
                             </tr>
-                        <?php 
+                            <?php
                             $i++;
                             endforeach;
-                        ?>
-                    </tbody>
-                </table>
-                <br>
-                <div class="col-md-6 col-sm-12 pull-right">
-                    <div class="table-responsive">
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 pull-right">
                         <table class="table">
                             <tr>
                                 <th><h3>Total</h3></th>
@@ -76,11 +77,11 @@
                                 <td><h3 class="kembali">Rp 0.</h3></td>
                             </tr>
                         </table>
+                        <br>
+                        <a class="btn btn-success" href="<?php echo base_url('penjualan'); ?>"><i class="fa fa-refresh"></i> Reload</a>
+                        <a class="btn btn-danger" href="<?php echo base_url('penjualan/bersihkan'); ?>"><i class="fa fa-eraser"></i> Bersihkan</a>
+                        <a href="javascript:void(0)" class="btn btn-primary cetak"><i class="fa fa-print"></i> Cetak</a>
                     </div>
-                    <br>
-                    <a class="btn btn-success" href="<?php echo base_url('penjualan'); ?>"><i class="fa fa-refresh"></i> Reload</a>
-                    <a class="btn btn-danger" href="<?php echo base_url('penjualan/bersihkan'); ?>"><i class="fa fa-eraser"></i> Bersihkan</a>
-                    <a href="javascript:void(0)" class="btn btn-primary cetak"><i class="fa fa-print"></i> Cetak</a>
                 </div>
             </div>
         </div>
@@ -93,13 +94,17 @@
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <input type="text" name="kode_brg" id="barang" placeholder="Kode Barang" class="form-control" style="text-transform:uppercase" readonly>
+                    <input type="text" name="barcode" id="barcode" placeholder="Barcode" class="form-control" style="text-transform:uppercase">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="qty" placeholder="Qty" class="form-control">
+                    <input type="text" name="qty" placeholder="Qty" class="form-control" value="0">
                 </div>
                 <div class="table-responsive">
                     <table class="table">
+                        <tr>
+                            <th>Kode Barang</th>
+                            <td id="kd_brg">-</td>
+                        </tr>
                         <tr>
                             <th>Nama Barang</th>
                             <td id="nm_brg">-</td>
@@ -110,7 +115,7 @@
                         </tr>
                     </table>
                 </div>
-                <button class="btn btn-primary" id="cari-barang"><i class="fa fa-search"></i> Cari Barang</button>
+                <button class="btn btn-primary hidden" id="cari-barang"><i class="fa fa-search"></i> Cari Barang</button>
                 <button class="btn btn-success" id="btn-keranjang"><i class="fa fa-shopping-cart"></i> Tambah Ke daftar belanja</button>
             </div>
         </div>
@@ -128,7 +133,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Kode Barang</th>
+                            <th>Barcode</th>
                             <th>Nama Barang</th>
                             <th>Harga</th>
                             <th>Action</th>
@@ -136,22 +141,22 @@
                     </thead>
 
                     <tbody>
-                        <?php 
+                        <?php
                             $i = 1;
-                            foreach ($barang as $value) : 
+                        foreach ($barang as $value) :
                         ?>
                         <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo $value->kode_brg; ?></td>
-                            <td><?php echo $value->nama_brg; ?></td>
-                            <td><?php echo idr_format($value->harga_jual); ?></td>
-                            <td>
-                                <button class="btn btn-primary pilih-barang" kode-brg="<?php echo $value->kode_brg; ?>"><i class="fa fa-plus"></i> Pilih</button>
-                            </td>
+                        <td><?php echo $i; ?></td>
+                        <td><?php echo $value->barcode; ?></td>
+                        <td><?php echo $value->nama_brg; ?></td>
+                        <td><?php echo idr_format($value->harga_jual); ?></td>
+                        <td>
+                        <button class="btn btn-primary pilih-barang" barcode="<?php echo $value->barcode; ?>"><i class="fa fa-plus"></i> Pilih</button>
+                        </td>
                         </tr>
-                        <?php 
-                            $i++;
-                            endforeach; 
+                        <?php
+                        $i++;
+                        endforeach;
                         ?>
                     </tbody>
                 </table>

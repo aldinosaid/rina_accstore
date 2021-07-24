@@ -60,17 +60,17 @@
             <label class="medium">=========================</label>
         </div>
         <div class="content">
-            <?php 
-                foreach ($orders as $order) : 
+            <?php
+            foreach ($orders as $order) :
             ?>
-                <div class="item">
-                    <label class="small"><?php echo $order->nama_brg; ?></label>
-                    <br>
-                    <label class="small pull-left"><?php echo idr_format($order->harga); ?> </label><label class="small pull-right"> <?php echo $order->qty; ?> x = <?php echo idr_format($order->sub_total); ?></label>
-                    <br>
-                </div>
+            <div class="item">
+            <label class="small"><?php echo $order->nama_brg; ?></label>
                 <br>
-            <?php endforeach; ?>
+            <label class="small pull-left"><?php echo idr_format($order->harga); ?> </label><label class="small pull-right"> <?php echo $order->qty; ?> x = <?php echo idr_format($order->sub_total); ?></label>
+                <br>
+            </div>
+            <br>
+            <?php                                                                                                                                                                                                                                                                                                                             endforeach; ?>
             <label class="medium">=========================</label>
         </div>
         <div class="total">

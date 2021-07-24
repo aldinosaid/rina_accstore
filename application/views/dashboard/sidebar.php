@@ -2,32 +2,39 @@
     <div class="menu_section">
         <h3>General</h3>
         <ul class="nav side-menu">
-            <?php if($this->session->userdata('email') == 'rinakusrinah01@gmail.com') : ?>
+            <?php if (user_level($this->session->userdata('level')) == 'Admin') : ?>
             <li><a><i class="fa fa-cubes"></i> Master Data <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="<?php echo base_url('barang'); ?>">Barang</a></li>
                     <li><a href="<?php echo base_url('kategori'); ?>">Kategori</a></li>
+                    <li><a href="#">Supplier</a></li>
+                    <li><a href="#">Customer</a></li>
                 </ul>
             </li>
             <?php endif; ?>
             <li><a><i class="fa fa-exchange"></i> Transaksi <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
+                    <li><a href="<?php echo base_url('daftar_transaksi'); ?>">Daftar Transaksi</a></li>
                     <li><a href="<?php echo base_url('penjualan'); ?>">Penjualan</a></li>
                     <li><a href="<?php echo base_url('pembelian'); ?>">Pembelian</a></li>
                 </ul>
             </li>
-            <?php if($this->session->userdata('email') == 'rinakusrinah01@gmail.com') : ?>
+            <?php if (user_level($this->session->userdata('level')) == 'Admin') : ?>
             <li><a><i class="fa fa-book"></i> Laporan <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="<?php echo base_url('laporan/penjualan'); ?>">Penjualan</a></li>
                     <li><a href="<?php echo base_url('laporan/pembelian'); ?>">Pembelian</a></li>
                 </ul>
             </li>
+            <li>
+                <a href="<?php echo base_url('print_barcode'); ?>"><i class="fa fa-barcode"></i> Print Barcode</a>
+            </li>
             <?php endif ?>
             <li><a><i class="fa fa-gear"></i> Settings <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <?php if($this->session->userdata('email') == 'rinakusrinah01@gmail.com') : ?>
+                    <?php if (user_level($this->session->userdata('level')) == 'Admin') : ?>
                     <li><a href="<?php echo base_url('admin_login'); ?>">Pengguna</a></li>
+                    <li><a href="<?php echo base_url('settings/factory_reset'); ?>">Factory Reset</a></li>
                     <?php endif; ?>
                     <li><a href="<?php echo base_url('settings/test_print'); ?>">Test Print</a></li>
                 </ul>

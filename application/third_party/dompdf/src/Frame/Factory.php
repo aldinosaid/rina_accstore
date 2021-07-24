@@ -75,7 +75,6 @@ class Factory
         $display = $style->display;
 
         switch ($display) {
-
             case "block":
                 $positioner = "Block";
                 $decorator = "Block";

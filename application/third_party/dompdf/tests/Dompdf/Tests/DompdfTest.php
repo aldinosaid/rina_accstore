@@ -31,7 +31,8 @@ class DompdfTest extends PHPUnit_Framework_TestCase
         $dompdf = new Dompdf();
         $dompdf->setBaseHost('test1');
         $dompdf->setBasePath('test2');
-        $dompdf->setCallbacks(array('test' => array('event' => 'test', 'f' => function() {})));
+        $dompdf->setCallbacks(array('test' => array('event' => 'test', 'f' => function () {
+        })));
         $dompdf->setCss(new Stylesheet($dompdf));
         $dompdf->setDom(new DOMDocument());
         $dompdf->setHttpContext(fopen(__DIR__ . "/_files/jamaica.jpg", 'r'));

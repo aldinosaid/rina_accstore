@@ -53,4 +53,4 @@ class Text extends Shape
     {
         $this->text .= $text;
     }
-} 
+}

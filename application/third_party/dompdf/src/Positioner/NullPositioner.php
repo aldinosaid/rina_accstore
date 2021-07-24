@@ -27,5 +27,4 @@ class NullPositioner extends AbstractPositioner
     {
         return;
     }
-
 }

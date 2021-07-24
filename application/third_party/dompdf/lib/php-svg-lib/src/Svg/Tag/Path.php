@@ -49,8 +49,7 @@ class Path extends Shape
                 $item = $arguments[0];
                 $commandLower = strtolower($c[1]);
 
-                if (
-                    isset(self::$commandLengths[$commandLower]) &&
+                if (isset(self::$commandLengths[$commandLower]) &&
                     ($commandLength = self::$commandLengths[$commandLower]) &&
                     count($item) > $commandLength
                 ) {
@@ -68,7 +67,6 @@ class Path extends Shape
                     array_unshift($item, $c[1]);
                     $path[] = $item;
                 }
-
             } else {
                 $item = array($c[1]);
 
@@ -177,8 +175,7 @@ class Path extends Shape
                     );
                     break;
 
-                case 's': // shorthand cubic bezierCurveTo, relative
-
+                case 's':
                     // transform to absolute x,y
                     $tempX = $x + $current[3];
                     $tempY = $y + $current[4];
@@ -282,8 +279,7 @@ class Path extends Shape
                     $controlY = $current[2];
                     break;
 
-                case 't': // shorthand quadraticCurveTo, relative
-
+                case 't':
                     // transform to absolute x,y
                     $tempX = $x + $current[1];
                     $tempY = $y + $current[2];
@@ -526,4 +522,4 @@ class Path extends Shape
             return 2 * M_PI - ($ta - $tb);
         }
     }
-} 
+}

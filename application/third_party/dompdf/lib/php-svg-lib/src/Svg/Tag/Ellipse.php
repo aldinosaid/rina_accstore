@@ -34,4 +34,4 @@ class Ellipse extends Shape
 
         $this->document->getSurface()->ellipse($this->cx, $this->cy, $this->rx, $this->ry, 0, 0, 360, false);
     }
-} 
+}

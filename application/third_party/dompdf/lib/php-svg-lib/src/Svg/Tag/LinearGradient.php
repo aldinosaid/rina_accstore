@@ -8,11 +8,9 @@
 
 namespace Svg\Tag;
 
-
 class LinearGradient extends AbstractTag
 {
     public function start($attribs)
     {
-
     }
-} 
+}

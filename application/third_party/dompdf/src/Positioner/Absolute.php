@@ -118,6 +118,5 @@ class Absolute extends AbstractPositioner
         }
 
         $frame->set_position($x, $y);
-
     }
 }

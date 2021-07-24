@@ -12,6 +12,5 @@ class Stop extends AbstractTag
 {
     public function start($attribs)
     {
-
     }
-} 
+}

@@ -7,6 +7,7 @@
  */
 
 namespace FontLib\Table\Type;
+
 use FontLib\Table\Table;
 use FontLib\TrueType\File;
 
@@ -15,8 +16,9 @@ use FontLib\TrueType\File;
  *
  * @package php-font-lib
  */
-class post extends Table {
-  protected $def = array(
+class post extends Table
+{
+    protected $def = array(
     "format"             => self::Fixed,
     "italicAngle"        => self::Fixed,
     "underlinePosition"  => self::FWord,
@@ -26,81 +28,82 @@ class post extends Table {
     "maxMemType42"       => self::uint32,
     "minMemType1"        => self::uint32,
     "maxMemType1"        => self::uint32,
-  );
+    );
 
-  protected function _parse() {
-    $font = $this->getFont();
-    $data = $font->unpack($this->def);
+    protected function _parse()
+    {
+        $font = $this->getFont();
+        $data = $font->unpack($this->def);
 
-    $names = array();
+        $names = array();
 
-    switch ($data["format"]) {
-      case 1:
-        $names = File::$macCharNames;
-        break;
+        switch ($data["format"]) {
+            case 1:
+                $names = File::$macCharNames;
+                break;
 
-      case 2:
-        $data["numberOfGlyphs"] = $font->readUInt16();
+            case 2:
+                $data["numberOfGlyphs"] = $font->readUInt16();
 
-        $glyphNameIndex = array();
-        for ($i = 0; $i < $data["numberOfGlyphs"]; $i++) {
-          $glyphNameIndex[] = $font->readUInt16();
+                $glyphNameIndex = array();
+                for ($i = 0; $i < $data["numberOfGlyphs"]; $i++) {
+                    $glyphNameIndex[] = $font->readUInt16();
+                }
+
+                $data["glyphNameIndex"] = $glyphNameIndex;
+
+                $namesPascal = array();
+                for ($i = 0; $i < $data["numberOfGlyphs"]; $i++) {
+                    $len           = $font->readUInt8();
+                    $namesPascal[] = $font->read($len);
+                }
+
+                foreach ($glyphNameIndex as $g => $index) {
+                    if ($index < 258) {
+                        $names[$g] = File::$macCharNames[$index];
+                    } else {
+                        $names[$g] = $namesPascal[$index - 258];
+                    }
+                }
+
+                break;
+
+            case 2.5:
+                // TODO
+                break;
+
+            case 3:
+                // nothing
+                break;
+
+            case 4:
+                // TODO
+                break;
         }
 
-        $data["glyphNameIndex"] = $glyphNameIndex;
+        $data["names"] = $names;
 
-        $namesPascal = array();
-        for ($i = 0; $i < $data["numberOfGlyphs"]; $i++) {
-          $len           = $font->readUInt8();
-          $namesPascal[] = $font->read($len);
-        }
-
-        foreach ($glyphNameIndex as $g => $index) {
-          if ($index < 258) {
-            $names[$g] = File::$macCharNames[$index];
-          }
-          else {
-            $names[$g] = $namesPascal[$index - 258];
-          }
-        }
-
-        break;
-
-      case 2.5:
-        // TODO
-        break;
-
-      case 3:
-        // nothing
-        break;
-
-      case 4:
-        // TODO
-        break;
+        $this->data = $data;
     }
 
-    $data["names"] = $names;
+    function _encode()
+    {
+        $font           = $this->getFont();
+        $data           = $this->data;
+        $data["format"] = 3;
 
-    $this->data = $data;
-  }
+        $length = $font->pack($this->def, $data);
 
-  function _encode() {
-    $font           = $this->getFont();
-    $data           = $this->data;
-    $data["format"] = 3;
+        return $length;
+        /*
+        $subset = $font->getSubset();
 
-    $length = $font->pack($this->def, $data);
-
-    return $length;
-    /*
-    $subset = $font->getSubset();
-
-    switch($data["format"]) {
-      case 1:
+        switch($data["format"]) {
+        case 1:
         // nothing to do
-      break;
+        break;
 
-      case 2:
+        case 2:
         $old_names = $data["names"];
 
         $glyphNameIndex = range(0, count($subset));
@@ -124,21 +127,21 @@ class post extends Table {
           $length += $font->write($name, $len);
         }
 
-      break;
+        break;
 
-      case 2.5:
+        case 2.5:
         // TODO
-      break;
+        break;
 
-      case 3:
+        case 3:
         // nothing
-      break;
+        break;
 
-      case 4:
+        case 4:
         // TODO
-      break;
-    }
+        break;
+        }
 
-    return $length;*/
-  }
+        return $length;*/
+    }
 }

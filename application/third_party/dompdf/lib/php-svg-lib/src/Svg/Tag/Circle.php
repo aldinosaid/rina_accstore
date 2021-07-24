@@ -28,4 +28,4 @@ class Circle extends Shape
 
         $this->document->getSurface()->circle($this->cx, $this->cy, $this->r);
     }
-} 
+}

@@ -100,7 +100,6 @@ class Text extends AbstractFrameDecorator
         */
 
         return ($style->line_height / ($size > 0 ? $size : 1)) * $this->_dompdf->getFontMetrics()->getFontHeight($font, $size);
-
     }
 
     function get_padding_box()
@@ -178,5 +177,4 @@ class Text extends AbstractFrameDecorator
     {
         $this->_frame->get_node()->data = $text;
     }
-
 }

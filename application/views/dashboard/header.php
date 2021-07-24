@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Rina Acc Store | </title>
+    <title>Toko Dherisa Grosir</title>
 
     <!-- Bootstrap -->
     <link href="<?php echo base_url('assets/vendors/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
@@ -29,15 +29,17 @@
 
     <!-- Custom Theme Style -->
     <link href="<?php echo base_url('assets/build/css/custom.min.css'); ?>" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 </head>
 
-<body class="nav-sm">
+<body class="nav-md">
     <div class="container body">
         <div class="main_container">
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="#" class="site_title"> <span>Rina Acc Store</span></a>
+                        <a href="#" class="site_title"> <span>Toko Dherisa Grosir</span></a>
                     </div>
 
                     <div class="clearfix"></div>

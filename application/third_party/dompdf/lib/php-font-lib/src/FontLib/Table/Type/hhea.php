@@ -7,6 +7,7 @@
  */
 
 namespace FontLib\Table\Type;
+
 use FontLib\Table\Table;
 
 /**
@@ -14,8 +15,9 @@ use FontLib\Table\Table;
  *
  * @package php-font-lib
  */
-class hhea extends Table {
-  protected $def = array(
+class hhea extends Table
+{
+    protected $def = array(
     "version"             => self::Fixed,
     "ascent"              => self::FWord,
     "descent"             => self::FWord,
@@ -33,12 +35,13 @@ class hhea extends Table {
     self::int16,
     "metricDataFormat"    => self::int16,
     "numOfLongHorMetrics" => self::uint16,
-  );
+    );
 
-  function _encode() {
-    $font                              = $this->getFont();
-    $this->data["numOfLongHorMetrics"] = count($font->getSubset());
+    function _encode()
+    {
+        $font                              = $this->getFont();
+        $this->data["numOfLongHorMetrics"] = count($font->getSubset());
 
-    return parent::_encode();
-  }
+        return parent::_encode();
+    }
 }

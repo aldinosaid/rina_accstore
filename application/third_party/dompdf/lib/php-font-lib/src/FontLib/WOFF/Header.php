@@ -13,8 +13,9 @@ namespace FontLib\WOFF;
  *
  * @package php-font-lib
  */
-class Header extends \FontLib\TrueType\Header {
-  protected $def = array(
+class Header extends \FontLib\TrueType\Header
+{
+    protected $def = array(
     "format"         => self::uint32,
     "flavor"         => self::uint32,
     "length"         => self::uint32,
@@ -28,5 +29,5 @@ class Header extends \FontLib\TrueType\Header {
     "metaOrigLength" => self::uint32,
     "privOffset"     => self::uint32,
     "privLength"     => self::uint32,
-  );
+    );
 }

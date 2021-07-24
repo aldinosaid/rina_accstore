@@ -176,13 +176,11 @@ abstract class AbstractFrameReflower
         for ($iter = $this->_frame->get_children()->getIterator();
              $iter->valid();
              $iter->next()) {
-
             $inline_min = 0;
             $inline_max = 0;
 
             // Add all adjacent inline widths together to calculate max width
             while ($iter->valid() && in_array($iter->current()->get_style()->display, Style::$INLINE_TYPES)) {
-
                 $child = $iter->current();
 
                 $minmax = $child->get_min_max_width();
@@ -195,17 +193,19 @@ abstract class AbstractFrameReflower
 
                 $inline_max += $minmax["max"];
                 $iter->next();
-
             }
 
-            if ($inline_max > 0) $high[] = $inline_max;
-            if ($inline_min > 0) $low[] = $inline_min;
+            if ($inline_max > 0) {
+                $high[] = $inline_max;
+            }
+            if ($inline_min > 0) {
+                $low[] = $inline_min;
+            }
 
             if ($iter->valid()) {
                 list($low[], $high[]) = $iter->current()->get_min_max_width();
                 continue;
             }
-
         }
         $min = count($low) ? max($low) : 0;
         $max = count($high) ? max($high) : 0;
@@ -215,8 +215,12 @@ abstract class AbstractFrameReflower
         $width = $style->width;
         if ($width !== "auto" && !Helpers::is_percent($width)) {
             $width = $style->length_in_pt($width, $cb_w);
-            if ($min < $width) $min = $width;
-            if ($max < $width) $max = $width;
+            if ($min < $width) {
+                $min = $width;
+            }
+            if ($max < $width) {
+                $max = $width;
+            }
         }
 
         $min += $delta;
@@ -240,13 +244,20 @@ abstract class AbstractFrameReflower
             $string = trim($string, "'\"");
         }
 
-        $string = str_replace(array("\\\n", '\\"', "\\'"),
-            array("", '"', "'"), $string);
+        $string = str_replace(
+            array("\\\n", '\\"', "\\'"),
+            array("", '"', "'"),
+            $string
+        );
 
         // Convert escaped hex characters into ascii characters (e.g. \A => newline)
-        $string = preg_replace_callback("/\\\\([0-9a-fA-F]{0,6})/",
-            function ($matches) { return \Dompdf\Helpers::unichr(hexdec($matches[1])); },
-            $string);
+        $string = preg_replace_callback(
+            "/\\\\([0-9a-fA-F]{0,6})/",
+            function ($matches) {
+                return \Dompdf\Helpers::unichr(hexdec($matches[1]));
+            },
+            $string
+        );
         return $string;
     }
 
@@ -310,7 +321,6 @@ abstract class AbstractFrameReflower
         $text = "";
 
         foreach ($matches as $match) {
-
             if (isset($match[2]) && $match[2] !== "") {
                 $match[1] = $match[2];
             }
@@ -324,7 +334,6 @@ abstract class AbstractFrameReflower
             }
 
             if (isset($match[1]) && $match[1] !== "") {
-
                 // counters?(...)
                 $match[1] = mb_strtolower(trim($match[1]));
 
@@ -348,8 +357,7 @@ abstract class AbstractFrameReflower
                     $p = $this->_frame->lookup_counter_frame($counter_id);
 
                     $text .= $p->counter_value($counter_id, $type);
-
-                } else if (strtolower($args[1]) == 'counters') {
+                } elseif (strtolower($args[1]) == 'counters') {
                     // counters(name, string [,style])
                     if (isset($args[5])) {
                         $string = $this->_parse_string($args[5]);
@@ -371,33 +379,29 @@ abstract class AbstractFrameReflower
                             array_unshift($tmp, $p->counter_value($counter_id, $type));
                         }
                         $p = $p->lookup_counter_frame($counter_id);
-
                     }
                     $text .= implode($string, $tmp);
-
                 } else {
                     // countertops?
                     continue;
                 }
-
-            } else if (isset($match[4]) && $match[4] !== "") {
+            } elseif (isset($match[4]) && $match[4] !== "") {
                 // String match
                 $text .= $this->_parse_string($match[4]);
-            } else if (isset($match[7]) && $match[7] !== "") {
+            } elseif (isset($match[7]) && $match[7] !== "") {
                 // Directive match
 
                 if ($match[7] === "open-quote") {
                     // FIXME: do something here
                     $text .= $quotes[0][0];
-                } else if ($match[7] === "close-quote") {
+                } elseif ($match[7] === "close-quote") {
                     // FIXME: do something else here
                     $text .= $quotes[0][1];
-                } else if ($match[7] === "no-open-quote") {
+                } elseif ($match[7] === "no-open-quote") {
                     // FIXME:
-                } else if ($match[7] === "no-close-quote") {
+                } elseif ($match[7] === "no-close-quote") {
                     // FIXME:
-                } else if (mb_strpos($match[7], "attr(") === 0) {
-
+                } elseif (mb_strpos($match[7], "attr(") === 0) {
                     $i = mb_strpos($match[7], ")");
                     if ($i === false) {
                         continue;
