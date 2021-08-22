@@ -43,8 +43,13 @@ class Barang_model extends CI_Model
     public function getAll()
     {
         return $this->db
-                    ->where(['flag' => 0])
-                    ->get('barang')
+                    ->select('B.id, B.kode_brg, B.nama_brg, S.kode_satuan, S.satuan, M.kode_merek, M.merek, J.kode_jenis, J.jenis, K.kode_kat, K.kategori, B.qty, B.harga_beli, B.harga_jual')
+                    ->join('satuan S', 'S.kode_satuan=B.kode_satuan', 'left')
+                    ->join('merek M', 'M.kode_merek=B.kode_merek', 'left')
+                    ->join('jenis J', 'J.kode_jenis=B.kode_jenis', 'left')
+                    ->join('kategori K', 'K.kode_kat=B.kode_kat', 'left')
+                    ->where(['B.flag' => 0])
+                    ->get('barang B')
                     ->result();
     }
 
@@ -56,11 +61,11 @@ class Barang_model extends CI_Model
                     ->result();
     }
 
-    public function getMaxId($kodeKat)
+    public function getMaxId($kode_brg)
     {
         return $this->db
                     ->select('max(RIGHT(kode_brg, 6)) as kode_brg')
-                    ->like($kodeKat)
+                    ->like($kode_brg)
                     ->get('barang')
                     ->result();
     }

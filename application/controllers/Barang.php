@@ -10,7 +10,15 @@ class Barang extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model(['kategori_model', 'barang_model']);
+        $this->load->model(
+            [
+                'kategori_model',
+                'barang_model',
+                'jenis_model',
+                'merek_model',
+                'satuan_model'
+            ]
+        );
         if (!is_logged_in()) {
             redirect('login/admin');
         }
@@ -20,27 +28,114 @@ class Barang extends CI_Controller
     public function index()
     {
         $data['barang'] = $this->barang_model->getAll();
-        $this->load->view('dashboard/header');
-        $this->load->view('dashboard/barang/view', $data);
-        $this->load->view('dashboard/footer');
+        $data['required_style'] = [
+            'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',
+            'plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
+            'plugins/datatables-buttons/css/buttons.bootstrap4.min.css',
+            'plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css',
+            'plugins/toastr/toastr.min.css'
+        ];
+        $data['required_js'] = [
+                'plugins/datatables/jquery.dataTables.min.js',
+                'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
+                'plugins/datatables-responsive/js/dataTables.responsive.min.js',
+                'plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
+                'plugins/datatables-buttons/js/dataTables.buttons.min.js',
+                'plugins/datatables-buttons/js/buttons.bootstrap4.min.js',
+                'plugins/jszip/jszip.min.js',
+                'plugins/pdfmake/pdfmake.min.js',
+                'plugins/pdfmake/vfs_fonts.js',
+                'plugins/datatables-buttons/js/buttons.html5.min.js',
+                'plugins/datatables-buttons/js/buttons.print.min.js',
+                'plugins/datatables-buttons/js/buttons.colVis.min.js',
+                'plugins/sweetalert2/sweetalert2.min.js',
+                'plugins/toastr/toastr.min.js'
+           ];
+        $this->load->view('v2/dashboard/header', $data);
+        $this->load->view('v2/dashboard/barang/view', $data);
+        $this->load->view('v2/dashboard/footer');
     }
 
     public function add()
     {
+        $data['barang'] = $this->barang_model->getAll();
         $data['kategories'] = $this->kategori_model->getAll();
-        $this->load->view('dashboard/header');
-        $this->load->view('dashboard/barang/add', $data);
-        $this->load->view('dashboard/footer');
+        $data['all_jenis'] = $this->jenis_model->getAll();
+        $data['all_merek'] = $this->merek_model->getAll();
+        $data['all_satuan'] = $this->satuan_model->getAll();
+        $data['kode_brg'] = $this->findMaxId();
+        $data['required_style'] = [
+            'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',
+            'plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
+            'plugins/datatables-buttons/css/buttons.bootstrap4.min.css',
+            'plugins/select2/css/select2.min.css',
+            'plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css',
+            'plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css',
+            'plugins/toastr/toastr.min.css'
+        ];
+        $data['required_js'] = [
+                'plugins/datatables/jquery.dataTables.min.js',
+                'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
+                'plugins/datatables-responsive/js/dataTables.responsive.min.js',
+                'plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
+                'plugins/datatables-buttons/js/dataTables.buttons.min.js',
+                'plugins/datatables-buttons/js/buttons.bootstrap4.min.js',
+                'plugins/jszip/jszip.min.js',
+                'plugins/pdfmake/pdfmake.min.js',
+                'plugins/pdfmake/vfs_fonts.js',
+                'plugins/datatables-buttons/js/buttons.html5.min.js',
+                'plugins/datatables-buttons/js/buttons.print.min.js',
+                'plugins/datatables-buttons/js/buttons.colVis.min.js',
+                'plugins/select2/js/select2.full.min.js',
+                'plugins/moment/moment.min.js',
+                'plugins/inputmask/jquery.inputmask.min.js',
+                'plugins/sweetalert2/sweetalert2.min.js',
+                'plugins/toastr/toastr.min.js'
+           ];
+        $this->load->view('v2/dashboard/header', $data);
+        $this->load->view('v2/dashboard/barang/add', $data);
+        $this->load->view('v2/dashboard/footer');
     }
 
     public function edit($id)
     {
         $data['kategories'] = $this->kategori_model->getAll();
         $data['barang'] = $this->barang_model->getBarangById($id);
+        $data['all_jenis'] = $this->jenis_model->getAll();
+        $data['all_merek'] = $this->merek_model->getAll();
+        $data['all_satuan'] = $this->satuan_model->getAll();
         $data['barang'][0]->grosir = json_decode($data['barang'][0]->grosir);
-        $this->load->view('dashboard/header');
-        $this->load->view('dashboard/barang/edit', $data);
-        $this->load->view('dashboard/footer');
+        $data['required_style'] = [
+            'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',
+            'plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
+            'plugins/datatables-buttons/css/buttons.bootstrap4.min.css',
+            'plugins/select2/css/select2.min.css',
+            'plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css',
+            'plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css',
+            'plugins/toastr/toastr.min.css'
+        ];
+        $data['required_js'] = [
+                'plugins/datatables/jquery.dataTables.min.js',
+                'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
+                'plugins/datatables-responsive/js/dataTables.responsive.min.js',
+                'plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
+                'plugins/datatables-buttons/js/dataTables.buttons.min.js',
+                'plugins/datatables-buttons/js/buttons.bootstrap4.min.js',
+                'plugins/jszip/jszip.min.js',
+                'plugins/pdfmake/pdfmake.min.js',
+                'plugins/pdfmake/vfs_fonts.js',
+                'plugins/datatables-buttons/js/buttons.html5.min.js',
+                'plugins/datatables-buttons/js/buttons.print.min.js',
+                'plugins/datatables-buttons/js/buttons.colVis.min.js',
+                'plugins/select2/js/select2.full.min.js',
+                'plugins/moment/moment.min.js',
+                'plugins/inputmask/jquery.inputmask.min.js',
+                'plugins/sweetalert2/sweetalert2.min.js',
+                'plugins/toastr/toastr.min.js'
+           ];
+        $this->load->view('v2/dashboard/header', $data);
+        $this->load->view('v2/dashboard/barang/edit', $data);
+        $this->load->view('v2/dashboard/footer');
     }
 
     public function autocomplete()
@@ -66,10 +161,10 @@ class Barang extends CI_Controller
         }
     }
 
-    public function findMaxId($kodeKat)
+    protected function findMaxId($kode_brg = 'BRG')
     {
         $data = [
-            'kode_brg' => $kodeKat
+            'kode_brg' => $kode_brg
         ];
 
         $maxId = $this->barang_model->getMaxId($data);
@@ -77,17 +172,13 @@ class Barang extends CI_Controller
         if (isset($maxId[0]->kode_brg)) {
             $maxId = (int)$maxId[0]->kode_brg;
             $maxId++;
-            $kodeBaru = $kodeKat . sprintf("%06s", $maxId);
+            $kodeBaru = $kode_brg . sprintf("%06s", $maxId);
 
-            $res = [
-                'kode_brg' => $kodeBaru
-            ];
+            $res = $kodeBaru;
         } else {
-            $res = [
-                'kode_brg' => $kodeKat . '000001'
-            ];
+            $res = $kode_brg . '000001';
         }
-        echo json_encode($res);
+        return $res;
     }
 
     public function ajaxCariId($id)
@@ -146,12 +237,21 @@ class Barang extends CI_Controller
 
         $args = [
             'kode_brg'      => strtoupper($input['kode_brg']),
-            'barcode'       => strtoupper($input['barcode']),
-            'nama_brg'      => $input['nama_brg'],
+            'nama_brg'      => strtoupper($input['nama_brg']),
+            'kode_kat'      => $input['kode_kat'],
+            'kode_jenis'    => $input['kode_jenis'],
+            'kode_merek'    => $input['kode_merek'],
+            'kode_satuan'   => $input['kode_satuan'],
             'qty'           => $input['qty'],
+            'isi'           => $input['isi'],
             'harga_jual'    => idrToString($input['harga_jual']),
             'harga_beli'    => idrToString($input['harga_beli'])
         ];
+
+        if (substr($input['kode_brg'], 0,3) !== 'BRG') {
+            $args['kode_brg'] = $this->findMaxId();
+        }
+
         if (sizeof($input['grosir']) > 0) {
             $i = 0;
             foreach ($input['grosir']['harga_jual_grosir'] as $harga_grosir) {
@@ -165,12 +265,20 @@ class Barang extends CI_Controller
 
         $update = $this->barang_model->update($args, $id);
         if ($update) {
-            $this->session->set_flashdata('notification', 'Data Barang berhasil diubah');
-            redirect('barang');
+            $result = [
+                'status' => 'true',
+                'messageType' => 'success',
+                'message' => 'Data barang berhasil diubah.'
+            ];
         } else {
-            $this->session->set_flashdata('error_notification', 'Data Barang gagal diubah');
-            redirect('barang');
+            $result = [
+                'status' => 'false',
+                'messageType' => 'danger',
+                'message' => 'Data barang gagal diubah.'
+            ];
         }
+
+        echo json_encode($result);
     }
 
     public function save()
@@ -179,41 +287,64 @@ class Barang extends CI_Controller
 
         $args = [
             'kode_brg'      => strtoupper($input['kode_brg']),
-            'barcode'       => strtoupper($input['barcode']),
-            'nama_brg'      => $input['nama_brg'],
+            'nama_brg'      => strtoupper($input['nama_brg']),
+            'kode_kat'      => $input['kode_kat'],
+            'kode_jenis'    => $input['kode_jenis'],
+            'kode_merek'    => $input['kode_merek'],
+            'kode_satuan'   => $input['kode_satuan'],
             'qty'           => $input['qty'],
+            'isi'           => $input['isi'],
             'harga_jual'    => idrToString($input['harga_jual']),
             'harga_beli'    => idrToString($input['harga_beli'])
         ];
 
-        if (sizeof($input['grosir']) > 0) {
-            $i = 0;
-            foreach ($input['grosir']['harga_jual_grosir'] as $harga_grosir) {
-                $input['grosir']['harga_jual_grosir'][$i] = idrToString($harga_grosir);
-                $i++;
+        if (isset($input['grosir'])) {
+            if (sizeof($input['grosir']) > 0) {
+                $i = 0;
+                foreach ($input['grosir']['harga_jual_grosir'] as $harga_grosir) {
+                    $input['grosir']['harga_jual_grosir'][$i] = idrToString($harga_grosir);
+                    $i++;
+                }
+                $args['grosir'] = json_encode($input['grosir']);
             }
-            $args['grosir'] = json_encode($input['grosir']);
         }
-
+        
         $save = $this->barang_model->insert($args);
         if ($save) {
-            $this->session->set_flashdata('notification', 'Data Barang berhasil disimpan');
-            redirect('barang');
+            $result = [
+                'status' => 'true',
+                'messageType' => 'success',
+                'message' => 'Data barang berhasil disimpan.'
+            ];
         } else {
-            $this->session->set_flashdata('error_notification', 'Data Barang gagal disimpan');
-            redirect('barang');
+            $result = [
+                'status' => 'false',
+                'messageType' => 'danger',
+                'message' => 'Data barang gagal disimpan.'
+            ];
         }
+
+        echo json_encode($result);
     }
 
     public function delete($id)
     {
         $deleted = $this->barang_model->delete($id);
         if ($deleted) {
-            $this->session->set_flashdata('notification', 'Data Barang berhasil dihapus');
-            redirect('barang');
+            $result = [
+                'status' => 'true',
+                'messageType' => 'success',
+                'messageInfo' => 'Berhasil!',
+                'message' => 'Data barang berhasil dihapus.'
+            ];
         } else {
-            $this->session->set_flashdata('error_notification', 'Data Barang gagal dihapus');
-            redirect('barang');
+            $result = [
+                'status' => 'false',
+                'messageType' => 'danger',
+                'messageInfo' => 'Gagal!',
+                'message' => 'Data barang gagal dihapus.'
+            ];
         }
+        echo json_encode($result);
     }
 }
