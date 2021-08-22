@@ -11,11 +11,17 @@ class Kategori_model extends CI_Model
                     ->insert('kategori', $args);
     }
 
-    public function update($args, $id)
+    public function update($args, $kode_kat)
     {
         return $this->db
-                    ->where(['id' => $id])
+                    ->where(['kode_kat' => $kode_kat])
                     ->update('kategori', $args);
+    }
+
+    public function delete($kode_kat)
+    {
+        return $this->db
+                    ->delete('kategori', ['kode_kat' => $kode_kat]);
     }
 
     public function getAll()
@@ -26,11 +32,11 @@ class Kategori_model extends CI_Model
                     ->result();
     }
 
-    public function getKategoriById($id)
+    public function getKategoriById($kode_kat)
     {
         $where = [
             'flag' => 0,
-            'id' => $id
+            'kode_kat' => $kode_kat
         ];
 
         return $this->db
