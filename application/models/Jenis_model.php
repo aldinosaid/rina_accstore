@@ -11,11 +11,17 @@ class Jenis_model extends CI_Model
                     ->insert('jenis', $args);
     }
 
-    public function update($args, $id)
+    public function update($args, $kode_jenis)
     {
         return $this->db
-                    ->where(['id' => $id])
+                    ->where(['kode_jenis' => $kode_jenis])
                     ->update('jenis', $args);
+    }
+
+    public function delete($kode_jenis)
+    {
+        return $this->db
+                    ->delete('jenis', ['kode_jenis' => $kode_jenis]);
     }
 
     public function getAll()
@@ -25,11 +31,10 @@ class Jenis_model extends CI_Model
                     ->result();
     }
 
-    public function getJenisById($id)
+    public function getJenisById($kode_jenis)
     {
         $where = [
-            'flag' => 0,
-            'id' => $id
+            'kode_jenis' => $kode_jenis
         ];
 
         return $this->db
