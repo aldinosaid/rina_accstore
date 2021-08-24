@@ -11,11 +11,17 @@ class Merek_model extends CI_Model
                     ->insert('merek', $args);
     }
 
-    public function update($args, $id)
+    public function update($args, $kode_merek)
     {
         return $this->db
-                    ->where(['id' => $id])
+                    ->where(['kode_merek' => $kode_merek])
                     ->update('merek', $args);
+    }
+
+    public function delete($kode_merek)
+    {
+        return $this->db
+                    ->delete('merek', ['kode_merek' => $kode_merek]);
     }
 
     public function getAll()
@@ -25,11 +31,10 @@ class Merek_model extends CI_Model
                     ->result();
     }
 
-    public function getMerekById($id)
+    public function getMerekById($kode_merek)
     {
         $where = [
-            'flag' => 0,
-            'id' => $id
+            'kode_merek' => $kode_merek
         ];
 
         return $this->db
