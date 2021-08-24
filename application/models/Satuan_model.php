@@ -11,11 +11,17 @@ class Satuan_model extends CI_Model
                     ->insert('satuan', $args);
     }
 
-    public function update($args, $id)
+    public function update($args, $kode_satuan)
     {
         return $this->db
-                    ->where(['id' => $id])
+                    ->where(['kode_satuan' => $kode_satuan])
                     ->update('satuan', $args);
+    }
+
+    public function delete($kode_satuan)
+    {
+        return $this->db
+                    ->delete('satuan', ['kode_satuan' => $kode_satuan]);
     }
 
     public function getAll()
@@ -25,11 +31,10 @@ class Satuan_model extends CI_Model
                     ->result();
     }
 
-    public function getSatuanById($id)
+    public function getSatuanById($kode_satuan)
     {
         $where = [
-            'flag' => 0,
-            'id' => $id
+            'kode_satuan' => $kode_satuan
         ];
 
         return $this->db
