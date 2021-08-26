@@ -110,7 +110,7 @@
                            </li>
                         </ul>
                      </li>
-                     <li class="nav-item">
+                     <li class="nav-item <?php if (in_array($this->uri->segment(1), $segment['transaksi'])) {echo 'menu-open';} ?>">
                         <a href="#" class="nav-link <?php if (in_array($this->uri->segment(1), $segment['transaksi'])) {echo 'active';} ?>">
                            <i class="nav-icon fas fa-exchange-alt"></i>
                            <p>

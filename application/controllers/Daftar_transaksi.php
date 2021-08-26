@@ -17,10 +17,44 @@ class Daftar_transaksi extends CI_Controller
 
     public function index()
     {
-        $data['transactions']  = $this->transaksi_model->get_all_transaction();
-        $this->load->view('dashboard/header');
-        $this->load->view('dashboard/penjualan/daftar_transaksi/view_transaction', $data);
-        $this->load->view('dashboard/footer');
+        $start_date = date('Y-m-d');
+        $end_date = date('Y-m-d');
+
+        $data['transactions']  = $this->transaksi_model->get_transaction_by_date($start_date, $end_date);
+        $data['required_style'] = [
+            'plugins/daterangepicker/daterangepicker.css',
+            'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',
+            'plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
+            'plugins/datatables-buttons/css/buttons.bootstrap4.min.css',
+            'plugins/select2/css/select2.min.css',
+            'plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css',
+            'plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css',
+            'plugins/toastr/toastr.min.css'
+        ];
+        $data['required_js'] = [
+                'plugins/datatables/jquery.dataTables.min.js',
+                'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
+                'plugins/datatables-responsive/js/dataTables.responsive.min.js',
+                'plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
+                'plugins/datatables-buttons/js/dataTables.buttons.min.js',
+                'plugins/datatables-buttons/js/buttons.bootstrap4.min.js',
+                'plugins/jszip/jszip.min.js',
+                'plugins/pdfmake/pdfmake.min.js',
+                'plugins/pdfmake/vfs_fonts.js',
+                'plugins/datatables-buttons/js/buttons.html5.min.js',
+                'plugins/datatables-buttons/js/buttons.print.min.js',
+                'plugins/datatables-buttons/js/buttons.colVis.min.js',
+                'plugins/select2/js/select2.full.min.js',
+                'plugins/moment/moment.min.js',
+                'plugins/inputmask/jquery.inputmask.min.js',
+                'plugins/daterangepicker/daterangepicker.js',
+                'plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js',
+                'plugins/sweetalert2/sweetalert2.min.js',
+                'plugins/toastr/toastr.min.js'
+           ];
+        $this->load->view('v2/dashboard/header', $data);
+        $this->load->view('v2/dashboard/transaksi/daftar_transaksi', $data);
+        $this->load->view('v2/dashboard/footer');
     }
 
     public function detail($no_nota)
@@ -30,6 +64,22 @@ class Daftar_transaksi extends CI_Controller
         $this->load->view('dashboard/penjualan/header');
         $this->load->view('dashboard/penjualan/daftar_transaksi/view_detail_transaction', $data);
         $this->load->view('dashboard/penjualan/footer');
+    }
+
+    public function ajax_daftar_nota()
+    {
+        $input = $this->input->post();
+        $start_date = $input['start_date'];
+        $end_date = $input['end_date'];
+
+        $data_transaksi = $this->transaksi_model->get_transaction_by_date($start_date, $end_date);
+        $data['transactions'] = $data_transaksi;
+
+        $response = [
+            'html' => $this->load->view('v2/dashboard/transaksi/ajax_table_daftar_transaksi', $data, true)
+        ];
+
+        echo json_encode($response);
     }
 
     public function cetak($no_nota)

@@ -13,6 +13,16 @@ class Transaksi_model extends CI_Model
                     ->result();
 	}
 
+    public function get_transaction_by_date($start_date, $end_date)
+    {
+        
+        $this->db->where("DATE_FORMAT(tanggal, '%Y-%m-%d') >=", $start_date);
+        $this->db->where("DATE_FORMAT(tanggal, '%Y-%m-%d') <=", $end_date);
+
+        return $this->db->get('penjualan')->result();
+
+    }
+
 	public function get_transaction_by_no_nota($no_nota)
 	{
 		return $this->db
