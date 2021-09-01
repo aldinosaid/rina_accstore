@@ -149,9 +149,9 @@
                         </a>
                         <ul class="nav nav-treeview">
                            <li class="nav-item">
-                              <a href="<?php echo base_url('pembelian'); ?>" class="nav-link <?php if ($this->uri->segment(1) == 'pembelian') { echo 'active';} ?>">
+                              <a href="<?php echo base_url('laporan/ringkasan_penjualan'); ?>" class="nav-link <?php if ($this->uri->segment(1) == 'ringkasan_penjualan') { echo 'active';} ?>">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>PENJUALAN</p>
+                                 <p>RINGKASAN PENJUALAN</p>
                               </a>
                            </li>
                            <li class="nav-item">

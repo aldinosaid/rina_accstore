@@ -74,6 +74,42 @@
 			                });
 		                }
 		            });
+		            $('.cetak_det').click(function() {
+		                var total = $('[name=total]').val();
+		                var no_nota = $('[name=no_nota]').val();
+		                var sub_total = $('[name=sub_total]').val();
+		                var bayar = $('[name=bayar]').val();
+		                var kembali = $('[name=kembali]').val();
+		                var discount = $('[name=discount]').val();
+		                var kasir = $('[name=kasir]').val();
+		                var tanggal = $('[name=tanggal]').val();
+		                if (parseInt(bayar.replace('Rp ', '')) <= 0 || parseInt(kembali.replace('Rp ', '')) < 0) {
+		                	Swal.fire(
+		                      'Gagal!',
+		                      'CASH / Pembayaran harus di isi dan kembali tidak boleh - (minus)',
+		                      'error'
+		                    );
+		                } else {
+		                	var data = {
+			                    total : total,
+			                    sub_total : sub_total,
+			                    discount : discount,
+			                    bayar : bayar,
+			                    kembali : kembali,
+			                    no_nota : no_nota,
+			                    kasir : kasir,
+			                    tanggal : tanggal
+			                }
+			                $.ajax({
+			                    url : baseUrl+'daftar_transaksi/generate_receipt_html',
+			                    type : 'post',
+			                    dataType : 'JSON',
+			                    data : data
+			                }).done(function(r){
+			                    do_print_popup(r.receipt_html);
+			                });
+		                }
+		            });
 		        }
 
 		        function do_print_popup(data) 

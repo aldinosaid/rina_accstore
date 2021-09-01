@@ -266,6 +266,7 @@
                 </div>
                 <!--End Table-->
                 <div id="legalcopy">
+                    <strong>* Barang yang sudah dibeli tidak dapat ditukar.</strong>
                     <center>
                         <strong>** Terimakasih **</strong>
                         <p class="legal">
@@ -278,6 +279,7 @@
                             WA: +6281808992614
                             <br>
                             FB: Grosir Lusinan (Toko Lusinan)
+                            <br>
                         </p>
                     </center>
                 </div>

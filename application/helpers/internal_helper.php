@@ -75,6 +75,15 @@ function get_session($sDataSession, $with_unset = false)
     return $sess;
 }
 
+function getTotalReport($report_data)
+{
+    $cost = 0;
+    foreach ($report_data as $key => $value) {
+        $cost += $value->total;
+    }
+    return $cost;
+}
+
 function send_email($to, $subject, $html_content)
 {
     $email_api = email_api();

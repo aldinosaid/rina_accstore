@@ -26,8 +26,9 @@ class Transaksi_model extends CI_Model
 	public function get_transaction_by_no_nota($no_nota)
 	{
 		return $this->db
-                ->where('no_nota', $no_nota)
-                ->get('penjualan')
+                ->join('admin_login AL', 'AL.id=LEFT(P.no_nota,1)', 'left')
+                ->where('P.no_nota', $no_nota)
+                ->get('penjualan P')
                 ->result();
 	}
 
