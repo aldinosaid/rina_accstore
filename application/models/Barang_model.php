@@ -69,7 +69,7 @@ class Barang_model extends CI_Model
     public function getAll()
     {
         return $this->db
-                    ->select('B.id, B.kode_brg, B.nama_brg, S.kode_satuan, S.satuan, M.kode_merek, M.merek, J.kode_jenis, J.jenis, K.kode_kat, K.kategori, ST.qty as stok_toko, SG.qty as stok_gudang, B.harga_beli, B.harga_jual')
+                    ->select('B.id, B.kode_brg, B.nama_brg, S.kode_satuan, S.satuan, M.kode_merek, M.merek, J.kode_jenis, J.jenis, K.kode_kat, K.kategori, ST.qty as stok_toko, SG.qty as stok_gudang, B.harga_beli, B.harga_jual, B.grosir')
                     ->join('satuan S', 'S.kode_satuan=B.kode_satuan', 'left')
                     ->join('merek M', 'M.kode_merek=B.kode_merek', 'left')
                     ->join('jenis J', 'J.kode_jenis=B.kode_jenis', 'left')
