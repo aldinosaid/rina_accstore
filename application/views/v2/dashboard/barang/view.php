@@ -38,7 +38,8 @@
                                        <th>NO</th>
                                        <th>KODE BARANG</th>
                                        <th>NAMA BARANG</th>
-                                       <th>QTY</th>
+                                       <th>STOK TOKO</th>
+                                       <th>STOK GUDANG</th>
                                        <th>SATUAN</th>
                                        <th>JENIS</th>
                                        <th>MEREK</th>
@@ -57,7 +58,8 @@
                                        <td><?php echo $i; ?></td>
                                        <td><?php echo $value->kode_brg; ?></td>
                                        <td><?php echo $value->nama_brg; ?></td>
-                                       <td><?php echo $value->qty; ?></td>
+                                       <td><?php echo $value->stok_toko; ?></td>
+                                       <td><?php echo $value->stok_gudang; ?></td>
                                        <td><?php echo $value->satuan; ?></td>
                                        <td><?php echo $value->jenis; ?></td>
                                        <td><?php echo $value->merek; ?></td>

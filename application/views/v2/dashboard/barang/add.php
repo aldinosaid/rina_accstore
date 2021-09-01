@@ -92,9 +92,15 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label for="qty" class="col-sm-2 col-form-label">QTY</label>
+                                       <label for="stok_toko" class="col-sm-2 col-form-label">STOK TOKO</label>
                                        <div class="col-sm-10">
-                                          <input type="text" name="qty" class="form-control" id="qty">
+                                          <input type="text" name="stok_toko" class="form-control" id="stok_toko">
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="stok_gudang" class="col-sm-2 col-form-label">STOK GUDANG</label>
+                                       <div class="col-sm-10">
+                                          <input type="text" name="stok_gudang" class="form-control" id="stok_gudang">
                                        </div>
                                     </div>
                                     <div class="form-group row">
