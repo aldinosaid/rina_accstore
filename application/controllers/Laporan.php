@@ -71,7 +71,8 @@ class Laporan extends CI_Controller
         $data['ringkasan_laporan'] = $report_data;
 
         $response = [
-            'html' => $this->load->view('v2/dashboard/laporan/ajax_ringkasan_penjualan', $data, true)
+            'html' => $this->load->view('v2/dashboard/laporan/ajax_ringkasan_penjualan', $data, true),
+            'report_data' => $report_data[0]
         ];
 
         echo json_encode($response);

@@ -46,11 +46,11 @@
                            'pembelian'
                         ];
                         $segment['laporan'] = [
-                           'penjualan',
+                           'ringkasan_penjualan',
                            'pembelian'
                         ];
                         $segment['pengaturan'] = [
-                           'pengguna',
+                           'admin_login',
                            'factory_reset',
                            'test_print'
                         ];
@@ -139,8 +139,8 @@
                            </li>
                         </ul>
                      </li>
-                     <li class="nav-item">
-                        <a href="#" class="nav-link <?php if (in_array($this->uri->segment(1), $segment['laporan'])) {echo 'active';} ?>">
+                     <li class="nav-item <?php if (in_array($this->uri->segment(2), $segment['laporan'])) {echo 'menu-open';} ?>">
+                        <a href="#" class="nav-link <?php if (in_array($this->uri->segment(2), $segment['laporan'])) {echo 'active';} ?>">
                            <i class="nav-icon fas fa-file"></i>
                            <p>
                               LAPORAN
@@ -149,7 +149,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                            <li class="nav-item">
-                              <a href="<?php echo base_url('laporan/ringkasan_penjualan'); ?>" class="nav-link <?php if ($this->uri->segment(1) == 'ringkasan_penjualan') { echo 'active';} ?>">
+                              <a href="<?php echo base_url('laporan/ringkasan_penjualan'); ?>" class="nav-link <?php if ($this->uri->segment(2) == 'ringkasan_penjualan') { echo 'active';} ?>">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>RINGKASAN PENJUALAN</p>
                               </a>
@@ -158,6 +158,23 @@
                               <a href="<?php echo base_url('pembelian'); ?>" class="nav-link <?php if ($this->uri->segment(1) == 'pembelian') { echo 'active';} ?>">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>PEMBELIAN</p>
+                              </a>
+                           </li>
+                        </ul>
+                     </li>
+                     <li class="nav-item <?php if (in_array($this->uri->segment(1), $segment['pengaturan'])) {echo 'menu-open';} ?>">
+                        <a href="#" class="nav-link <?php if (in_array($this->uri->segment(1), $segment['pengaturan'])) {echo 'active';} ?>">
+                           <i class="nav-icon fas fa-wrench"></i>
+                           <p>
+                              PENGATURAN
+                              <i class="right fas fa-angle-left"></i>
+                           </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                           <li class="nav-item">
+                              <a href="<?php echo base_url('admin_login'); ?>" class="nav-link <?php if ($this->uri->segment(1) == 'admin_login') { echo 'active';} ?>">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>ADMIN PENGGUNA</p>
                               </a>
                            </li>
                         </ul>

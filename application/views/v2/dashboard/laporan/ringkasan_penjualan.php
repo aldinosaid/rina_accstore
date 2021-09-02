@@ -192,6 +192,9 @@
                 }).done(function(r) {
                     $('#form-loading').hide();
                     $('#result-ajax-reingkasan-penjualan').html(r.html);
+                    var total_transaksi = '<h3>'+r.report_data.total_transaksi+'</h3>'
+                    +'<p>Total Transaksi</p>';
+                    $('.inner').html(total_transaksi);
                 }).fail(function(jqXHR, textStatus) {
                     $('#form-loading').hide();
                     Swal.fire(

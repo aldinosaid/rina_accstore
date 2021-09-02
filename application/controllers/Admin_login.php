@@ -19,25 +19,94 @@ class Admin_login extends CI_Controller
     {
         $users = $this->admin_login_model->getAllAdminLogin();
         $data['users'] = $users;
-        $this->load->view('dashboard/header');
-        $this->load->view('dashboard/settings/admin_login/view', $data);
-        $this->load->view('dashboard/footer');
+        $data['required_style'] = [
+            'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',
+            'plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
+            'plugins/datatables-buttons/css/buttons.bootstrap4.min.css',
+            'plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css',
+            'plugins/toastr/toastr.min.css'
+        ];
+        $data['required_js'] = [
+                'plugins/datatables/jquery.dataTables.min.js',
+                'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
+                'plugins/datatables-responsive/js/dataTables.responsive.min.js',
+                'plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
+                'plugins/datatables-buttons/js/dataTables.buttons.min.js',
+                'plugins/datatables-buttons/js/buttons.bootstrap4.min.js',
+                'plugins/jszip/jszip.min.js',
+                'plugins/pdfmake/pdfmake.min.js',
+                'plugins/pdfmake/vfs_fonts.js',
+                'plugins/datatables-buttons/js/buttons.html5.min.js',
+                'plugins/datatables-buttons/js/buttons.print.min.js',
+                'plugins/datatables-buttons/js/buttons.colVis.min.js',
+                'plugins/sweetalert2/sweetalert2.min.js',
+                'plugins/toastr/toastr.min.js'
+           ];
+        $this->load->view('v2/dashboard/header', $data);
+        $this->load->view('v2/dashboard/admin_login/view', $data);
+        $this->load->view('v2/dashboard/footer');
     }
 
     public function add()
     {
-        $this->load->view('dashboard/header');
-        $this->load->view('dashboard/settings/admin_login/add');
-        $this->load->view('dashboard/footer');
+        $data['required_style'] = [
+            'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',
+            'plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
+            'plugins/datatables-buttons/css/buttons.bootstrap4.min.css',
+            'plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css',
+            'plugins/toastr/toastr.min.css'
+        ];
+        $data['required_js'] = [
+                'plugins/datatables/jquery.dataTables.min.js',
+                'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
+                'plugins/datatables-responsive/js/dataTables.responsive.min.js',
+                'plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
+                'plugins/datatables-buttons/js/dataTables.buttons.min.js',
+                'plugins/datatables-buttons/js/buttons.bootstrap4.min.js',
+                'plugins/jszip/jszip.min.js',
+                'plugins/pdfmake/pdfmake.min.js',
+                'plugins/pdfmake/vfs_fonts.js',
+                'plugins/datatables-buttons/js/buttons.html5.min.js',
+                'plugins/datatables-buttons/js/buttons.print.min.js',
+                'plugins/datatables-buttons/js/buttons.colVis.min.js',
+                'plugins/sweetalert2/sweetalert2.min.js',
+                'plugins/toastr/toastr.min.js'
+           ];
+        $this->load->view('v2/dashboard/header', $data);
+        $this->load->view('v2/dashboard/admin_login/add', $data);
+        $this->load->view('v2/dashboard/footer');
     }
 
     public function edit($id)
     {
         $user = $this->admin_login_model->getAdminLoginById($id);
         $data['users'] = $user;
-        $this->load->view('dashboard/header');
-        $this->load->view('dashboard/settings/admin_login/edit', $data);
-        $this->load->view('dashboard/footer');
+        $data['required_style'] = [
+            'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',
+            'plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
+            'plugins/datatables-buttons/css/buttons.bootstrap4.min.css',
+            'plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css',
+            'plugins/toastr/toastr.min.css'
+        ];
+        $data['required_js'] = [
+                'plugins/datatables/jquery.dataTables.min.js',
+                'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
+                'plugins/datatables-responsive/js/dataTables.responsive.min.js',
+                'plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
+                'plugins/datatables-buttons/js/dataTables.buttons.min.js',
+                'plugins/datatables-buttons/js/buttons.bootstrap4.min.js',
+                'plugins/jszip/jszip.min.js',
+                'plugins/pdfmake/pdfmake.min.js',
+                'plugins/pdfmake/vfs_fonts.js',
+                'plugins/datatables-buttons/js/buttons.html5.min.js',
+                'plugins/datatables-buttons/js/buttons.print.min.js',
+                'plugins/datatables-buttons/js/buttons.colVis.min.js',
+                'plugins/sweetalert2/sweetalert2.min.js',
+                'plugins/toastr/toastr.min.js'
+           ];
+        $this->load->view('v2/dashboard/header', $data);
+        $this->load->view('v2/dashboard/admin_login/edit', $data);
+        $this->load->view('v2/dashboard/footer');
     }
 
     public function save()
@@ -53,9 +122,19 @@ class Admin_login extends CI_Controller
         $save = $this->admin_login_model->add($data);
 
         if ($save) {
-            $this->session->set_flashdata('notification', 'Save Successfuly');
-            redirect(base_url('admin_login'));
+            $result = [
+                'status' => 'true',
+                'messageType' => 'success',
+                'message' => 'Data data pengguna berhasil disimpan.'
+            ];
+        } else {
+            $result = [
+                'status' => 'false',
+                'messageType' => 'danger',
+                'message' => 'Data data pengguna gagal disimpan.'
+            ];
         }
+        echo json_encode($result);
     }
 
     public function update($id)
@@ -67,14 +146,25 @@ class Admin_login extends CI_Controller
             'level' => $input['level']
         ];
 
-        if ($input["password"] != '') {
-            $data['pass'] = sha1(trim($input["password"]));
+        if ($input["pass"] != '') {
+            $data['pass'] = sha1(trim($input["pass"]));
         }
 
         $save = $this->admin_login_model->update($data, $id);
 
         if ($save) {
-            redirect(base_url('admin_login'));
+            $result = [
+                'status' => 'true',
+                'messageType' => 'success',
+                'message' => 'Data data pengguna berhasil diubah.'
+            ];
+        } else {
+            $result = [
+                'status' => 'false',
+                'messageType' => 'danger',
+                'message' => 'Data data pengguna gagal diubah.'
+            ];
         }
+        echo json_encode($result);
     }
 }
