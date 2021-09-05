@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
          <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a href="<?php echo base_url(); ?>" class="brand-link">
             <!-- <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
             <span class="brand-text font-weight-light">TOKO GROSIR LUSINAN</span>
             </a>
@@ -78,6 +78,7 @@
                                  <p>BARANG</p>
                               </a>
                            </li>
+                           <?php if (is_admin()) : ?>
                            <li class="nav-item">
                               <a href="<?php echo base_url('kategori'); ?>" class="nav-link <?php if ($this->uri->segment(1) == 'kategori') { echo 'active';} ?>">
                                  <i class="far fa-circle nav-icon"></i>
@@ -108,6 +109,7 @@
                                  <p>SUPLIER</p>
                               </a>
                            </li>
+                           <?php endif; ?>
                            <li class="nav-item">
                               <a href="<?php echo base_url('customer'); ?>" class="nav-link <?php if ($this->uri->segment(1) == 'customer') { echo 'active';} ?>">
                                  <i class="far fa-circle nav-icon"></i>
@@ -137,12 +139,14 @@
                                  <p>PENJUALAN</p>
                               </a>
                            </li>
+                           <?php if (is_admin()) : ?>
                            <li class="nav-item">
                               <a href="<?php echo base_url('pembelian'); ?>" class="nav-link <?php if ($this->uri->segment(1) == 'pembelian') { echo 'active';} ?>">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>PEMBELIAN</p>
                               </a>
                            </li>
+                           <?php endif; ?>
                         </ul>
                      </li>
                      <li class="nav-item <?php if (in_array($this->uri->segment(2), $segment['laporan'])) {echo 'menu-open';} ?>">
@@ -160,14 +164,17 @@
                                  <p>RINGKASAN PENJUALAN</p>
                               </a>
                            </li>
+                           <?php if (is_admin()) : ?>
                            <li class="nav-item">
                               <a href="<?php echo base_url('pembelian'); ?>" class="nav-link <?php if ($this->uri->segment(1) == 'pembelian') { echo 'active';} ?>">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>PEMBELIAN</p>
                               </a>
                            </li>
+                           <?php endif; ?>
                         </ul>
                      </li>
+                     <?php if (is_admin()) : ?>
                      <li class="nav-item <?php if (in_array($this->uri->segment(1), $segment['pengaturan'])) {echo 'menu-open';} ?>">
                         <a href="#" class="nav-link <?php if (in_array($this->uri->segment(1), $segment['pengaturan'])) {echo 'active';} ?>">
                            <i class="nav-icon fas fa-wrench"></i>
@@ -185,6 +192,7 @@
                            </li>
                         </ul>
                      </li>
+                     <?php endif; ?>
                   </ul>
                </nav>
                <!-- /.sidebar-menu -->

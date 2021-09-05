@@ -1,5 +1,10 @@
       <!-- jQuery -->
       <script src="<?php echo base_url('assets/v2/plugins/jquery/jquery.min.js'); ?>"></script>
+      <!-- jQuery UI 1.11.4 -->
+      <script src="<?php echo base_url('assets/v2/plugins/jquery-ui/jquery-ui.min.js'); ?>"></script>
+      <script>
+        $.widget.bridge('uibutton', $.ui.button)
+      </script>
       <!-- Bootstrap -->
       <script src="<?php echo base_url('assets/v2/plugins/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
       <!-- required javascript -->
@@ -13,6 +18,7 @@
             }
          }
       ?>
+      <script src="<?php echo base_url('assets/v2/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js'); ?>"></script>
       <!-- AdminLTE -->
       <script src="<?php echo base_url('assets/v2/dist/js/adminlte.js'); ?>"></script>
       <!-- OPTIONAL SCRIPTS -->

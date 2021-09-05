@@ -44,7 +44,9 @@
                                        <th>JENIS</th>
                                        <th>MEREK</th>
                                        <th>KATEGORI</th>
+                                       <?php if (is_admin()) : ?>
                                        <th>HARGA BELI</th>
+                                       <?php endif; ?>
                                        <th>HARGA JUAL</th>
                                        <th>AKSI</th>
                                    </tr>
@@ -64,7 +66,9 @@
                                        <td><?php echo $value->jenis; ?></td>
                                        <td><?php echo $value->merek; ?></td>
                                        <td><?php echo $value->kategori; ?></td>
+                                       <?php if (is_admin()) : ?>
                                        <td><?php echo idr_format($value->harga_beli); ?></td>
+                                       <?php endif; ?>
                                        <td><?php echo idr_format($value->harga_jual); ?></td>
                                        <td>
                                           <a href="javascript:void(0)" onClick="executeDeleteFunction('<?php echo $value->id; ?>');"><i class="fa fa-trash"></i></a>

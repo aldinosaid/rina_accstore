@@ -27,9 +27,14 @@ function enable_code39()
     $printer -> close();
 }
 
+function shop_name()
+{
+    return "Toko Lusinan";
+}
+
 function shop_version()
 {
-    return "Rina Accessories Store - V1.0.01";
+    return '1.0.02';
 }
 
 function user_level($user_level)
@@ -54,6 +59,18 @@ function is_logged_in()
         return false;
     } else {
         return true;
+    }
+}
+
+function is_admin()
+{
+    $CI =& get_instance();
+    $user_level = $CI->session->userdata('level');
+        
+    if (user_level($user_level) == 'Admin') {
+        return true;
+    } else {
+        return false;
     }
 }
 

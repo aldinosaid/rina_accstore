@@ -11,6 +11,9 @@ class Login extends CI_Controller
     {
         parent::__construct();
         $this->load->model(['admin_login_model']);
+        if (is_logged_in()) {
+            redirect('barang');
+        }
     }
 
     public function admin()
