@@ -57,6 +57,12 @@
                      ?>
                      <!-- Add icons to the links using the .nav-icon class
                         with font-awesome or any other icon font library -->
+                    <li class="nav-item">
+                        <a href="<?php echo base_url('dashboard'); ?>" class="nav-link <?php if ($this->uri->segment(1) == 'dashboard') {echo 'active';} ?>">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p> Dashboard </p>
+                        </a>
+                    </li>
                      <li class="nav-item <?php if (in_array($this->uri->segment(1), $segment['master_data'])) {echo 'menu-open';} ?>">
                         <a href="#" class="nav-link <?php if (in_array($this->uri->segment(1), $segment['master_data'])) {echo 'active';} ?>">
                            <i class="nav-icon fas fa-cubes"></i>

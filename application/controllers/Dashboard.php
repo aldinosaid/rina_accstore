@@ -4,7 +4,7 @@
 /**
 *
 */
-class Laporan extends CI_Controller
+class Dashboard extends CI_Controller
 {
     
     function __construct()
@@ -17,21 +17,22 @@ class Laporan extends CI_Controller
     }
 
 
-    public function ringkasan_penjualan()
+    public function index()
     {
-        $start_date = date('Y-m-d');
-        $end_date = date('Y-m-d');
+        $start_date = date('Y-m-01');
+        $end_date = date('Y-m-t');
 
         $report_data = $this->laporan_model->get_ringkasan_penjualan($start_date, $end_date);
-
+        $item_best_seller = $this->laporan_model->get_data_item_best_seller($start_date, $end_date);
+        $category_best_seller = $this->laporan_model->get_data_category_best_seller($start_date, $end_date);
         $data['ringkasan_laporan'] = $report_data;
+        $data['items'] = $item_best_seller;
+        $data['categories'] = $category_best_seller;
+
         $data['required_style'] = [
-            'plugins/daterangepicker/daterangepicker.css',
             'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',
             'plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
             'plugins/datatables-buttons/css/buttons.bootstrap4.min.css',
-            'plugins/select2/css/select2.min.css',
-            'plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css',
             'plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css',
             'plugins/toastr/toastr.min.css'
         ];
@@ -48,33 +49,33 @@ class Laporan extends CI_Controller
                 'plugins/datatables-buttons/js/buttons.html5.min.js',
                 'plugins/datatables-buttons/js/buttons.print.min.js',
                 'plugins/datatables-buttons/js/buttons.colVis.min.js',
-                'plugins/select2/js/select2.full.min.js',
-                'plugins/moment/moment.min.js',
-                'plugins/inputmask/jquery.inputmask.min.js',
-                'plugins/daterangepicker/daterangepicker.js',
-                'plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js',
                 'plugins/sweetalert2/sweetalert2.min.js',
                 'plugins/toastr/toastr.min.js'
            ];
         $this->load->view('v2/dashboard/header', $data);
-        $this->load->view('v2/dashboard/laporan/ringkasan_penjualan', $data);
+        $this->load->view('v2/dashboard/dashboard/view', $data);
         $this->load->view('v2/dashboard/footer');
     }
 
-    public function ajax_filter()
+    public function ajax_item_best_seller()
     {
-        $input = $this->input->post();
-        $start_date = $input['start_date'];
-        $end_date = $input['end_date'];
+        $start_date = date('Y-m-01');
+        $end_date = date('Y-m-t');
+        $data['items'] = $this->laporan_model->get_data_item_best_seller($start_date, $end_date);
 
-        $report_data = $this->laporan_model->get_ringkasan_penjualan($start_date, $end_date);
-        $data['ringkasan_laporan'] = $report_data;
+        $html = $this->load->view('v2/dashboard/dashboard/ajax_item_best_seller', $data);
 
-        $response = [
-            'html' => $this->load->view('v2/dashboard/laporan/ajax_ringkasan_penjualan', $data, true),
-            'report_data' => $report_data[0]
-        ];
+        echo json_encode($html);
+    }
 
-        echo json_encode($response);
+    public function ajax_category_best_seller()
+    {
+        $start_date = date('Y-m-01');
+        $end_date = date('Y-m-t');
+        $data['categories'] = $this->laporan_model->get_data_category_best_seller($start_date, $end_date);
+
+        $html['html'] = $this->load->view('v2/dashboard/dashboard/ajax_category_best_seller', $data);
+
+        echo json_encode($html);
     }
 }
