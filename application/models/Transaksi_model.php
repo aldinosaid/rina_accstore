@@ -13,11 +13,22 @@ class Transaksi_model extends CI_Model
                     ->result();
 	}
 
+    public function get_transaction_by_date($start_date, $end_date)
+    {
+        
+        $this->db->where("DATE_FORMAT(tanggal, '%Y-%m-%d') >=", $start_date);
+        $this->db->where("DATE_FORMAT(tanggal, '%Y-%m-%d') <=", $end_date);
+
+        return $this->db->get('penjualan')->result();
+
+    }
+
 	public function get_transaction_by_no_nota($no_nota)
 	{
 		return $this->db
-                ->where('no_nota', $no_nota)
-                ->get('penjualan')
+                ->join('admin_login AL', 'AL.id=LEFT(P.no_nota,1)', 'left')
+                ->where('P.no_nota', $no_nota)
+                ->get('penjualan P')
                 ->result();
 	}
 

@@ -47,6 +47,7 @@ class Admin_login_model extends CI_Model
                     ->get('admin_login');
 
         if ($user = $query->row()) {
+            set_session('user_id', $user->id);
             set_session('username', $user->name);
             set_session('email', $email);
             set_session('level', $user->level);

@@ -20,13 +20,17 @@ class Penjualan_model extends CI_Model
 
     public function count()
     {
+        $where = [
+            'keranjang.user_id' => $this->session->userdata('user_id')
+        ];
         return $this->db
-                    ->select('sum(qty*harga_jual) as total')
+                    ->select('sum(qty*harga_jual) as sub_total')
+                    ->where($where)
                     ->get('keranjang')
                     ->result();
     }
 
-    public function getItemByBarcode($data)
+    public function getItemByKodeBrg($data)
     {
         return $this->db
                     ->where($data)
@@ -36,27 +40,35 @@ class Penjualan_model extends CI_Model
 
     public function saveDet($no_nota)
     {
-        $sql = "insert into det_penjualan (no_nota, kode_brg, qty , harga_beli, harga_jual) select '". $no_nota ."', kode_brg, qty, harga_beli, harga_jual from keranjang";
+        $user_id = $this->session->userdata('user_id');
+        $sql = "insert into det_penjualan (no_nota, kode_brg, qty , harga_beli, harga_jual) select '". $no_nota ."', kode_brg, qty, harga_beli, harga_jual from keranjang where user_id='".$user_id."'";
         return $this->db->query($sql);
     }
 
     public function hapusBrg($kode_brg)
     {
+        $where = [
+            'kode_brg' => $kode_brg,
+            'user_id' => $this->session->userdata('user_id')
+        ];
         return $this->db
-                    ->delete('keranjang', array('kode_brg' => $kode_brg));
+                    ->delete('keranjang', $where);
     }
 
     public function clearKeranjang()
     {
-        $sql = 'delete from keranjang';
-        $this->db->query($sql);
+        $where = [
+            'user_id' => $this->session->userdata('user_id')
+        ];
+        return $this->db
+                    ->delete('keranjang', $where);
     }
 
-    public function getBarangByBarcode($barcode)
+    public function getBarangByKodeBrg($kode_brg)
     {
         $where = [
             'flag' => 0,
-            'barcode' => $barcode
+            'kode_brg' => $kode_brg
         ];
 
         return $this->db
@@ -101,10 +113,15 @@ class Penjualan_model extends CI_Model
 
     public function getAll()
     {
+        $where = [
+            'keranjang.user_id' => $this->session->userdata('user_id')
+        ];
+
         return $this->db
                     ->select('barang.kode_brg, barang.nama_brg, sum(keranjang.qty) as qty, keranjang.harga_beli, keranjang.harga_jual as harga, (sum(keranjang.qty)*keranjang.harga_jual) as sub_total')
                     ->join('barang', 'keranjang.kode_brg = barang.kode_brg')
-                    ->group_by('kode_brg')
+                    ->group_by('kode_brg, user_id')
+                    ->where($where)
                     ->get('keranjang')
                     ->result();
     }

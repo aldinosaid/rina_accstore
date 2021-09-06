@@ -27,9 +27,14 @@ function enable_code39()
     $printer -> close();
 }
 
+function shop_name()
+{
+    return "Toko Lusinan";
+}
+
 function shop_version()
 {
-    return "Rina Accessories Store - V1.0.01";
+    return '1.0.02';
 }
 
 function user_level($user_level)
@@ -57,24 +62,16 @@ function is_logged_in()
     }
 }
 
-function voter_logged_in()
+function is_admin()
 {
     $CI =& get_instance();
-    $unique_code = $CI->session->userdata('fbId');
+    $user_level = $CI->session->userdata('level');
         
-    if (!isset($unique_code) || empty($unique_code)) {
-        return false;
+    if (user_level($user_level) == 'Admin') {
+        return true;
     } else {
-        return $unique_code;
+        return false;
     }
-}
-
-function campaign_active()
-{
-    $CI = get_instance();
-    $CI->load->model('settings_model');
-    $campaign = $CI->settings_model->getSettings('campaign_active');
-    return $campaign->campaign_name;
 }
 
 function email_api()
@@ -83,39 +80,6 @@ function email_api()
     $CI->load->model('settings_model');
     $email_api = $CI->settings_model->getSettings('email_api');
     return $email_api;
-}
-
-function get_campaign_id($campaign_name = '')
-{
-    $CI = get_instance();
-    $CI->load->model('campaign_model');
-    $campaign = $CI->campaign_model->getCampaignId($campaign_name);
-    if (sizeof($campaign)) {
-        return $campaign[0]->id;
-    } else {
-        return false;
-    }
-}
-
-function getTotalReport($report_data)
-{
-    $cost = 0;
-    foreach ($report_data as $key => $value) {
-        $cost += $value->total;
-    }
-    return $cost;
-}
-
-function get_total_vote($unique_code = '', $campaign_id = '')
-{
-    $CI = get_instance();
-    $CI->load->model('vote_model');
-    $data = [
-    'unique_code' => $unique_code,
-    'campaign_id' => $campaign_id
-    ];
-    $totalVote = $CI->vote_model->getVottingCount($data);
-    return $totalVote;
 }
     
 function get_session($sDataSession, $with_unset = false)
@@ -126,6 +90,15 @@ function get_session($sDataSession, $with_unset = false)
         unset_session($sDataSession);
     }
     return $sess;
+}
+
+function getTotalReport($report_data)
+{
+    $cost = 0;
+    foreach ($report_data as $key => $value) {
+        $cost += $value->total;
+    }
+    return $cost;
 }
 
 function send_email($to, $subject, $html_content)
@@ -244,14 +217,6 @@ function unset_session($sDataSession)
     return $CI->session->unset_userdata('ses_'.$sDataSession);
 }
     
-function convert_to_option($result, $field = 'field')
-{
-    $opt="";
-    foreach ($result as $var) {
-        $opt .= "<option id='".strtolower($var[$field])."'>".$var[$field]."</option>";
-    }
-    return $opt;
-}
 function paginate($total, $per_page = 20, $uri_key = 'page', $link_suffix = '')
 {
     $CI =& get_instance();
@@ -328,6 +293,7 @@ function random_string($length = 0)
     }
     return $randstring;
 }
+
 function is_strong_password($password = '')
 {
     $strong_regex = "/^(?=^.{8,}$)(?=(.*\\d){2})(?=(.*[A-Za-z]){2})(?=(.*[!@#$%^&*?]){2})(?!.*[\\s])^.*/";
@@ -390,6 +356,11 @@ function send_mail_mailgun($to, $subject, $html_content)
 function idr_format($currency)
 {
     return 'Rp ' . strrev(implode(',', str_split(strrev(strval($currency)), 3))) . '-,';
+}
+
+function nominal_format($currency)
+{
+    return strrev(implode(',', str_split(strrev(strval($currency)), 3))) . '-,';
 }
 
 function dateToSql($day, $month, $years)
