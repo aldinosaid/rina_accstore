@@ -2,7 +2,6 @@
     include APPPATH . "third_party/ImageResize.php";
     include APPPATH . "third_party/php-barcode-generator/src/BarcodeGenerator.php";
     include APPPATH . "third_party/php-barcode-generator/src/BarcodeGeneratorHTML.php";
-    require __DIR__ . '\..\..\autoload.php';
     use \Eventviva\ImageResize;
     use Mike42\Escpos\Printer;
     use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;

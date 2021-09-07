@@ -243,7 +243,8 @@ class Barang extends CI_Controller
             'kode_jenis'    => $input['kode_jenis'],
             'kode_merek'    => $input['kode_merek'],
             'kode_satuan'   => $input['kode_satuan'],
-            'isi'           => $input['isi'],
+            'stok_toko'     => $input['stok_toko'],
+            'stok_gudang'   => $input['stok_gudang'],
             'harga_jual'    => idrToString($input['harga_jual']),
             'harga_beli'    => idrToString($input['harga_beli'])
         ];
@@ -261,28 +262,6 @@ class Barang extends CI_Controller
             $args['grosir'] = json_encode($input['grosir']);
         } else {
             $args['grosir'] = '';
-        }
-
-        $data_stok_gudang = [
-            'qty' => $input['stok_gudang']
-        ];
-
-        if (isset($barang[0]->stok_gudang)) {
-            $query_sg = $this->barang_model->update_stok_gudang($data_stok_gudang, $input['kode_brg']);
-        } else {
-            $data_stok_gudang['kode_brg'] = $input['kode_brg'];
-            $query_sg = $this->barang_model->insert_stok_gudang($data_stok_gudang);
-        }
-
-        $data_stok_toko = [
-            'qty' => $input['stok_toko']
-        ];
-
-        if (isset($barang[0]->stok_toko)) {
-            $query_st = $this->barang_model->update_stok_toko($data_stok_toko, $input['kode_brg']);
-        } else {
-            $data_stok_toko['kode_brg'] = $input['kode_brg'];
-            $query_st = $this->barang_model->insert_stok_toko($data_stok_toko);
         }
 
         $update = $this->barang_model->update($args, $id);
@@ -314,7 +293,8 @@ class Barang extends CI_Controller
             'kode_jenis'    => $input['kode_jenis'],
             'kode_merek'    => $input['kode_merek'],
             'kode_satuan'   => $input['kode_satuan'],
-            'isi'           => $input['isi'],
+            'stok_toko'     => $input['stok_toko'],
+            'stok_gudang'   => $input['stok_gudang'],
             'harga_jual'    => idrToString($input['harga_jual']),
             'harga_beli'    => idrToString($input['harga_beli'])
         ];
@@ -329,12 +309,6 @@ class Barang extends CI_Controller
                 $args['grosir'] = json_encode($input['grosir']);
             }
         }
-        $data_stok_gudang['qty']        = $input['stok_gudang'];
-        $data_stok_gudang['kode_brg']   = $input['kode_brg'];
-        $query_sg = $this->barang_model->insert_stok_gudang($data_stok_gudang);
-        $data_stok_toko['qty']          = $input['stok_toko'];
-        $data_stok_toko['kode_brg']     = $input['kode_brg'];
-        $query_st = $this->barang_model->insert_stok_toko($data_stok_toko);
         
         $save = $this->barang_model->insert($args);
         if ($save) {

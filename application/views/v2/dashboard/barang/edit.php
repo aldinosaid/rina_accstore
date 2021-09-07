@@ -104,12 +104,6 @@
                                           <input type="text" name="stok_gudang" value="<?php echo $value->stok_gudang; ?>" class="form-control" id="stok_gudang" <?php if (!is_admin()) { echo 'readonly';} ?>>
                                        </div>
                                     </div>
-                                    <div class="form-group row">
-                                       <label for="isi" class="col-sm-2 col-form-label">ISI</label>
-                                       <div class="col-sm-10">
-                                          <input type="text" name="isi" class="form-control" value="<?php echo $value->isi; ?>" id="isi" <?php if (!is_admin()) { echo 'readonly';} ?>>
-                                       </div>
-                                    </div>
                                     <div class="form-group row" <?php if (!is_admin()) { echo 'style="display:none;"'; } ?>>
                                        <label for="harga_beli" class="col-sm-2 col-form-label">HARGA BELI</label>
                                        <div class="col-sm-10">

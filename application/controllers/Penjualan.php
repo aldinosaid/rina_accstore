@@ -115,14 +115,14 @@ class Penjualan extends CI_Controller
             $where['kode_brg'] = $input['kode_brg'];
             $where['user_id'] = $this->session->userdata('user_id');
             $data['harga_jual'] = $this->get_grosir_amount($barang, $data['qty']);
-            if ($barang[0]->qty >= $data['qty']) {
+            if ($barang[0]->stok_toko >= $data['qty']) {
                 $query = $this->penjualan_model->updateKeranjang($data, $where);
             } else {
                 $query = true;
             }
         } else {
             $data['kode_brg'] = $input['kode_brg'];
-            if ($barang[0]->qty > 0) {
+            if ($barang[0]->stok_toko > 0) {
                 $query = $this->penjualan_model->addKeranjang($data);
             } else {
                 $query = true;

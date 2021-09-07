@@ -203,7 +203,10 @@
 			                if( data[3] <= 0){
 			                    $(row).css('color', 'red');
 			                }
-			            }
+			            },
+			            'lengthChange' : false,
+			            'autoWidth' : false,
+			            'responsive' : true
 					});
 					bayar();
 					inputMask();
