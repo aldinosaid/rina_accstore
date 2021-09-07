@@ -43,6 +43,18 @@ class Jenis_model extends CI_Model
                     ->result();
     }
 
+    public function get_jenis_by_kat($kode_kat)
+    {
+        $where = [
+            'kode_kat' => $kode_kat
+        ];
+
+        return $this->db
+                    ->where($where)
+                    ->get('jenis')
+                    ->result();
+    }
+
     public function factory_reset() {
         return $this->db
                     ->query('TRUNCATE table jenis');   

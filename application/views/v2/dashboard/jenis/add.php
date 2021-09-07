@@ -41,6 +41,17 @@
                                           <input type="text" class="form-control" name="jenis" id="jenis" placeholder="NAMA JENIS">
                                        </div>
                                     </div>
+                                    <div class="form-group row">
+                                       <label for="kategori" class="col-sm-2 col-form-label">KATEGORI</label>
+                                       <div class="col-sm-10">
+                                          <select class="form-control select2" name="kode_kat" id="select-kategori">
+                                             <option>- PILIH KATEGORI -</option>
+                                             <?php foreach ($kategories as $kategori) : ?>
+                                                 <option value="<?php echo $kategori->kode_kat; ?>"><?php echo $kategori->kategori; ?></option>
+                                             <?php endforeach; ?>
+                                         </select>
+                                       </div>
+                                    </div>
                                  </div>
                                  <!-- /.card-body -->
                                  <div class="card-footer">
@@ -112,6 +123,7 @@
         }
 
         function init() {
+            $('.select2').select2();
             ajax_form();
         }
 

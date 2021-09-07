@@ -10,7 +10,7 @@ class Jenis extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model(['jenis_model']);
+        $this->load->model(['jenis_model', 'kategori_model']);
         if (!is_logged_in()) {
             redirect('login/admin');
         }
@@ -50,6 +50,7 @@ class Jenis extends CI_Controller
 
     public function add()
     {
+        $data['kategories'] = $this->kategori_model->getAll();
         $data['required_style'] = [
             'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',
             'plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
@@ -86,6 +87,7 @@ class Jenis extends CI_Controller
     public function edit($id)
     {
         $data['jenis'] = $this->jenis_model->getJenisById($id);
+        $data['kategories'] = $this->kategori_model->getAll();
         $data['required_style'] = [
             'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',
             'plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
@@ -119,15 +121,16 @@ class Jenis extends CI_Controller
         $this->load->view('v2/dashboard/footer');
     }
 
-    public function update($kode_kat)
+    public function update($kode_jenis)
     {
         $input = $this->input->post();
 
         $args = [
-            'jenis' => strtoupper($input['jenis'])
+            'jenis' => strtoupper($input['jenis']),
+            'kode_kat' => $input['kode_kat']
         ];
 
-        $update = $this->jenis_model->update($args, $kode_kat);
+        $update = $this->jenis_model->update($args, $kode_jenis);
         if ($update) {
             $result = [
                 'status' => 'true',
@@ -144,9 +147,9 @@ class Jenis extends CI_Controller
         echo json_encode($result);
     }
 
-    public function delete($kode_kat)
+    public function delete($kode_jenis)
     {
-        $deleted = $this->jenis_model->delete($kode_kat);
+        $deleted = $this->jenis_model->delete($kode_jenis);
         if ($deleted) {
             $result = [
                 'status' => 'true',
@@ -170,7 +173,8 @@ class Jenis extends CI_Controller
         $input = $this->input->post();
 
         $args = [
-            'jenis' => strtoupper($input['jenis'])
+            'jenis' => strtoupper($input['jenis']),
+            'kode_kat' => $input['kode_kat']
         ];
 
         $save = $this->jenis_model->insert($args);
@@ -188,5 +192,13 @@ class Jenis extends CI_Controller
             ];
         }
         echo json_encode($result);
+    }
+
+    public function get_list_jenis_by_kategori($kode_kat)
+    {
+        $data['all_jenis'] = $this->jenis_model->get_jenis_by_kat($kode_kat);
+        $html = $this->load->view('v2/dashboard/jenis/ajax_jenis', $data);
+
+        echo json_encode($html);
     }
 }

@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="form-group row">
                                        <label for="nama_brg" class="col-sm-2 col-form-label">JENIS</label>
-                                       <div class="col-sm-10">
+                                       <div class="col-sm-10 ajax-jenis">
                                           <select class="form-control select2 auto_select" value="<?php echo $value->kode_jenis; ?>" name="kode_jenis" id="select-jenis">
                                              <option>- PILIH JENIS -</option>
                                              <?php foreach ($all_jenis as $jenis) : ?>
@@ -301,6 +301,21 @@
           });
         }
 
+        function ajax_get_list_jenis() {
+            $('#select-kategori').on('select2:select', function (e) {
+               var data = e.params.data;
+               var id = data.id;
+               $.ajax({
+                   url : baseUrl+'jenis/get_list_jenis_by_kategori/'+id
+               }).done(function(r) {
+                  $('.ajax-jenis').html(r);
+                  $('#select-jenis').select2();
+               }).fail(function(jqXHR, textStatus) {
+                  console.log(textStatus);
+               });
+            });
+        }
+
         function init() {
             $('.select2').select2();
             btnAddGrosir();
@@ -308,6 +323,7 @@
             inputMask();
             ajax_form();
             autoSelect();
+            ajax_get_list_jenis();
         }
 
         init();
