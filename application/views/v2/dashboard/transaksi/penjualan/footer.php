@@ -25,19 +25,38 @@
 		</script>
 		<script type="text/javascript">
 			$(document).ready(function(){
+				var table = $('#data-barang').DataTable({
+						"createdRow": function( row, data, dataIndex){
+			                if( data[3] <= 0){
+			                    $(row).css('color', 'red');
+			                }
+			            },
+			            'lengthChange' : false,
+			            'autoWidth' : false,
+			            'responsive' : true
+					});
+
 				function modal() {
 		            $('#cari-barang').click(function() {
 		                $('#modal-data-barang').modal('show');
 		                $('#modal-data-barang').on('shown.bs.modal', function() {
-		                    $('.pilih-barang').click(function() {
-		                        var kode_brg = $(this).attr('kode_brg');
-		                        $('[name=kode_brg]').val(kode_brg);
-		                        $('[name=qty]').val(1);
-		                        $('#modal-data-barang').modal('hide');
-		                        $('#btn-keranjang').focus();
-		                    });
+		                	table.on( 'search.dt', function () {
+							    initButtonSelected();
+							});
+							initButtonSelected();
 		                });
 		            });
+		        }
+
+		        function initButtonSelected()
+		        {
+		        	$('.pilih-barang').click(function() {
+                        var kode_brg = $(this).attr('kode_brg');
+                        $('[name=kode_brg]').val(kode_brg);
+                        $('[name=qty]').val(1);
+                        $('#modal-data-barang').modal('hide');
+                        $('#btn-keranjang').focus();
+                    });
 		        }
 
 		        function cetak() {
@@ -172,10 +191,18 @@
 		                    type : "POST",
 		                    data : data
 		                }).done(function(r) {
-		                    $('#result-ajax-cart-table').html(r.html);
-		                    $('#sub_total_display').html(r.sub_total);
-		                    $('#sub_total').val(r.sub_total);
-		                    $('#total').val(r.total);
+		                	if (r.is_error) {
+		                		Swal.fire(
+			                      'Gagal!',
+			                      r.error_message,
+			                      'error'
+			                    );
+		                	} else {
+		                		$('#result-ajax-cart-table').html(r.html);
+			                    $('#sub_total_display').html(r.sub_total);
+			                    $('#sub_total').val(r.sub_total);
+			                    $('#total').val(r.total);
+		                	}
 		                }).fail(function(jqXHR, textStatus) {
 		                    Swal.fire(
 		                      'Gagal!',
@@ -198,16 +225,6 @@
 				function init() {
 					reinitBtnKeranjang();
 					modal();
-					$('#data-barang').DataTable({
-						"createdRow": function( row, data, dataIndex){
-			                if( data[3] <= 0){
-			                    $(row).css('color', 'red');
-			                }
-			            },
-			            'lengthChange' : false,
-			            'autoWidth' : false,
-			            'responsive' : true
-					});
 					bayar();
 					inputMask();
 					cetak();

@@ -252,16 +252,17 @@ class Barang extends CI_Controller
         if (substr($input['kode_brg'], 0,3) !== 'BRG') {
             $args['kode_brg'] = $this->findMaxId();
         }
-
-        if (sizeof($input['grosir']) > 0) {
-            $i = 0;
-            foreach ($input['grosir']['harga_jual_grosir'] as $harga_grosir) {
-                $input['grosir']['harga_jual_grosir'][$i] = idrToString($harga_grosir);
-                $i++;
+        if (isset($input['grosir'])) {
+            if (sizeof($input['grosir']) > 0) {
+                $i = 0;
+                foreach ($input['grosir']['harga_jual_grosir'] as $harga_grosir) {
+                    $input['grosir']['harga_jual_grosir'][$i] = idrToString($harga_grosir);
+                    $i++;
+                }
+                $args['grosir'] = json_encode($input['grosir']);
+            } else {
+                $args['grosir'] = '';
             }
-            $args['grosir'] = json_encode($input['grosir']);
-        } else {
-            $args['grosir'] = '';
         }
 
         $update = $this->barang_model->update($args, $id);

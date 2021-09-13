@@ -118,14 +118,19 @@ class Penjualan extends CI_Controller
             if ($barang[0]->stok_toko >= $data['qty']) {
                 $query = $this->penjualan_model->updateKeranjang($data, $where);
             } else {
-                $query = true;
+                $result['error_message'] = 'Data Qty transaksi melebihi Qty stok yang tersedia.';
+                $query = false;
             }
         } else {
             $data['kode_brg'] = $input['kode_brg'];
-            if ($barang[0]->stok_toko > 0) {
+            if ($barang[0]->stok_toko < $data['qty'] && $barang[0]->stok_toko <> 0) {
+                $query = false;
+                $result['error_message'] = 'Data Qty transaksi melebihi Qty stok yang tersedia.';
+            } elseif ($barang[0]->stok_toko > 0) {
                 $query = $this->penjualan_model->addKeranjang($data);
             } else {
-                $query = true;
+                $result['error_message'] = 'Data stok toko 0 silahkan hubungi owner untuk menambahkan stok baru.';
+                $query = false;
             }
         }
 
@@ -135,11 +140,14 @@ class Penjualan extends CI_Controller
             ];
             $count = $this->penjualan_model->count();
             $result = [
+                'is_error' => false,
                 'total_original' => $count[0]->sub_total,
                 'sub_total' => idr_format($count[0]->sub_total),
                 'total' => idr_format($count[0]->sub_total),
                 'html' => $this->load->view('v2/dashboard/transaksi/penjualan/ajax_table_keranjang', $keranjang, true)
             ];
+        } else {
+            $result['is_error'] = true;
         }
 
         echo json_encode($result);
