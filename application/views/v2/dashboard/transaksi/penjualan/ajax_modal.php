@@ -14,6 +14,7 @@
                                 <th>NAMA BARANG</th>
                                 <th>STOK TOKO</th>
                                 <th>STOK GUDANG</th>
+                                <th>SATUAN</th>
                                 <th>HARGA</th>
                                 <th>HARGA GROSIR</th>
                                 <th>AKSI</th>
@@ -31,6 +32,7 @@
                             <td><?php echo $value->nama_brg; ?></td>
                             <td><?php echo $value->stok_toko; ?></td>
                             <td><?php echo $value->stok_gudang; ?></td>
+                            <td><?php echo $value->satuan; ?></td>
                             <td><?php echo idr_format($value->harga_jual); ?></td>
                             <td><?php $grosir = json_decode($value->grosir); ?>
                                 <?php if (!empty($grosir->min)) : ?>

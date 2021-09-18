@@ -33,7 +33,12 @@
 			            },
 			            'lengthChange' : false,
 			            'autoWidth' : false,
-			            'responsive' : true
+			            'responsive' : true,
+			            drawCallback: function(){
+				          	$('.paginate_button.next:not(.disabled)', this.api().table().container()).on('click', function(){
+				                initButtonSelected();
+				             });       
+				       }
 					});
 
 				function modal() {
@@ -41,6 +46,9 @@
 		                $('#modal-data-barang').modal('show');
 		                $('#modal-data-barang').on('shown.bs.modal', function() {
 		                	table.on( 'search.dt', function () {
+							    initButtonSelected();
+							});
+							table.on( 'page.dt', function () {
 							    initButtonSelected();
 							});
 							initButtonSelected();

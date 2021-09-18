@@ -156,17 +156,19 @@ class Penjualan extends CI_Controller
     protected function get_grosir_amount($barang, int $qty) {
         $barang = $barang[0];
         $grosir_data = json_decode($barang->grosir);
-        $harga = 0;
-        if (is_array($grosir_data->min)) {
-            if(sizeof($grosir_data->min)) {
-                for ($i=sizeof($grosir_data->min); $i > 0 ; $i--) { 
-                    $index = $i-1;
-                    $min_qty = (int)$grosir_data->min[$index];
-                    if ($qty >= $min_qty) {
-                        $harga = $grosir_data->harga_jual_grosir[$index];
-                        break;
-                    } else {
-                        $harga = $barang->harga_jual;
+        $harga = $barang->harga_jual;
+        if (isset($grosir_data->min)) {
+            if (is_array($grosir_data->min)) {
+                if(sizeof($grosir_data->min)) {
+                    for ($i=sizeof($grosir_data->min); $i > 0 ; $i--) { 
+                        $index = $i-1;
+                        $min_qty = (int)$grosir_data->min[$index];
+                        if ($qty >= $min_qty) {
+                            $harga = $grosir_data->harga_jual_grosir[$index];
+                            break;
+                        } else {
+                            $harga = $barang->harga_jual;
+                        }
                     }
                 }
             }
