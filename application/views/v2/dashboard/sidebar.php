@@ -37,7 +37,7 @@
                            'jenis',
                            'merek',
                            'satuan',
-                           'suplier',
+                           'supplier',
                            'customer'
                         ];
                         $segment['transaksi'] = [
@@ -104,9 +104,9 @@
                               </a>
                            </li>
                            <li class="nav-item">
-                              <a href="<?php echo base_url('suplier'); ?>" class="nav-link <?php if ($this->uri->segment(1) == 'suplier') { echo 'active';} ?>">
+                              <a href="<?php echo base_url('supplier'); ?>" class="nav-link <?php if ($this->uri->segment(1) == 'supplier') { echo 'active';} ?>">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>SUPLIER</p>
+                                 <p>SUPPLIER</p>
                               </a>
                            </li>
                            <?php endif; ?>
