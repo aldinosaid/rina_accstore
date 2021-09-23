@@ -146,6 +146,12 @@
                                  <p>PEMBELIAN</p>
                               </a>
                            </li>
+                           <li class="nav-item">
+                              <a href="<?php echo base_url('referensi'); ?>" class="nav-link <?php if ($this->uri->segment(1) == 'referensi') { echo 'active';} ?>">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>REFERENSI</p>
+                              </a>
+                           </li>
                            <?php endif; ?>
                         </ul>
                      </li>
