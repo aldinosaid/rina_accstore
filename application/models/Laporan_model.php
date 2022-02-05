@@ -60,4 +60,16 @@ class Laporan_model extends CI_Model
                     ->get('penjualan P')
                     ->result();
     }
+
+    public function get_grafik_data_penjualan($start_date, $end_date) {
+        $data_ringkasan_penjualan = $this->db
+                    ->select("SUM(P.total) as omset, DATE_FORMAT(P.tanggal, '%Y-%m') as bulan")
+                    ->where("DATE_FORMAT(P.tanggal, '%Y-%m-%d') >=", $start_date)
+                    ->where("DATE_FORMAT(P.tanggal, '%Y-%m-%d') <=", $end_date)
+                    ->group_by('month(P.tanggal)')
+                    ->get('penjualan P')
+                    ->result();
+
+        return $data_ringkasan_penjualan;
+    }
 }

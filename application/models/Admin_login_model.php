@@ -27,6 +27,12 @@ class Admin_login_model extends CI_Model
                     ->update('admin_login', $args, array('id' => $id));
     }
 
+    public function delete($id)
+    {
+        return $this->db
+                    ->delete('admin_login', ['id' => $id]);
+    }
+
     public function getAllAdminLogin()
     {
         return $this->db
@@ -47,11 +53,16 @@ class Admin_login_model extends CI_Model
                     ->get('admin_login');
 
         if ($user = $query->row()) {
-            set_session('user_id', $user->id);
-            set_session('username', $user->name);
-            set_session('email', $email);
-            set_session('level', $user->level);
-            return true;
+            if ((int)$user->flag == 1) {
+                set_session('user_id', $user->id);
+                set_session('username', $user->name);
+                set_session('email', $email);
+                set_session('level', $user->level);
+                set_session('flag', $user->flag);
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

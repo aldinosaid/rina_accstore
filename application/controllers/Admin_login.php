@@ -116,7 +116,7 @@ class Admin_login extends CI_Controller
             'name' => $input['name'],
             'email' => $input['email'],
             'level' => $input['level'],
-            'pass' => sha1(trim($input["password"]))
+            'pass' => sha1(trim($input["pass"]))
         ];
 
         $save = $this->admin_login_model->add($data);
@@ -150,6 +150,12 @@ class Admin_login extends CI_Controller
             $data['pass'] = sha1(trim($input["pass"]));
         }
 
+        if (isset($input['flag']) && ($input['flag'] == 'on')) {
+            $data['flag'] = 1;
+        } else {
+            $data['flag'] = 0;
+        }
+
         $save = $this->admin_login_model->update($data, $id);
 
         if ($save) {
@@ -163,6 +169,27 @@ class Admin_login extends CI_Controller
                 'status' => 'false',
                 'messageType' => 'danger',
                 'message' => 'Data data pengguna gagal diubah.'
+            ];
+        }
+        echo json_encode($result);
+    }
+
+    public function delete($id)
+    {
+        $deleted = $this->admin_login_model->delete($id);
+        if ($deleted) {
+            $result = [
+                'status' => 'true',
+                'messageType' => 'success',
+                'messageInfo' => 'Berhasil!',
+                'message' => 'Data admin berhasil dihapus.'
+            ];
+        } else {
+            $result = [
+                'status' => 'false',
+                'messageType' => 'danger',
+                'messageInfo' => 'Gagal!',
+                'message' => 'Data admin gagal dihapus.'
             ];
         }
         echo json_encode($result);

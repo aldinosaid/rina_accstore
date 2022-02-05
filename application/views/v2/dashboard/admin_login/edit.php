@@ -63,6 +63,12 @@
                                           </select>
                                        </div>
                                     </div>
+                                    <div class="form-group">
+                                       <div class="custom-control custom-switch">
+                                          <input type="checkbox" name="flag" class="custom-control-input" id="flag" <?php if ($value->flag) { echo 'checked'; } ?>>
+                                          <label class="custom-control-label" for="flag">Aktif / Tidak aktif</label>
+                                       </div>
+                                    </div>
                                  </div>
                                  <!-- /.card-body -->
                                  <div class="card-footer">

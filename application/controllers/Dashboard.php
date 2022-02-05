@@ -19,15 +19,25 @@ class Dashboard extends CI_Controller
 
     public function index()
     {
-        $start_date = date('Y-m-01');
+        $start_date = date('Y-01-01');
         $end_date = date('Y-m-t');
+        $omset = [0,0,0,0,0,0,0,0,0,0,0,0];
 
         $report_data = $this->laporan_model->get_ringkasan_penjualan($start_date, $end_date);
-        $item_best_seller = $this->laporan_model->get_data_item_best_seller($start_date, $end_date);
-        $category_best_seller = $this->laporan_model->get_data_category_best_seller($start_date, $end_date);
+        // $item_best_seller = $this->laporan_model->get_data_item_best_seller($start_date, $end_date);
+        // $category_best_seller = $this->laporan_model->get_data_category_best_seller($start_date, $end_date);
+        $get_chart_data = $this->laporan_model->get_grafik_data_penjualan($start_date, $end_date);
+
+        $i = 0;
+        foreach ($get_chart_data as $chart_data) {
+            $omset[$i] = $chart_data->omset;
+            $i++;
+        }
+
         $data['ringkasan_laporan'] = $report_data;
-        $data['items'] = $item_best_seller;
-        $data['categories'] = $category_best_seller;
+        $data['items'] = [];
+        $data['categories'] = [];
+        $data['omset'] = $omset;
 
         $data['required_style'] = [
             'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',

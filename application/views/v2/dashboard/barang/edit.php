@@ -95,7 +95,7 @@
                                     <div class="form-group row">
                                        <label for="stok_toko" class="col-sm-2 col-form-label">STOK TOKO</label>
                                        <div class="col-sm-10">
-                                          <input type="text" name="stok_toko" value="<?php echo $value->stok_toko; ?>" class="form-control" id="stok_toko">
+                                          <input type="text" name="stok_toko" value="<?php echo $value->stok_toko; ?>" class="form-control" id="stok_toko" <?php if (!is_admin()) { echo 'readonly';} ?>>
                                        </div>
                                     </div>
                                     <div class="form-group row">

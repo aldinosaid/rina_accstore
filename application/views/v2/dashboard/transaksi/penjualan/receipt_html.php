@@ -6,7 +6,7 @@
         <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <title>Receipt</title>
         <style>
             @media print {
@@ -27,7 +27,7 @@
                 margin: 0 auto;
                 width: 58mm;
                 padding-right: 50px;
-                font-family: 'Open Sans Condensed', sans-serif;
+                font-family: 'Roboto', sans-serif;
             }
 
             #invoice-POS ::selection {
@@ -102,6 +102,7 @@
                 margin-left: 0;
                 line-height: 30px;
                 font-weight: bold;
+                font-size: 20px;
             }
 
             #invoice-POS .info p, #invoice-POS .info h5 {
@@ -150,7 +151,7 @@
             }
 
             #invoice-POS .itemtext {
-                font-size: 10px;
+                font-size: 12px;
                 font-weight: bold;
             }
 
@@ -158,6 +159,10 @@
                 margin-top: 5mm;
                 margin-bottom: 5mm;
                 font-weight: bold;
+            }
+
+            #invoice-POS .legal {
+                font-size: 12px;
             }
         </style>
         <script>
@@ -174,7 +179,7 @@
             <center id="top">
                 <!-- <div class="logo"></div> -->
                 <div class="info">
-                    <h5>TOKO LUSINAN</h5>
+                    <h1>TOKO LUSINAN</h1>
                     <p>Desa Santing Blok Portal Muntur</p>
                     <p>Kecamatan Losarang - 45253</p>
                     <p>Kabupaten Indramayu</p>
@@ -184,7 +189,7 @@
             <!--End InvoiceTop-->
             <div id="mid">
                 <div class="info">
-                    <p> No Nota : <?php echo $no_nota; ?> </br> Tanggal : <?php echo $tanggal; ?> </br> Kasir : <?php echo $kasir; ?> </br>
+                    <p> No Nota : <?php echo $no_nota; ?> </br> Tanggal : <?php echo date('d-M-Y H:i:s',strtotime($tanggal)); ?> </br> Kasir : <?php echo $kasir; ?> </br>
                     </p>
                 </div>
             </div>
@@ -282,6 +287,7 @@
                             <br>
                         </p>
                     </center>
+                    <br>
                 </div>
             </div>
             <!--End InvoiceBot-->
